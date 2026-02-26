@@ -1,0 +1,297 @@
+"use client";
+
+import { motion } from "framer-motion";
+import Link from "next/link";
+import {
+  Target,
+  Lightbulb,
+  Users,
+  Trophy,
+  Calendar,
+  ArrowRight,
+  CheckCircle,
+  Zap,
+} from "lucide-react";
+
+const milestones = [
+  { year: "2003", event: "Team Founded at USC" },
+  { year: "2008", event: "First Competition Podium" },
+  { year: "2015", event: "Best Design Award" },
+  { year: "2019", event: "Top 10 National Ranking" },
+  { year: "2023", event: "New Electric Vehicle Division" },
+  { year: "2024", event: "Expanded to 50+ Members" },
+];
+
+const values = [
+  {
+    icon: <Target className="w-8 h-8" />,
+    title: "Excellence",
+    description: "We pursue engineering excellence in every component we design and build.",
+  },
+  {
+    icon: <Lightbulb className="w-8 h-8" />,
+    title: "Innovation",
+    description: "Pushing boundaries with cutting-edge solutions and creative problem-solving.",
+  },
+  {
+    icon: <Users className="w-8 h-8" />,
+    title: "Collaboration",
+    description: "Working together across disciplines to achieve our common goals.",
+  },
+  {
+    icon: <Zap className="w-8 h-8" />,
+    title: "Passion",
+    description: "Driven by our love for motorsport and automotive engineering.",
+  },
+];
+
+const achievements = [
+  "Multiple Top 10 finishes in FSAE Competition",
+  "Award-winning aerodynamic package design",
+  "Industry partnerships with leading automotive companies",
+  "Alumni working at Tesla, SpaceX, Ford, and more",
+  "State-of-the-art workshop and facilities",
+  "Comprehensive training program for new members",
+];
+
+export default function AboutPage() {
+  return (
+    <div className="min-h-screen bg-black">
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 overflow-hidden">
+        <div className="absolute inset-0 hero-gradient" />
+        <div className="absolute inset-0 cyber-grid opacity-20" />
+
+        {/* Decorative elements */}
+        <div className="absolute top-1/4 left-0 w-64 h-64 bg-[#8b0000]/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/4 right-0 w-64 h-64 bg-[#d9c26b]/10 rounded-full blur-[100px]" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
+          >
+            <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#d9c26b]/10 text-[#d9c26b] text-sm font-medium mb-6">
+              <Users className="w-4 h-4 mr-2" />
+              ABOUT US
+            </span>
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-6">
+              Engineering <span className="text-[#d9c26b]">Excellence</span>
+            </h1>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              USC Formula Electric is a student-run engineering team dedicated to designing,
+              building, and racing high-performance formula-style electric vehicles.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Mission Section */}
+      <section className="py-24 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#d9c26b]/10 text-[#d9c26b] text-sm font-medium mb-4">
+                OUR MISSION
+              </span>
+              <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+                Building the Future of <span className="text-[#d9c26b]">Motorsport</span>
+              </h2>
+              <p className="text-gray-400 text-lg leading-relaxed mb-6">
+                At USC Formula Electric, we believe in learning by doing. Our mission is to provide
+                students with hands-on engineering experience while competing at the highest
+                level of collegiate motorsport.
+              </p>
+              <p className="text-gray-400 text-lg leading-relaxed mb-8">
+                Every year, we design and manufacture a complete formula-style electric race car from
+                scratch, pushing the boundaries of what&apos;s possible in automotive engineering
+                and preparing our members for successful careers in the industry.
+              </p>
+
+              <div className="space-y-3">
+                {achievements.map((achievement, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    className="flex items-center space-x-3"
+                  >
+                    <CheckCircle className="w-5 h-5 text-[#d9c26b] shrink-0" />
+                    <span className="text-gray-300">{achievement}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              {/* Image placeholder */}
+              <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-[#0a0a0a] to-black border border-[#d9c26b]/20 overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-[#d9c26b]/20 flex items-center justify-center">
+                      <Trophy className="w-12 h-12 text-[#d9c26b]" />
+                    </div>
+                    <p className="text-gray-500 text-sm">Team Photo Placeholder</p>
+                  </div>
+                </div>
+
+                {/* Decorative overlay */}
+                <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black to-transparent" />
+              </div>
+
+              {/* Floating stat cards */}
+              <div className="absolute -bottom-6 -left-6 p-4 rounded-xl bg-[#0a0a0a]/90 border border-[#d9c26b]/20 backdrop-blur-sm">
+                <div className="text-3xl font-bold text-[#d9c26b]">50+</div>
+                <div className="text-sm text-gray-400">Team Members</div>
+              </div>
+              <div className="absolute -top-6 -right-6 p-4 rounded-xl bg-[#0a0a0a]/90 border border-[#d9c26b]/20 backdrop-blur-sm">
+                <div className="text-3xl font-bold text-[#d9c26b]">20+</div>
+                <div className="text-sm text-gray-400">Years of Excellence</div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Values Section */}
+      <section className="py-24 bg-gradient-to-b from-black to-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#d9c26b]/10 text-[#d9c26b] text-sm font-medium mb-4">
+              OUR VALUES
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white">
+              What Drives <span className="text-[#d9c26b]">Us</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((value, index) => (
+              <motion.div
+                key={value.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="text-center p-8 rounded-2xl bg-white/5 border border-[#d9c26b]/20 hover:border-[#d9c26b]/50 transition-all duration-300"
+              >
+                <div className="w-16 h-16 mx-auto mb-6 rounded-xl bg-gradient-to-br from-[#d9c26b]/20 to-transparent border border-[#d9c26b]/30 flex items-center justify-center text-[#d9c26b]">
+                  {value.icon}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">{value.title}</h3>
+                <p className="text-gray-400">{value.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Timeline Section */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 circuit-pattern opacity-20" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#d9c26b]/10 text-[#d9c26b] text-sm font-medium mb-4">
+              <Calendar className="w-4 h-4 mr-2" />
+              OUR JOURNEY
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white">
+              Milestones in <span className="text-[#d9c26b]">Racing</span>
+            </h2>
+          </motion.div>
+
+          <div className="relative">
+            {/* Timeline line */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#d9c26b] via-[#d9c26b]/50 to-[#d9c26b] hidden md:block" />
+
+            <div className="space-y-12">
+              {milestones.map((milestone, index) => (
+                <motion.div
+                  key={milestone.year}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className={`flex items-center gap-8 ${
+                    index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+                  }`}
+                >
+                  <div className={`flex-1 ${index % 2 === 0 ? "md:text-right" : "md:text-left"}`}>
+                    <div className="p-6 rounded-xl bg-white/5 border border-[#d9c26b]/20 inline-block hover:border-[#d9c26b]/50 transition-colors">
+                      <div className="text-3xl font-bold text-[#d9c26b] mb-2">{milestone.year}</div>
+                      <div className="text-gray-300">{milestone.event}</div>
+                    </div>
+                  </div>
+
+                  {/* Center dot */}
+                  <div className="hidden md:flex w-4 h-4 rounded-full bg-[#d9c26b] border-4 border-black shrink-0 relative z-10" />
+
+                  <div className="flex-1 hidden md:block" />
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 bg-gradient-to-r from-[#8b0000]/10 via-transparent to-[#d9c26b]/10">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
+              Ready to Join the <span className="text-[#d9c26b]">Team</span>?
+            </h2>
+            <p className="text-xl text-gray-400 mb-8">
+              We&apos;re always looking for passionate students to join our mission.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-8 py-4 bg-[#d9c26b] rounded-full text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-lg hover:shadow-[#d9c26b]/30 transition-all duration-300 neon-button"
+              >
+                Join Us Now
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center px-8 py-4 bg-white/5 border border-[#d9c26b]/30 rounded-full text-white font-bold text-lg hover:bg-white/10 transition-all duration-300"
+              >
+                Contact Us
+              </Link>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    </div>
+  );
+}
