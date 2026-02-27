@@ -8,9 +8,9 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="relative bg-black border-t border-[#d9c26b]/20">
+    <footer className="relative bg-black border-t border-[#e3b53d]/20">
       {/* Gradient line at top */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d9c26b] to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#e3b53d] to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -67,11 +67,11 @@ export default function Footer() {
             <h3 className="text-white font-semibold mb-4 text-sm tracking-wider uppercase">Contact</h3>
             <ul className="space-y-4">
               <li className="flex items-start space-x-3 text-gray-400 text-sm">
-                <MapPin className="w-5 h-5 text-[#d9c26b] shrink-0 mt-0.5" />
+                <MapPin className="w-5 h-5 text-[#e3b53d] shrink-0 mt-0.5" />
                 <span>University of Southern California<br />Los Angeles, CA 90007</span>
               </li>
               <li className="flex items-center space-x-3 text-gray-400 text-sm">
-                <Mail className="w-5 h-5 text-[#d9c26b]" />
+                <Mail className="w-5 h-5 text-[#e3b53d]" />
                 <a href="mailto:fsae@usc.edu" className="hover:text-white transition-colors">fsae@usc.edu</a>
               </li>
             </ul>
@@ -79,7 +79,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-8 border-t border-[#d9c26b]/20 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        <div className="mt-12 pt-8 border-t border-[#e3b53d]/20 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-gray-500 text-sm">
             &copy; {currentYear} USC Formula Electric. All rights reserved.
           </p>
@@ -87,7 +87,7 @@ export default function Footer() {
             href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center space-x-2 text-[#d9c26b] hover:text-[#c4ae5a] transition-colors text-sm font-medium"
+            className="flex items-center space-x-2 text-[#e3b53d] hover:text-[#c4ae5a] transition-colors text-sm font-medium"
           >
             <span>Join Our Team</span>
             <ExternalLink className="w-4 h-4" />
@@ -96,7 +96,7 @@ export default function Footer() {
       </div>
 
       {/* Background decoration */}
-      <div className="absolute bottom-0 right-0 w-64 h-64 bg-gradient-to-tl from-[#d9c26b]/5 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-64 h-64 bg-gradient-to-tl from-[#e3b53d]/5 to-transparent pointer-events-none" />
     </footer>
   );
 }
@@ -108,7 +108,7 @@ function SocialLink({ href, icon, label }: { href: string; icon: React.ReactNode
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:bg-[#d9c26b] hover:text-black transition-all duration-300"
+      className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-gray-400 hover:bg-[#e3b53d] hover:text-black transition-all duration-300"
     >
       {icon}
     </a>

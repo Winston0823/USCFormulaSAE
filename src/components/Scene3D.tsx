@@ -42,8 +42,8 @@ function CarPlaceholder() {
         <mesh position={[1.5, 0.1, 0]} rotation={[0, 0, -0.1]}>
           <boxGeometry args={[0.3, 0.05, 1.4]} />
           <meshStandardMaterial
-            color="#d9c26b"
-            emissive="#d9c26b"
+            color="#e3b53d"
+            emissive="#e3b53d"
             emissiveIntensity={0.2}
             metalness={0.9}
             roughness={0.1}
@@ -54,8 +54,8 @@ function CarPlaceholder() {
         <mesh position={[-1.3, 0.7, 0]}>
           <boxGeometry args={[0.1, 0.3, 1.2]} />
           <meshStandardMaterial
-            color="#d9c26b"
-            emissive="#d9c26b"
+            color="#e3b53d"
+            emissive="#e3b53d"
             emissiveIntensity={0.2}
             metalness={0.9}
             roughness={0.1}
@@ -100,8 +100,8 @@ function CarPlaceholder() {
             <mesh rotation={[Math.PI / 2, 0, 0]} position={[0, 0.08, 0]}>
               <ringGeometry args={[0.15, 0.22, 32]} />
               <meshStandardMaterial
-                color="#d9c26b"
-                emissive="#d9c26b"
+                color="#e3b53d"
+                emissive="#e3b53d"
                 emissiveIntensity={0.5}
                 transparent
                 opacity={0.8}
@@ -132,8 +132,8 @@ function CarPlaceholder() {
         <mesh position={[-0.5, 0.45, 0]}>
           <boxGeometry args={[0.8, 0.05, 0.5]} />
           <meshStandardMaterial
-            color="#d9c26b"
-            emissive="#d9c26b"
+            color="#e3b53d"
+            emissive="#e3b53d"
             emissiveIntensity={0.3}
             metalness={0.9}
             roughness={0.1}
@@ -144,8 +144,8 @@ function CarPlaceholder() {
         <mesh position={[0.4, 0.85, 0]} rotation={[0, 0, 0.2]}>
           <torusGeometry args={[0.35, 0.03, 8, 32, Math.PI]} />
           <meshStandardMaterial
-            color="#d9c26b"
-            emissive="#d9c26b"
+            color="#e3b53d"
+            emissive="#e3b53d"
             emissiveIntensity={0.4}
             metalness={0.9}
             roughness={0.1}
@@ -184,7 +184,7 @@ function Particles() {
       </bufferGeometry>
       <pointsMaterial
         size={0.02}
-        color="#d9c26b"
+        color="#e3b53d"
         transparent
         opacity={0.6}
         sizeAttenuation
@@ -197,7 +197,7 @@ function Particles() {
 function Grid() {
   return (
     <gridHelper
-      args={[20, 40, "#d9c26b", "#1a1a1a"]}
+      args={[20, 40, "#e3b53d", "#1a1a1a"]}
       position={[0, -0.5, 0]}
       rotation={[0, 0, 0]}
     />
@@ -226,7 +226,7 @@ export default function Scene3D() {
           {/* Dark saturated red point lights */}
           <pointLight position={[-5, 5, -5]} intensity={0.6} color="#8b0000" />
           <pointLight position={[5, 3, 5]} intensity={0.4} color="#8b0000" />
-          <pointLight position={[0, 2, 0]} intensity={0.3} color="#d9c26b" />
+          <pointLight position={[0, 2, 0]} intensity={0.3} color="#e3b53d" />
 
           {/* Scene elements */}
           <CarPlaceholder />

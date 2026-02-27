@@ -50,30 +50,32 @@ export default function Navigation() {
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-black/95 backdrop-blur-md border-b border-[#d9c26b]/20"
+          ? "bg-black/95 backdrop-blur-md border-b border-[#e3b53d]/20"
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link href="/" className="flex items-center space-x-3 group">
-            <div className="relative w-12 h-12 flex items-center justify-center">
-              <Image
-                src="/icons/icon_negative.svg"
-                alt="USC Formula Electric"
-                width={48}
-                height={46}
-                className="object-contain"
-              />
-            </div>
-            <div className="hidden sm:block">
-              <span className="text-white font-bold text-lg tracking-wider">USC Formula Electric</span>
-            </div>
-          </Link>
+      <div className="w-full px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center h-20">
+          {/* Logo - left */}
+          <div className="flex-1">
+            <Link href="/" className="flex items-center space-x-3 group">
+              <div className="relative w-12 h-12 flex items-center justify-center">
+                <Image
+                  src="/icons/icon_negative.svg"
+                  alt="USC Formula Electric"
+                  width={48}
+                  height={46}
+                  className="object-contain"
+                />
+              </div>
+              <div className="hidden sm:block">
+                <span className="text-white font-bold text-lg tracking-wider" style={{ fontFamily: "'Ethnocentric', sans-serif" }}>USC Formula Electric</span>
+              </div>
+            </Link>
+          </div>
 
-          {/* Desktop Navigation with Dropdown */}
-          <div className="hidden lg:flex items-center">
+          {/* Menu button - center */}
+          <div className="hidden lg:flex justify-center">
             <div
               className="relative"
               onMouseEnter={() => setIsNavDropdownOpen(true)}
@@ -93,7 +95,7 @@ export default function Navigation() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full right-0 w-56 py-2 bg-black/95 backdrop-blur-md rounded-lg border border-[#d9c26b]/20 shadow-xl"
+                    className="absolute top-full left-1/2 -translate-x-1/2 w-56 py-2 bg-black/95 backdrop-blur-md rounded-lg border border-[#e3b53d]/20 shadow-xl"
                   >
                     {navItems.map((item) => (
                       <div key={item.name} className="relative">
@@ -113,7 +115,7 @@ export default function Navigation() {
                                   initial={{ opacity: 0, x: -10 }}
                                   animate={{ opacity: 1, x: 0 }}
                                   exit={{ opacity: 0, x: -10 }}
-                                  className="absolute left-full top-0 w-48 py-2 bg-black/95 backdrop-blur-md rounded-lg border border-[#d9c26b]/20 shadow-xl ml-1"
+                                  className="absolute left-full top-0 w-48 py-2 bg-black/95 backdrop-blur-md rounded-lg border border-[#e3b53d]/20 shadow-xl ml-1"
                                 >
                                   <Link
                                     href={item.href}
@@ -121,7 +123,7 @@ export default function Navigation() {
                                   >
                                     All Teams
                                   </Link>
-                                  <div className="border-t border-[#d9c26b]/10 my-1" />
+                                  <div className="border-t border-[#e3b53d]/10 my-1" />
                                   {item.dropdownItems?.map((subItem) => (
                                     <Link
                                       key={subItem.href}
@@ -151,23 +153,25 @@ export default function Navigation() {
             </div>
           </div>
 
-          {/* CTA Button */}
-          <Link
-            href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden lg:flex items-center px-6 py-2.5 bg-[#d9c26b] rounded-full text-black font-semibold text-sm hover:bg-[#c4ae5a] hover:shadow-lg hover:shadow-[#d9c26b]/25 transition-all duration-300 neon-button"
-          >
-            Join Us
-          </Link>
+          {/* Join Us button - right */}
+          <div className="flex-1 flex justify-end">
+            <Link
+              href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden lg:flex items-center px-6 py-2.5 bg-[#e3b53d] rounded-full text-black font-semibold text-sm hover:bg-[#c4ae5a] hover:shadow-lg hover:shadow-[#e3b53d]/25 transition-all duration-300 neon-button"
+            >
+              Join Us
+            </Link>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 text-white"
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden p-2 text-white"
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -178,7 +182,7 @@ export default function Navigation() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-black/95 backdrop-blur-md border-t border-[#d9c26b]/20"
+            className="lg:hidden bg-black/95 backdrop-blur-md border-t border-[#e3b53d]/20"
           >
             <div className="px-4 py-6 space-y-4">
               {navItems.map((item) => (
@@ -186,7 +190,7 @@ export default function Navigation() {
                   <Link
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="block text-lg text-gray-300 hover:text-white transition-colors py-2 border-b border-[#d9c26b]/10"
+                    className="block text-lg text-gray-300 hover:text-white transition-colors py-2 border-b border-[#e3b53d]/10"
                   >
                     {item.name}
                   </Link>
@@ -196,7 +200,7 @@ export default function Navigation() {
                 href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full text-center px-6 py-3 bg-[#d9c26b] rounded-full text-black font-semibold"
+                className="block w-full text-center px-6 py-3 bg-[#e3b53d] rounded-full text-black font-semibold"
               >
                 Join Us
               </Link>

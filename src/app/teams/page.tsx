@@ -91,7 +91,7 @@ export default function TeamsPage() {
         <div className="absolute inset-0 cyber-grid opacity-20" />
 
         <div className="absolute top-1/4 right-0 w-96 h-96 bg-[#8b0000]/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-[#d9c26b]/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-[#e3b53d]/10 rounded-full blur-[100px]" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -100,12 +100,12 @@ export default function TeamsPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#d9c26b]/10 text-[#d9c26b] text-sm font-medium mb-6">
+            <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-6">
               <Users className="w-4 h-4 mr-2" />
               OUR TEAMS
             </span>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-6">
-              Specialized <span className="text-[#d9c26b]">Divisions</span>
+              Specialized <span className="text-[#e3b53d]">Divisions</span>
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
               Eight specialized teams working in harmony to engineer a championship-winning
@@ -128,17 +128,17 @@ export default function TeamsPage() {
                 transition={{ delay: index * 0.05 }}
               >
                 <Link href={`/teams/${team.slug}`}>
-                  <div className="group relative h-full p-8 rounded-2xl bg-white/5 border border-[#d9c26b]/20 backdrop-blur-sm hover:border-[#d9c26b]/50 transition-all duration-500 overflow-hidden">
+                  <div className="group relative h-full p-8 rounded-2xl bg-white/5 border border-[#e3b53d]/20 backdrop-blur-sm hover:border-[#e3b53d]/50 transition-all duration-500 overflow-hidden">
                     {/* Background icon */}
-                    <div className="absolute -right-8 -bottom-8 text-[#d9c26b]/5 group-hover:text-[#d9c26b]/10 transition-colors duration-500">
+                    <div className="absolute -right-8 -bottom-8 text-[#e3b53d]/5 group-hover:text-[#e3b53d]/10 transition-colors duration-500">
                       {team.icon}
                     </div>
 
                     {/* Animated border line */}
-                    <div className="absolute top-0 left-0 w-full h-1 bg-[#d9c26b] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                    <div className="absolute top-0 left-0 w-full h-1 bg-[#e3b53d] transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
 
                     <div className="relative">
-                      <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#d9c26b] transition-colors">
+                      <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#e3b53d] transition-colors">
                         {team.name}
                       </h3>
                       <p className="text-gray-400 leading-relaxed mb-4">{team.description}</p>
@@ -148,7 +148,7 @@ export default function TeamsPage() {
                         {team.highlights.map((highlight) => (
                           <span
                             key={highlight}
-                            className="px-3 py-1 text-xs font-medium rounded-full bg-[#d9c26b]/10 text-[#d9c26b] border border-[#d9c26b]/20"
+                            className="px-3 py-1 text-xs font-medium rounded-full bg-[#e3b53d]/10 text-[#e3b53d] border border-[#e3b53d]/20"
                           >
                             {highlight}
                           </span>
@@ -156,7 +156,7 @@ export default function TeamsPage() {
                       </div>
 
                       {/* CTA */}
-                      <div className="inline-flex items-center text-sm font-semibold text-[#d9c26b] group-hover:translate-x-2 transition-transform duration-300">
+                      <div className="inline-flex items-center text-sm font-semibold text-[#e3b53d] group-hover:translate-x-2 transition-transform duration-300">
                         <span>Learn More</span>
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </div>
@@ -171,7 +171,7 @@ export default function TeamsPage() {
 
       {/* Join CTA */}
       <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#8b0000]/10 via-transparent to-[#d9c26b]/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#8b0000]/10 via-transparent to-[#e3b53d]/10" />
         <div className="absolute inset-0 circuit-pattern opacity-20" />
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -181,7 +181,7 @@ export default function TeamsPage() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
-              Find Your <span className="text-[#d9c26b]">Place</span>
+              Find Your <span className="text-[#e3b53d]">Place</span>
             </h2>
             <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
               No matter your major or experience level, there&apos;s a place for you on our team.
@@ -191,7 +191,7 @@ export default function TeamsPage() {
               href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-10 py-5 bg-[#d9c26b] rounded-full text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-2xl hover:shadow-[#d9c26b]/30 transition-all duration-300 neon-button"
+              className="inline-flex items-center px-10 py-5 bg-[#e3b53d] rounded-full text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-2xl hover:shadow-[#e3b53d]/30 transition-all duration-300 neon-button"
             >
               Join a Team
               <ArrowRight className="w-6 h-6 ml-2" />

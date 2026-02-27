@@ -45,7 +45,7 @@ export default function ContactPage() {
         <div className="absolute inset-0 cyber-grid opacity-20" />
 
         <div className="absolute top-1/4 left-0 w-96 h-96 bg-[#8b0000]/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-[#d9c26b]/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-[#e3b53d]/10 rounded-full blur-[100px]" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -54,12 +54,12 @@ export default function ContactPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#d9c26b]/10 text-[#d9c26b] text-sm font-medium mb-6">
+            <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-6">
               <MessageSquare className="w-4 h-4 mr-2" />
               GET IN TOUCH
             </span>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-6">
-              Contact <span className="text-[#d9c26b]">Us</span>
+              Contact <span className="text-[#e3b53d]">Us</span>
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
               Have questions about joining the team, sponsoring us, or anything else?
@@ -83,8 +83,8 @@ export default function ContactPage() {
 
               <div className="space-y-6 mb-12">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#d9c26b]/10 flex items-center justify-center shrink-0">
-                    <MapPin className="w-6 h-6 text-[#d9c26b]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#e3b53d]/10 flex items-center justify-center shrink-0">
+                    <MapPin className="w-6 h-6 text-[#e3b53d]" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">Location</h3>
@@ -97,20 +97,20 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#d9c26b]/10 flex items-center justify-center shrink-0">
-                    <Mail className="w-6 h-6 text-[#d9c26b]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#e3b53d]/10 flex items-center justify-center shrink-0">
+                    <Mail className="w-6 h-6 text-[#e3b53d]" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">Email</h3>
-                    <a href="mailto:fsae@usc.edu" className="text-gray-400 hover:text-[#d9c26b] transition-colors">
+                    <a href="mailto:fsae@usc.edu" className="text-gray-400 hover:text-[#e3b53d] transition-colors">
                       fsae@usc.edu
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#d9c26b]/10 flex items-center justify-center shrink-0">
-                    <Phone className="w-6 h-6 text-[#d9c26b]" />
+                  <div className="w-12 h-12 rounded-xl bg-[#e3b53d]/10 flex items-center justify-center shrink-0">
+                    <Phone className="w-6 h-6 text-[#e3b53d]" />
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">Workshop Hours</h3>
@@ -128,19 +128,19 @@ export default function ContactPage() {
                 <div className="flex gap-4">
                   <a
                     href="#"
-                    className="w-12 h-12 rounded-xl bg-white/5 border border-[#d9c26b]/20 flex items-center justify-center text-gray-400 hover:text-[#d9c26b] hover:border-[#d9c26b]/50 transition-all"
+                    className="w-12 h-12 rounded-xl bg-white/5 border border-[#e3b53d]/20 flex items-center justify-center text-gray-400 hover:text-[#e3b53d] hover:border-[#e3b53d]/50 transition-all"
                   >
                     <Instagram className="w-5 h-5" />
                   </a>
                   <a
                     href="#"
-                    className="w-12 h-12 rounded-xl bg-white/5 border border-[#d9c26b]/20 flex items-center justify-center text-gray-400 hover:text-[#d9c26b] hover:border-[#d9c26b]/50 transition-all"
+                    className="w-12 h-12 rounded-xl bg-white/5 border border-[#e3b53d]/20 flex items-center justify-center text-gray-400 hover:text-[#e3b53d] hover:border-[#e3b53d]/50 transition-all"
                   >
                     <Linkedin className="w-5 h-5" />
                   </a>
                   <a
                     href="#"
-                    className="w-12 h-12 rounded-xl bg-white/5 border border-[#d9c26b]/20 flex items-center justify-center text-gray-400 hover:text-[#d9c26b] hover:border-[#d9c26b]/50 transition-all"
+                    className="w-12 h-12 rounded-xl bg-white/5 border border-[#e3b53d]/20 flex items-center justify-center text-gray-400 hover:text-[#e3b53d] hover:border-[#e3b53d]/50 transition-all"
                   >
                     <Twitter className="w-5 h-5" />
                   </a>
@@ -149,11 +149,11 @@ export default function ContactPage() {
 
               {/* Map placeholder */}
               <div className="mt-12">
-                <div className="aspect-[16/9] rounded-2xl bg-gradient-to-br from-[#0a0a0a] to-black border border-[#d9c26b]/20 overflow-hidden relative">
+                <div className="aspect-[16/9] rounded-2xl bg-gradient-to-br from-[#0a0a0a] to-black border border-[#e3b53d]/20 overflow-hidden relative">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
-                      <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#d9c26b]/20 flex items-center justify-center">
-                        <MapPin className="w-8 h-8 text-[#d9c26b]" />
+                      <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#e3b53d]/20 flex items-center justify-center">
+                        <MapPin className="w-8 h-8 text-[#e3b53d]" />
                       </div>
                       <p className="text-gray-500 text-sm">Map Placeholder</p>
                       <p className="text-gray-600 text-xs mt-1">USC Campus Location</p>
@@ -169,7 +169,7 @@ export default function ContactPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <div className="p-8 rounded-2xl bg-white/5 border border-[#d9c26b]/20 backdrop-blur-sm">
+              <div className="p-8 rounded-2xl bg-white/5 border border-[#e3b53d]/20 backdrop-blur-sm">
                 <h2 className="text-3xl font-bold text-white mb-2">Send a Message</h2>
                 <p className="text-gray-400 mb-8">
                   Fill out the form below and we&apos;ll get back to you as soon as possible.
@@ -201,7 +201,7 @@ export default function ContactPage() {
                           value={formState.name}
                           onChange={handleChange}
                           required
-                          className="w-full px-4 py-3 rounded-xl bg-white/5 border border-[#d9c26b]/20 text-white placeholder-gray-500 focus:outline-none focus:border-[#d9c26b]/50 focus:ring-1 focus:ring-[#d9c26b]/50 transition-all"
+                          className="w-full px-4 py-3 rounded-xl bg-white/5 border border-[#e3b53d]/20 text-white placeholder-gray-500 focus:outline-none focus:border-[#e3b53d]/50 focus:ring-1 focus:ring-[#e3b53d]/50 transition-all"
                           placeholder="Your name"
                         />
                       </div>
@@ -216,7 +216,7 @@ export default function ContactPage() {
                           value={formState.email}
                           onChange={handleChange}
                           required
-                          className="w-full px-4 py-3 rounded-xl bg-white/5 border border-[#d9c26b]/20 text-white placeholder-gray-500 focus:outline-none focus:border-[#d9c26b]/50 focus:ring-1 focus:ring-[#d9c26b]/50 transition-all"
+                          className="w-full px-4 py-3 rounded-xl bg-white/5 border border-[#e3b53d]/20 text-white placeholder-gray-500 focus:outline-none focus:border-[#e3b53d]/50 focus:ring-1 focus:ring-[#e3b53d]/50 transition-all"
                           placeholder="your@email.com"
                         />
                       </div>
@@ -232,7 +232,7 @@ export default function ContactPage() {
                         value={formState.subject}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-[#d9c26b]/20 text-white focus:outline-none focus:border-[#d9c26b]/50 focus:ring-1 focus:ring-[#d9c26b]/50 transition-all"
+                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-[#e3b53d]/20 text-white focus:outline-none focus:border-[#e3b53d]/50 focus:ring-1 focus:ring-[#e3b53d]/50 transition-all"
                       >
                         <option value="" className="bg-black">Select a subject</option>
                         <option value="joining" className="bg-black">Joining the Team</option>
@@ -253,14 +253,14 @@ export default function ContactPage() {
                         onChange={handleChange}
                         required
                         rows={5}
-                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-[#d9c26b]/20 text-white placeholder-gray-500 focus:outline-none focus:border-[#d9c26b]/50 focus:ring-1 focus:ring-[#d9c26b]/50 transition-all resize-none"
+                        className="w-full px-4 py-3 rounded-xl bg-white/5 border border-[#e3b53d]/20 text-white placeholder-gray-500 focus:outline-none focus:border-[#e3b53d]/50 focus:ring-1 focus:ring-[#e3b53d]/50 transition-all resize-none"
                         placeholder="Your message..."
                       />
                     </div>
 
                     <button
                       type="submit"
-                      className="w-full flex items-center justify-center px-8 py-4 bg-[#d9c26b] rounded-xl text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-lg hover:shadow-[#d9c26b]/30 transition-all duration-300 neon-button"
+                      className="w-full flex items-center justify-center px-8 py-4 bg-[#e3b53d] rounded-xl text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-lg hover:shadow-[#e3b53d]/30 transition-all duration-300 neon-button"
                     >
                       Send Message
                       <Send className="w-5 h-5 ml-2" />
@@ -283,7 +283,7 @@ export default function ContactPage() {
             className="text-center mb-12"
           >
             <h2 className="text-4xl font-bold text-white mb-4">
-              Frequently Asked <span className="text-[#d9c26b]">Questions</span>
+              Frequently Asked <span className="text-[#e3b53d]">Questions</span>
             </h2>
           </motion.div>
 
@@ -312,7 +312,7 @@ export default function ContactPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="p-6 rounded-xl bg-white/5 border border-[#d9c26b]/20"
+                className="p-6 rounded-xl bg-white/5 border border-[#e3b53d]/20"
               >
                 <h3 className="text-lg font-semibold text-white mb-2">{faq.q}</h3>
                 <p className="text-gray-400">{faq.a}</p>

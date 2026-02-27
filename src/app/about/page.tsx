@@ -64,7 +64,7 @@ export default function AboutPage() {
 
         {/* Decorative elements */}
         <div className="absolute top-1/4 left-0 w-64 h-64 bg-[#8b0000]/10 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 right-0 w-64 h-64 bg-[#d9c26b]/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-1/4 right-0 w-64 h-64 bg-[#e3b53d]/10 rounded-full blur-[100px]" />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
@@ -73,12 +73,12 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#d9c26b]/10 text-[#d9c26b] text-sm font-medium mb-6">
+            <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-6">
               <Users className="w-4 h-4 mr-2" />
               ABOUT US
             </span>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-6">
-              Engineering <span className="text-[#d9c26b]">Excellence</span>
+              Engineering <span className="text-[#e3b53d]">Excellence</span>
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
               USC Formula Electric is a student-run engineering team dedicated to designing,
@@ -97,11 +97,11 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#d9c26b]/10 text-[#d9c26b] text-sm font-medium mb-4">
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
                 OUR MISSION
               </span>
               <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
-                Building the Future of <span className="text-[#d9c26b]">Motorsport</span>
+                Building the Future of <span className="text-[#e3b53d]">Motorsport</span>
               </h2>
               <p className="text-gray-400 text-lg leading-relaxed mb-6">
                 At USC Formula Electric, we believe in learning by doing. Our mission is to provide
@@ -124,7 +124,7 @@ export default function AboutPage() {
                     transition={{ delay: index * 0.1 }}
                     className="flex items-center space-x-3"
                   >
-                    <CheckCircle className="w-5 h-5 text-[#d9c26b] shrink-0" />
+                    <CheckCircle className="w-5 h-5 text-[#e3b53d] shrink-0" />
                     <span className="text-gray-300">{achievement}</span>
                   </motion.div>
                 ))}
@@ -138,11 +138,11 @@ export default function AboutPage() {
               className="relative"
             >
               {/* Image placeholder */}
-              <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-[#0a0a0a] to-black border border-[#d9c26b]/20 overflow-hidden">
+              <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-[#0a0a0a] to-black border border-[#e3b53d]/20 overflow-hidden">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-[#d9c26b]/20 flex items-center justify-center">
-                      <Trophy className="w-12 h-12 text-[#d9c26b]" />
+                    <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-[#e3b53d]/20 flex items-center justify-center">
+                      <Trophy className="w-12 h-12 text-[#e3b53d]" />
                     </div>
                     <p className="text-gray-500 text-sm">Team Photo Placeholder</p>
                   </div>
@@ -153,12 +153,12 @@ export default function AboutPage() {
               </div>
 
               {/* Floating stat cards */}
-              <div className="absolute -bottom-6 -left-6 p-4 rounded-xl bg-[#0a0a0a]/90 border border-[#d9c26b]/20 backdrop-blur-sm">
-                <div className="text-3xl font-bold text-[#d9c26b]">50+</div>
+              <div className="absolute -bottom-6 -left-6 p-4 rounded-xl bg-[#0a0a0a]/90 border border-[#e3b53d]/20 backdrop-blur-sm">
+                <div className="text-3xl font-bold text-[#e3b53d]">50+</div>
                 <div className="text-sm text-gray-400">Team Members</div>
               </div>
-              <div className="absolute -top-6 -right-6 p-4 rounded-xl bg-[#0a0a0a]/90 border border-[#d9c26b]/20 backdrop-blur-sm">
-                <div className="text-3xl font-bold text-[#d9c26b]">20+</div>
+              <div className="absolute -top-6 -right-6 p-4 rounded-xl bg-[#0a0a0a]/90 border border-[#e3b53d]/20 backdrop-blur-sm">
+                <div className="text-3xl font-bold text-[#e3b53d]">20+</div>
                 <div className="text-sm text-gray-400">Years of Excellence</div>
               </div>
             </motion.div>
@@ -175,11 +175,11 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#d9c26b]/10 text-[#d9c26b] text-sm font-medium mb-4">
+            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
               OUR VALUES
             </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-white">
-              What Drives <span className="text-[#d9c26b]">Us</span>
+              What Drives <span className="text-[#e3b53d]">Us</span>
             </h2>
           </motion.div>
 
@@ -191,9 +191,9 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="text-center p-8 rounded-2xl bg-white/5 border border-[#d9c26b]/20 hover:border-[#d9c26b]/50 transition-all duration-300"
+                className="text-center p-8 rounded-2xl bg-white/5 border border-[#e3b53d]/20 hover:border-[#e3b53d]/50 transition-all duration-300"
               >
-                <div className="w-16 h-16 mx-auto mb-6 rounded-xl bg-gradient-to-br from-[#d9c26b]/20 to-transparent border border-[#d9c26b]/30 flex items-center justify-center text-[#d9c26b]">
+                <div className="w-16 h-16 mx-auto mb-6 rounded-xl bg-gradient-to-br from-[#e3b53d]/20 to-transparent border border-[#e3b53d]/30 flex items-center justify-center text-[#e3b53d]">
                   {value.icon}
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3">{value.title}</h3>
@@ -215,18 +215,18 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#d9c26b]/10 text-[#d9c26b] text-sm font-medium mb-4">
+            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
               <Calendar className="w-4 h-4 mr-2" />
               OUR JOURNEY
             </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-white">
-              Milestones in <span className="text-[#d9c26b]">Racing</span>
+              Milestones in <span className="text-[#e3b53d]">Racing</span>
             </h2>
           </motion.div>
 
           <div className="relative">
             {/* Timeline line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#d9c26b] via-[#d9c26b]/50 to-[#d9c26b] hidden md:block" />
+            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#e3b53d] via-[#e3b53d]/50 to-[#e3b53d] hidden md:block" />
 
             <div className="space-y-12">
               {milestones.map((milestone, index) => (
@@ -241,14 +241,14 @@ export default function AboutPage() {
                   }`}
                 >
                   <div className={`flex-1 ${index % 2 === 0 ? "md:text-right" : "md:text-left"}`}>
-                    <div className="p-6 rounded-xl bg-white/5 border border-[#d9c26b]/20 inline-block hover:border-[#d9c26b]/50 transition-colors">
-                      <div className="text-3xl font-bold text-[#d9c26b] mb-2">{milestone.year}</div>
+                    <div className="p-6 rounded-xl bg-white/5 border border-[#e3b53d]/20 inline-block hover:border-[#e3b53d]/50 transition-colors">
+                      <div className="text-3xl font-bold text-[#e3b53d] mb-2">{milestone.year}</div>
                       <div className="text-gray-300">{milestone.event}</div>
                     </div>
                   </div>
 
                   {/* Center dot */}
-                  <div className="hidden md:flex w-4 h-4 rounded-full bg-[#d9c26b] border-4 border-black shrink-0 relative z-10" />
+                  <div className="hidden md:flex w-4 h-4 rounded-full bg-[#e3b53d] border-4 border-black shrink-0 relative z-10" />
 
                   <div className="flex-1 hidden md:block" />
                 </motion.div>
@@ -259,7 +259,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gradient-to-r from-[#8b0000]/10 via-transparent to-[#d9c26b]/10">
+      <section className="py-24 bg-gradient-to-r from-[#8b0000]/10 via-transparent to-[#e3b53d]/10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -267,7 +267,7 @@ export default function AboutPage() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
-              Ready to Join the <span className="text-[#d9c26b]">Team</span>?
+              Ready to Join the <span className="text-[#e3b53d]">Team</span>?
             </h2>
             <p className="text-xl text-gray-400 mb-8">
               We&apos;re always looking for passionate students to join our mission.
@@ -277,14 +277,14 @@ export default function AboutPage() {
                 href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-8 py-4 bg-[#d9c26b] rounded-full text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-lg hover:shadow-[#d9c26b]/30 transition-all duration-300 neon-button"
+                className="inline-flex items-center justify-center px-8 py-4 bg-[#e3b53d] rounded-full text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-lg hover:shadow-[#e3b53d]/30 transition-all duration-300 neon-button"
               >
                 Join Us Now
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white/5 border border-[#d9c26b]/30 rounded-full text-white font-bold text-lg hover:bg-white/10 transition-all duration-300"
+                className="inline-flex items-center justify-center px-8 py-4 bg-white/5 border border-[#e3b53d]/30 rounded-full text-white font-bold text-lg hover:bg-white/10 transition-all duration-300"
               >
                 Contact Us
               </Link>

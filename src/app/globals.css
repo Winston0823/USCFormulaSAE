@@ -1,13 +1,21 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Ethnocentric';
+  src: url('/fonts/Ethnocentric-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #000000;
   --foreground: #ededed;
-  --primary: #d9c26b;
+  --primary: #e3b53d;
   --primary-glow: rgba(217, 194, 107, 0.4);
-  --secondary: #d9c26b;
+  --secondary: #e3b53d;
   --secondary-glow: rgba(217, 194, 107, 0.4);
-  --accent: #d9c26b;
+  --accent: #e3b53d;
   --card-bg: rgba(10, 10, 10, 0.9);
   --card-border: rgba(217, 194, 107, 0.2);
   --ambient-red: #8b0000;
@@ -21,10 +29,15 @@
   --color-accent: var(--accent);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: 'Ethnocentric', sans-serif;
 }
 
 * {
   box-sizing: border-box;
+}
+
+h1, h2, h3 {
+  font-family: 'Ethnocentric', sans-serif;
 }
 
 html {
@@ -48,7 +61,7 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #d9c26b, #a89645);
+  background: linear-gradient(180deg, #e3b53d, #a89645);
   border-radius: 4px;
 }
 
@@ -78,7 +91,7 @@ body {
   content: '';
   position: absolute;
   inset: -2px;
-  background: linear-gradient(45deg, #d9c26b, #a89645, #d9c26b, #a89645);
+  background: linear-gradient(45deg, #e3b53d, #a89645, #e3b53d, #a89645);
   background-size: 400% 400%;
   border-radius: 14px;
   z-index: -1;
@@ -169,8 +182,8 @@ body {
     90deg,
     transparent 0%,
     transparent 45%,
-    #d9c26b 45%,
-    #d9c26b 55%,
+    #e3b53d 45%,
+    #e3b53d 55%,
     transparent 55%,
     transparent 100%
   );
@@ -237,6 +250,6 @@ body {
   left: 0;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #d9c26b, transparent);
+  background: linear-gradient(90deg, transparent, #e3b53d, transparent);
   animation: speed-line 2s ease-in-out infinite;
 }

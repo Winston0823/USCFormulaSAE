@@ -275,7 +275,7 @@ export default function TeamPage() {
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-white mb-4">Team Not Found</h1>
-          <Link href="/teams" className="text-[#d9c26b] hover:underline">
+          <Link href="/teams" className="text-[#e3b53d] hover:underline">
             Back to Teams
           </Link>
         </div>
@@ -291,7 +291,7 @@ export default function TeamPage() {
         <div className="absolute inset-0 cyber-grid opacity-20" />
 
         {/* Large background icon */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 text-[#d9c26b]/5">
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 text-[#e3b53d]/5">
           {team.bgIcon}
         </div>
 
@@ -319,7 +319,7 @@ export default function TeamPage() {
               className="flex-1"
             >
               <h1 className="text-5xl sm:text-6xl font-black text-white mb-4">{team.name}</h1>
-              <p className="text-xl mb-6 text-[#d9c26b]">
+              <p className="text-xl mb-6 text-[#e3b53d]">
                 {team.tagline}
               </p>
               <p className="text-lg text-gray-400 leading-relaxed">{team.description}</p>
@@ -332,11 +332,11 @@ export default function TeamPage() {
               transition={{ delay: 0.2 }}
               className="lg:w-[400px]"
             >
-              <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-[#0a0a0a] to-black border border-[#d9c26b]/20 overflow-hidden relative">
+              <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-[#0a0a0a] to-black border border-[#e3b53d]/20 overflow-hidden relative">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
-                    <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-[#d9c26b]/20 flex items-center justify-center">
-                      <ImageIcon className="w-10 h-10 text-[#d9c26b]" />
+                    <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-[#e3b53d]/20 flex items-center justify-center">
+                      <ImageIcon className="w-10 h-10 text-[#e3b53d]" />
                     </div>
                     <p className="text-gray-500 text-sm">Team Photo Placeholder</p>
                   </div>
@@ -366,9 +366,9 @@ export default function TeamPage() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-[#d9c26b]/20"
+                    className="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-[#e3b53d]/20"
                   >
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-sm font-bold bg-[#d9c26b]/20 text-[#d9c26b]">
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-sm font-bold bg-[#e3b53d]/20 text-[#e3b53d]">
                       {index + 1}
                     </div>
                     <span className="text-gray-300">{item}</span>
@@ -389,7 +389,7 @@ export default function TeamPage() {
                 {team.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="px-4 py-2 rounded-full text-sm font-medium bg-[#d9c26b]/15 text-[#d9c26b] border border-[#d9c26b]/30"
+                    className="px-4 py-2 rounded-full text-sm font-medium bg-[#e3b53d]/15 text-[#e3b53d] border border-[#e3b53d]/30"
                   >
                     {skill}
                   </span>
@@ -423,7 +423,7 @@ export default function TeamPage() {
             className="mb-16"
           >
             <div className="flex items-center gap-3 mb-8">
-              <Users className="w-6 h-6 text-[#d9c26b]" />
+              <Users className="w-6 h-6 text-[#e3b53d]" />
               <h2 className="text-3xl font-bold text-white">Team Leads</h2>
             </div>
 
@@ -435,17 +435,17 @@ export default function TeamPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="p-6 rounded-2xl bg-white/5 border border-[#d9c26b]/20 hover:border-[#d9c26b]/40 transition-colors"
+                  className="p-6 rounded-2xl bg-white/5 border border-[#e3b53d]/20 hover:border-[#e3b53d]/40 transition-colors"
                 >
                   <div className="flex items-start gap-4">
                     {/* Avatar placeholder */}
-                    <div className="w-16 h-16 rounded-full bg-[#d9c26b]/20 flex items-center justify-center shrink-0">
-                      <User className="w-8 h-8 text-[#d9c26b]" />
+                    <div className="w-16 h-16 rounded-full bg-[#e3b53d]/20 flex items-center justify-center shrink-0">
+                      <User className="w-8 h-8 text-[#e3b53d]" />
                     </div>
 
                     <div className="flex-1">
                       <h3 className="text-xl font-bold text-white mb-1">{lead.name}</h3>
-                      <p className="text-[#d9c26b] text-sm font-medium mb-2">
+                      <p className="text-[#e3b53d] text-sm font-medium mb-2">
                         {lead.role}
                       </p>
                       <p className="text-gray-400 text-sm">
@@ -484,11 +484,11 @@ export default function TeamPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
-                  className="p-4 rounded-xl bg-white/5 border border-[#d9c26b]/20 hover:border-[#d9c26b]/40 transition-colors"
+                  className="p-4 rounded-xl bg-white/5 border border-[#e3b53d]/20 hover:border-[#e3b53d]/40 transition-colors"
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-full bg-[#d9c26b]/15 flex items-center justify-center">
-                      <User className="w-5 h-5 text-[#d9c26b]" />
+                    <div className="w-10 h-10 rounded-full bg-[#e3b53d]/15 flex items-center justify-center">
+                      <User className="w-5 h-5 text-[#e3b53d]" />
                     </div>
                     <div>
                       <h4 className="font-semibold text-white">{member.name}</h4>
@@ -507,7 +507,7 @@ export default function TeamPage() {
 
       {/* Join CTA */}
       <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#8b0000]/10 via-transparent to-[#d9c26b]/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#8b0000]/10 via-transparent to-[#e3b53d]/10" />
         <div className="absolute inset-0 circuit-pattern opacity-20" />
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -517,7 +517,7 @@ export default function TeamPage() {
             viewport={{ once: true }}
           >
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
-              Join the <span className="text-[#d9c26b]">{team.name}</span> Team
+              Join the <span className="text-[#e3b53d]">{team.name}</span> Team
             </h2>
             <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
               Ready to contribute to one of the most exciting engineering projects on campus?
@@ -527,7 +527,7 @@ export default function TeamPage() {
               href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-10 py-5 bg-[#d9c26b] rounded-full text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-2xl hover:shadow-[#d9c26b]/30 transition-all duration-300 neon-button"
+              className="inline-flex items-center px-10 py-5 bg-[#e3b53d] rounded-full text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-2xl hover:shadow-[#e3b53d]/30 transition-all duration-300 neon-button"
             >
               Apply Now
               <ArrowRight className="w-6 h-6 ml-2" />
