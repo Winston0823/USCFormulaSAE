@@ -48,6 +48,7 @@ export default function PixelRevealOverlay() {
     let raf: number;
 
     function frame() {
+      if (!ctx) return;
       const w = canvas!.width;
       const h = canvas!.height;
       const t = performance.now() / 1000;
