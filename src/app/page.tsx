@@ -10,7 +10,6 @@ import {
   Wind,
   Cog,
   Users,
-  Trophy,
   ArrowRight,
   ChevronDown,
   Timer,
@@ -81,7 +80,6 @@ const stats = [
   { label: "Top Speed Target", value: "85+", unit: "MPH", icon: <Gauge className="w-6 h-6" /> },
   { label: "0-60 Acceleration", value: "3.5", unit: "SEC", icon: <Timer className="w-6 h-6" /> },
   { label: "Team Members", value: "50+", unit: "ENGINEERS", icon: <Users className="w-6 h-6" /> },
-  { label: "Years Racing", value: "20+", unit: "SEASONS", icon: <Trophy className="w-6 h-6" /> },
 ];
 
 export default function Home() {
@@ -170,7 +168,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {stats.map((stat, index) => (
               <motion.div
                 key={stat.label}
