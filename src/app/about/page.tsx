@@ -277,9 +277,9 @@ export default function AboutPage() {
                 href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-8 py-4 bg-[#e3b53d] rounded-full text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-lg hover:shadow-[#e3b53d]/30 transition-all duration-300 neon-button"
+                className="inline-flex items-center justify-center px-8 py-4 bg-[#e3b53d] rounded-full text-black font-bold text-xl leading-none hover:bg-[#c4ae5a] hover:shadow-lg hover:shadow-[#e3b53d]/30 transition-all duration-300 neon-button"
               >
-                Join Us Now
+                Join Now
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
               <Link

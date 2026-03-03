@@ -30,6 +30,27 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --font-display: 'Ethnocentric', sans-serif;
+  --font-secondary: var(--font-rajdhani), sans-serif;
+}
+
+h4, h5, h6 {
+  font-family: var(--font-rajdhani), sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+p, li, a, button {
+  font-family: var(--font-rajdhani), sans-serif;
+}
+
+p, li {
+  font-size: 1.05em;
+}
+
+.font-secondary {
+  font-family: var(--font-rajdhani), sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.03em;
 }
 
 * {

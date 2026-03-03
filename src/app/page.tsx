@@ -142,11 +142,6 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        {/* Corner decorations */}
-        <div className="absolute top-24 left-4 w-20 h-20 border-l-2 border-t-2 border-[#e3b53d]/30" style={{ zIndex: 20 }} />
-        <div className="absolute top-24 right-4 w-20 h-20 border-r-2 border-t-2 border-[#e3b53d]/30" style={{ zIndex: 20 }} />
-        <div className="absolute bottom-24 left-4 w-20 h-20 border-l-2 border-b-2 border-[#e3b53d]/30" style={{ zIndex: 20 }} />
-        <div className="absolute bottom-24 right-4 w-20 h-20 border-r-2 border-b-2 border-[#e3b53d]/30" style={{ zIndex: 20 }} />
       </section>
 
       {/* Performance Stats Section */}
@@ -170,7 +165,7 @@ export default function Home() {
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
               Built for <span className="text-[#e3b53d]">Speed</span>
             </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-gray-400 max-w-2xl mx-auto font-secondary">
               Our engineering targets push the boundaries of what&apos;s possible in Formula SAE competition
             </p>
           </motion.div>
@@ -195,7 +190,7 @@ export default function Home() {
                     {stat.value}
                     <span className="text-lg sm:text-xl font-medium text-[#e3b53d] ml-1">{stat.unit}</span>
                   </div>
-                  <p className="text-gray-400 text-sm">{stat.label}</p>
+                  <p className="text-gray-400 text-sm font-secondary">{stat.label}</p>
                 </div>
               </motion.div>
             ))}
@@ -245,7 +240,7 @@ export default function Home() {
                         {team.name}
                       </h3>
 
-                      <p className="text-gray-400 text-sm leading-relaxed mb-4">{team.description}</p>
+                      <p className="text-gray-400 text-sm leading-relaxed mb-4 font-secondary">{team.description}</p>
 
                       <div className="flex items-center text-sm font-medium text-[#e3b53d] group-hover:translate-x-2 transition-transform duration-300">
                         <span>Explore Team</span>

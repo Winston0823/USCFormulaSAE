@@ -141,7 +141,7 @@ export default function TeamsPage() {
                       <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#e3b53d] transition-colors">
                         {team.name}
                       </h3>
-                      <p className="text-gray-400 leading-relaxed mb-4">{team.description}</p>
+                      <p className="text-gray-400 leading-relaxed mb-4 font-secondary">{team.description}</p>
 
                       {/* Highlights */}
                       <div className="flex flex-wrap gap-2 mb-4">
@@ -191,7 +191,7 @@ export default function TeamsPage() {
               href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-10 py-5 bg-[#e3b53d] rounded-full text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-2xl hover:shadow-[#e3b53d]/30 transition-all duration-300 neon-button"
+              className="inline-flex items-center justify-center px-10 py-5 bg-[#e3b53d] rounded-full text-black font-bold text-xl leading-none hover:bg-[#c4ae5a] hover:shadow-2xl hover:shadow-[#e3b53d]/30 transition-all duration-300 neon-button"
             >
               Join a Team
               <ArrowRight className="w-6 h-6 ml-2" />

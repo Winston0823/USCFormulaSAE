@@ -84,7 +84,7 @@ export default function Navigation() {
                 setActiveDropdown(null);
               }}
             >
-              <button className="flex items-center space-x-2 px-4 py-2 text-gray-300 hover:text-white transition-colors">
+              <button className="flex items-center space-x-2 px-4 py-2 text-gray-300 hover:text-white transition-colors" style={{ fontFamily: "var(--font-rajdhani)", fontWeight: 600, letterSpacing: "0.05em", fontSize: "1.15rem" }}>
                 <span>Menu</span>
                 <ChevronDown className={`w-4 h-4 transition-transform ${isNavDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
@@ -159,7 +159,7 @@ export default function Navigation() {
               href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:flex items-center px-6 py-2.5 bg-[#e3b53d] rounded-full text-black font-semibold text-sm hover:bg-[#c4ae5a] hover:shadow-lg hover:shadow-[#e3b53d]/25 transition-all duration-300 neon-button"
+              className="hidden lg:flex items-center justify-center px-7 py-3 bg-[#e3b53d] rounded-full text-black font-bold text-lg leading-none hover:bg-[#c4ae5a] hover:shadow-lg hover:shadow-[#e3b53d]/25 transition-all duration-300 neon-button"
             >
               Join Us
             </Link>
@@ -200,9 +200,9 @@ export default function Navigation() {
                 href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block w-full text-center px-6 py-3 bg-[#e3b53d] rounded-full text-black font-semibold"
+                className="block w-full text-center px-6 py-3 bg-[#e3b53d] rounded-full text-black font-semibold text-lg leading-none"
               >
-                Join Us
+                Join Now
               </Link>
             </div>
           </motion.div>

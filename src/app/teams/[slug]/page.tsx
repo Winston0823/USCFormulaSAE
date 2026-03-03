@@ -366,12 +366,12 @@ export default function TeamPage() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.1 }}
-                    className="flex items-start gap-4 p-4 rounded-xl bg-white/5 border border-[#e3b53d]/20"
+                    className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-[#e3b53d]/20"
                   >
                     <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-sm font-bold bg-[#e3b53d]/20 text-[#e3b53d]">
                       {index + 1}
                     </div>
-                    <span className="text-gray-300">{item}</span>
+                    <span className="text-gray-300 font-secondary text-base">{item}</span>
                   </motion.div>
                 ))}
               </div>
@@ -385,11 +385,11 @@ export default function TeamPage() {
               transition={{ delay: 0.2 }}
             >
               <h2 className="text-3xl font-bold text-white mb-6">Skills You&apos;ll Learn</h2>
-              <div className="flex flex-wrap gap-3 mb-8">
+              <div className="flex flex-wrap gap-3 mb-8 justify-center">
                 {team.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="px-4 py-2 rounded-full text-sm font-medium bg-[#e3b53d]/15 text-[#e3b53d] border border-[#e3b53d]/30"
+                    className="px-4 py-2 rounded-full text-base font-semibold font-secondary bg-[#e3b53d]/15 text-[#e3b53d] border border-[#e3b53d]/30"
                   >
                     {skill}
                   </span>
@@ -397,11 +397,11 @@ export default function TeamPage() {
               </div>
 
               <h2 className="text-3xl font-bold text-white mb-6">Tools We Use</h2>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-3 justify-center">
                 {team.tools.map((tool) => (
                   <span
                     key={tool}
-                    className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-gray-300 text-sm font-medium"
+                    className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-gray-300 text-base font-semibold font-secondary"
                   >
                     {tool}
                   </span>
@@ -527,9 +527,9 @@ export default function TeamPage() {
               href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-10 py-5 bg-[#e3b53d] rounded-full text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-2xl hover:shadow-[#e3b53d]/30 transition-all duration-300 neon-button"
+              className="inline-flex items-center justify-center px-10 py-5 bg-[#e3b53d] rounded-full text-black font-bold text-xl leading-none hover:bg-[#c4ae5a] hover:shadow-2xl hover:shadow-[#e3b53d]/30 transition-all duration-300 neon-button"
             >
-              Apply Now
+              Join Now
               <ArrowRight className="w-6 h-6 ml-2" />
             </Link>
           </motion.div>
