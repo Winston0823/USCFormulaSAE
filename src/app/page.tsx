@@ -100,7 +100,7 @@ export default function Home() {
         {/* LAYER 1 — BACKGROUND: Holographic wireframe car (revealed through pixel mask) */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/HeroPageBackgroundHolographicVFX.png"
+          src="/HeroPageBackgroundHolographicVFXSVG.svg"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
           style={{ zIndex: 0 }}
@@ -113,7 +113,7 @@ export default function Home() {
         <div className="absolute inset-0 scanlines opacity-20" style={{ zIndex: 2 }} />
 
         {/* LAYER 2 — FOREGROUND: Realistic car photo drawn on canvas, pixel holes reveal holographic behind */}
-        <PixelRevealOverlay foregroundSrc="/HeroPageBackground.png" />
+        <PixelRevealOverlay foregroundSrc="/HeroPageBackgroundSVG.svg" />
 
         {/* Scroll indicator */}
         <motion.div

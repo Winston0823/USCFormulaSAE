@@ -42,9 +42,15 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const cssSize = { w: 0, h: 0 };
+
     const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
+      const dpr = window.devicePixelRatio || 1;
+      cssSize.w = canvas.offsetWidth;
+      cssSize.h = canvas.offsetHeight;
+      canvas.width = cssSize.w * dpr;
+      canvas.height = cssSize.h * dpr;
+      ctx.scale(dpr, dpr);
     };
     resize();
     window.addEventListener("resize", resize);
@@ -62,8 +68,8 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
 
     function frame() {
       if (!ctx) return;
-      const w = canvas!.width;
-      const h = canvas!.height;
+      const w = cssSize.w;
+      const h = cssSize.h;
       const t = performance.now() / 1000;
 
       if (smoothRef.current.x === -9999) {
