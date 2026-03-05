@@ -342,29 +342,29 @@ export default function Navigation() {
                           >
                             <button className="w-full flex items-center justify-between px-4 py-2 text-gray-300 hover:text-white hover:bg-white/5 transition-colors">
                               <span>{item.name}</span>
-                              <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === item.name ? '-rotate-90' : ''}`} />
+                              <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === item.name ? 'rotate-180' : ''}`} />
                             </button>
 
                             <AnimatePresence>
                               {activeDropdown === item.name && (
                                 <motion.div
-                                  initial={{ opacity: 0, x: -10 }}
-                                  animate={{ opacity: 1, x: 0 }}
-                                  exit={{ opacity: 0, x: -10 }}
-                                  className="absolute left-full top-0 w-48 py-2 bg-black/95 backdrop-blur-md rounded-lg border border-[#e3b53d]/20 shadow-xl ml-1"
+                                  initial={{ opacity: 0, height: 0 }}
+                                  animate={{ opacity: 1, height: "auto" }}
+                                  exit={{ opacity: 0, height: 0 }}
+                                  className="overflow-hidden border-t border-[#e3b53d]/10"
                                 >
                                   <Link
                                     href={item.href}
-                                    className="block px-4 py-2 text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                                    className="block px-6 py-2 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
                                   >
                                     All Teams
                                   </Link>
-                                  <div className="border-t border-[#e3b53d]/10 my-1" />
+                                  <div className="border-t border-[#e3b53d]/10 mx-4 my-1" />
                                   {item.dropdownItems?.map((subItem) => (
                                     <Link
                                       key={subItem.href}
                                       href={subItem.href}
-                                      className="block px-4 py-2 text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                                      className="block px-6 py-2 text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
                                     >
                                       {subItem.name}
                                     </Link>

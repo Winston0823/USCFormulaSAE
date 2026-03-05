@@ -97,31 +97,23 @@ export default function Home() {
       {/* Hero Section */}
       <section ref={heroRef} className="relative h-screen overflow-hidden bg-black">
 
-        {/* LAYER 1 — BACKGROUND: Vibrant gradient placeholder (revealed through pixel mask) */}
-        {/* TODO: Replace with actual glowing car image: <img src="..." className="absolute inset-0 w-full h-full object-cover" /> */}
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 120% 80% at 50% 70%, #ff6a00 0%, #d4380d 20%, #8b0000 45%, #1a0030 70%, #000005 100%)" }}>
-          {/* Bright gold sunburst center */}
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 55% 40% at 50% 62%, #ffe566 0%, #ffaa00 30%, transparent 65%)" }} />
-          {/* Electric teal left edge */}
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 40% 60% at 0% 55%, #00e5ff 0%, #0077cc 30%, transparent 65%)" }} />
-          {/* Hot magenta right edge */}
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 35% 50% at 100% 50%, #ff00cc 0%, #aa0080 30%, transparent 65%)" }} />
-          {/* Deep violet top */}
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 40% at 50% 0%, #6600ff 0%, #220055 50%, transparent 80%)" }} />
-        </div>
-
-        {/* LAYER 2 — FOREGROUND: Regular car photo (drawn on canvas, cut by pixel mask) */}
-        {/* TODO: Pass real image src to PixelRevealOverlay foregroundSrc prop */}
-        {/* Placeholder shown at canvas edges where mask hasn't cut through */}
+        {/* LAYER 1 — BACKGROUND: Holographic wireframe car (revealed through pixel mask) */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/HeroPageBackgroundHolographicVFX.png"
+          alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ zIndex: 0 }}
+        />
 
         {/* Animated grid overlay */}
-        <div className="absolute inset-0 cyber-grid opacity-20" />
+        <div className="absolute inset-0 cyber-grid opacity-20" style={{ zIndex: 1 }} />
 
         {/* Scanlines effect */}
-        <div className="absolute inset-0 scanlines opacity-20" />
+        <div className="absolute inset-0 scanlines opacity-20" style={{ zIndex: 2 }} />
 
-        {/* Pixelated cursor reveal overlay */}
-        <PixelRevealOverlay />
+        {/* LAYER 2 — FOREGROUND: Realistic car photo drawn on canvas, pixel holes reveal holographic behind */}
+        <PixelRevealOverlay foregroundSrc="/HeroPageBackground.png" />
 
         {/* Scroll indicator */}
         <motion.div

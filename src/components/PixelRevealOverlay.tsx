@@ -18,10 +18,23 @@ function waterNoise(x: number, y: number, t: number): number {
   );
 }
 
-export default function PixelRevealOverlay() {
+interface Props {
+  foregroundSrc?: string;
+}
+
+export default function PixelRevealOverlay({ foregroundSrc }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const mouseRef = useRef({ x: -9999, y: -9999 });
   const smoothRef = useRef({ x: -9999, y: -9999 });
+  const imgRef = useRef<HTMLImageElement | null>(null);
+
+  useEffect(() => {
+    if (foregroundSrc) {
+      const img = new Image();
+      img.src = foregroundSrc;
+      img.onload = () => { imgRef.current = img; };
+    }
+  }, [foregroundSrc]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -65,11 +78,15 @@ export default function PixelRevealOverlay() {
 
       ctx.clearRect(0, 0, w, h);
 
-      // FOREGROUND: solid flat color (placeholder until real car photo is added)
+      // FOREGROUND: real car photo (or dark fallback)
       ctx.globalCompositeOperation = "source-over";
       ctx.globalAlpha = 1;
-      ctx.fillStyle = "#0f0f12";
-      ctx.fillRect(0, 0, w, h);
+      if (imgRef.current) {
+        ctx.drawImage(imgRef.current, 0, 0, w, h);
+      } else {
+        ctx.fillStyle = "#0f0f12";
+        ctx.fillRect(0, 0, w, h);
+      }
 
       // Punch pixelated holes with animated water edge
       ctx.globalCompositeOperation = "destination-out";

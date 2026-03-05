@@ -20,20 +20,20 @@ import {
 
 const tiers = [
   {
-    name: "Platinum",
+    name: "Trojan",
     price: "$10,000+",
     icon: <Diamond className="w-10 h-10" />,
-    color: "#00d4ff",
-    gradient: "from-[#00d4ff] to-[#0099cc]",
+    color: "#cc2200",
+    gradient: "from-[#cc2200] to-[#991a00]",
     benefits: [
-      "Premier logo placement on vehicle",
-      "Company name on team apparel",
-      "VIP access to all competitions",
-      "Dedicated recruitment sessions",
-      "Social media spotlight package",
-      "Workshop tour and tech presentation",
-      "Custom engineering project collaboration",
-      "Priority hiring access to team members",
+      "Logo on website",
+      "Logo on car, shirts & banner",
+      "Large (L) logo size",
+      "3 logos on car",
+      "Appreciation letter",
+      "Resume book",
+      "Shop tour",
+      "1-on-1 with leadership",
     ],
     featured: true,
   },
@@ -41,47 +41,44 @@ const tiers = [
     name: "Gold",
     price: "$5,000+",
     icon: <Award className="w-10 h-10" />,
-    color: "#ffcc00",
-    gradient: "from-[#ffcc00] to-[#cc9900]",
+    color: "#d4b050",
+    gradient: "from-[#d4b050] to-[#b8952a]",
     benefits: [
-      "Large logo placement on vehicle",
-      "Logo on team apparel",
-      "Competition event invitations",
-      "Recruitment fair participation",
-      "Social media recognition",
-      "Workshop tour",
-      "Resume book access",
+      "Logo on website",
+      "Logo on car, shirts & banner",
+      "Medium (M) logo size",
+      "2 logos on car",
+      "Appreciation letter",
+      "Resume book",
+      "Shop tour",
     ],
     featured: false,
   },
   {
-    name: "Silver",
-    price: "$2,500+",
-    icon: <Medal className="w-10 h-10" />,
-    color: "#c0c0c0",
-    gradient: "from-[#c0c0c0] to-[#999999]",
-    benefits: [
-      "Medium logo on vehicle",
-      "Website recognition",
-      "Competition invitations",
-      "Social media mentions",
-      "Newsletter features",
-      "Team photo recognition",
-    ],
-    featured: false,
-  },
-  {
-    name: "Bronze",
+    name: "Cardinal",
     price: "$1,000+",
-    icon: <Star className="w-10 h-10" />,
-    color: "#cd7f32",
-    gradient: "from-[#cd7f32] to-[#996633]",
+    icon: <Medal className="w-10 h-10" />,
+    color: "#c0392b",
+    gradient: "from-[#c0392b] to-[#96281b]",
     benefits: [
-      "Small logo on vehicle",
-      "Website recognition",
-      "Social media recognition",
-      "Newsletter mention",
-      "Team gratitude package",
+      "Logo on website",
+      "Logo on car, shirts & banner",
+      "Small (S) logo size",
+      "1 logo on car",
+      "Appreciation letter",
+      "Resume book",
+    ],
+    featured: false,
+  },
+  {
+    name: "Friends of SCFE",
+    price: "<$999",
+    icon: <Star className="w-10 h-10" />,
+    color: "#a0a0a0",
+    gradient: "from-[#a0a0a0] to-[#808080]",
+    benefits: [
+      "Logo on website",
+      "Appreciation letter",
     ],
     featured: false,
   },
@@ -276,11 +273,11 @@ export default function SponsorshipPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#00d4ff]/10 text-[#00d4ff] text-sm font-medium mb-4">
+            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#ff3d00]/10 text-[#ff3d00] text-sm font-medium mb-4">
               PARTNERSHIP LEVELS
             </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-              Sponsorship <span className="text-[#00d4ff]">Tiers</span>
+              Sponsorship <span className="text-[#ff3d00]">Tiers</span>
             </h2>
             <p className="text-gray-400 max-w-2xl mx-auto">
               Choose the partnership level that best fits your goals. All tiers include meaningful benefits and recognition.
@@ -299,67 +296,50 @@ export default function SponsorshipPage() {
                   tier.featured ? "lg:scale-105 lg:-my-4" : ""
                 }`}
               >
-                {/* Featured badge */}
                 {tier.featured && (
-                  <div className="absolute top-0 left-0 right-0 py-2 bg-gradient-to-r from-[#00d4ff] to-[#0099cc] text-center text-white text-sm font-bold z-10">
+                  <div className="absolute top-0 left-0 right-0 py-2 bg-gradient-to-r from-[#cc2200] to-[#991a00] text-center text-white text-sm font-bold z-10">
                     MOST POPULAR
                   </div>
                 )}
 
                 <div
                   className={`h-full p-6 bg-white/5 border transition-all duration-300 hover:border-white/30 ${
-                    tier.featured
-                      ? `border-[${tier.color}]/50 pt-12`
-                      : "border-white/10"
+                    tier.featured ? "pt-12" : ""
                   }`}
                   style={{
                     borderRadius: "1rem",
-                    borderColor: tier.featured ? tier.color : undefined,
+                    borderColor: tier.featured ? tier.color : "rgba(255,255,255,0.1)",
                   }}
                 >
-                  {/* Icon */}
                   <div
                     className="w-16 h-16 rounded-xl flex items-center justify-center mb-4"
-                    style={{
-                      background: `linear-gradient(135deg, ${tier.color}30, ${tier.color}10)`,
-                    }}
+                    style={{ background: `linear-gradient(135deg, ${tier.color}30, ${tier.color}10)` }}
                   >
                     <span style={{ color: tier.color }}>{tier.icon}</span>
                   </div>
 
-                  {/* Tier name and price */}
                   <h3 className="text-2xl font-bold text-white mb-1">{tier.name}</h3>
-                  <p
-                    className="text-3xl font-black mb-6"
-                    style={{ color: tier.color }}
-                  >
+                  <p className="text-3xl font-black mb-6" style={{ color: tier.color }}>
                     {tier.price}
                   </p>
 
-                  {/* Benefits */}
                   <ul className="space-y-3 mb-8">
                     {tier.benefits.map((benefit, i) => (
                       <li key={i} className="flex items-start gap-2">
-                        <CheckCircle
-                          className="w-5 h-5 shrink-0 mt-0.5"
-                          style={{ color: tier.color }}
-                        />
+                        <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" style={{ color: tier.color }} />
                         <span className="text-gray-300 text-sm">{benefit}</span>
                       </li>
                     ))}
                   </ul>
 
-                  {/* CTA */}
                   <Link
                     href="/contact"
                     className={`block w-full py-3 rounded-xl text-center font-semibold transition-all duration-300 ${
                       tier.featured
-                        ? `bg-gradient-to-r ${tier.gradient} text-white hover:shadow-lg`
+                        ? `bg-gradient-to-r ${tier.gradient} text-black hover:shadow-lg`
                         : "bg-white/5 border border-white/20 text-white hover:bg-white/10"
                     }`}
-                    style={{
-                      boxShadow: tier.featured ? `0 10px 30px ${tier.color}30` : undefined,
-                    }}
+                    style={{ boxShadow: tier.featured ? `0 10px 30px ${tier.color}30` : undefined }}
                   >
                     Get Started
                   </Link>
