@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Rajdhani } from "next/font/google";
 import "./globals.css";
+import ClientOnly from "@/components/ClientOnly";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 
@@ -31,15 +32,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${rajdhani.variable} antialiased bg-black text-white`}
+        suppressHydrationWarning
       >
-        <Navigation />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        <ClientOnly
+          fallback={
+            <div className="min-h-screen bg-black" />
+          }
+        >
+          <Navigation />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+        </ClientOnly>
       </body>
     </html>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
@@ -103,6 +104,24 @@ const currentSponsors = [
 ];
 
 export default function SponsorshipPage() {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Generate stable random values only on client to avoid hydration mismatch
+  const particles = useMemo(() => {
+    if (!isMounted) return [];
+    return [...Array(20)].map((_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      duration: 3 + Math.random() * 2,
+      delay: Math.random() * 2,
+    }));
+  }, [isMounted]);
+
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
       {/* Hero Section */}
@@ -110,23 +129,23 @@ export default function SponsorshipPage() {
         <div className="absolute inset-0 hero-gradient" />
         <div className="absolute inset-0 cyber-grid opacity-20" />
 
-        {/* Animated particles */}
-        {[...Array(20)].map((_, i) => (
+        {/* Animated particles - only render after mount to avoid hydration mismatch */}
+        {particles.map((particle) => (
           <motion.div
-            key={i}
+            key={particle.id}
             className="absolute w-1 h-1 bg-[#ff3d00] rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${particle.left}%`,
+              top: `${particle.top}%`,
             }}
             animate={{
               y: [0, -100, 0],
               opacity: [0, 1, 0],
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: particle.duration,
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: particle.delay,
             }}
           />
         ))}

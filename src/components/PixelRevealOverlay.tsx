@@ -5,6 +5,8 @@ import { useEffect, useRef } from "react";
 const PIXEL_SIZE = 14;
 const RADIUS = 180;
 const LERP = 0.1;
+const TRAIL_DECAY = 0.015; // ~1.5 second fade at 60fps
+const MIN_ALPHA = 0.01;    // Threshold to stop rendering pixel
 
 // Diagonal, non-axis-aligned waves break up the star/cross pattern
 function waterNoise(x: number, y: number, t: number): number {
@@ -27,6 +29,7 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
   const mouseRef = useRef({ x: -9999, y: -9999 });
   const smoothRef = useRef({ x: -9999, y: -9999 });
   const imgRef = useRef<HTMLImageElement | null>(null);
+  const pixelAlphaRef = useRef<Map<string, number>>(new Map());
 
   useEffect(() => {
     if (foregroundSrc) {
@@ -94,9 +97,12 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
         ctx.fillRect(0, 0, w, h);
       }
 
-      // Punch pixelated holes with animated water edge
+      // Punch pixelated holes with animated water edge and trail effect
       ctx.globalCompositeOperation = "destination-out";
 
+      const pixelAlpha = pixelAlphaRef.current;
+
+      // Update pixels near cursor - set their alpha to 1
       const padding = RADIUS + 80;
       const x0 = Math.floor((mx - padding) / PIXEL_SIZE) * PIXEL_SIZE;
       const x1 = Math.ceil((mx + padding) / PIXEL_SIZE) * PIXEL_SIZE;
@@ -110,9 +116,22 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
           const d = Math.hypot(cx - mx, cy - my);
           const wave = waterNoise(cx, cy, t);
           if (d < RADIUS + wave) {
-            ctx.globalAlpha = 1;
-            ctx.fillRect(px, py, PIXEL_SIZE, PIXEL_SIZE);
+            const key = `${px},${py}`;
+            pixelAlpha.set(key, 1);
           }
+        }
+      }
+
+      // Decay all pixel alphas and render them
+      for (const [key, alpha] of pixelAlpha) {
+        const newAlpha = alpha - TRAIL_DECAY;
+        if (newAlpha < MIN_ALPHA) {
+          pixelAlpha.delete(key);
+        } else {
+          pixelAlpha.set(key, newAlpha);
+          const [px, py] = key.split(",").map(Number);
+          ctx.globalAlpha = newAlpha;
+          ctx.fillRect(px, py, PIXEL_SIZE, PIXEL_SIZE);
         }
       }
 

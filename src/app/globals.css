@@ -264,6 +264,12 @@ body {
   100% { transform: translateX(200%); opacity: 0; }
 }
 
+/* Gold button shine */
+@keyframes shine {
+  0% { transform: translateX(-150%); }
+  20%, 100% { transform: translateX(150%); }
+}
+
 .speed-lines::before {
   content: '';
   position: absolute;

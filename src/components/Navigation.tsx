@@ -181,22 +181,50 @@ const navItems = [
   { name: "Contact", href: "/contact" },
 ];
 
+const REVEAL_RADIUS = 180; // Match PixelRevealOverlay radius
+
 export default function Navigation() {
+  const [isMounted, setIsMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isNavDropdownOpen, setIsNavDropdownOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [isOnDarkLayer, setIsOnDarkLayer] = useState(false);
+  const menuButtonRef = useRef<HTMLDivElement>(null);
 
   // Liquid hover effect for menu button
   const liquid = useLiquidHover();
 
+  // Mark as mounted after hydration
   useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Track mouse proximity to menu button for adaptive coloring
+  useEffect(() => {
+    if (!isMounted) return;
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!menuButtonRef.current) return;
+      const rect = menuButtonRef.current.getBoundingClientRect();
+      const buttonCenterX = rect.left + rect.width / 2;
+      const buttonCenterY = rect.top + rect.height / 2;
+      const distance = Math.hypot(e.clientX - buttonCenterX, e.clientY - buttonCenterY);
+      setIsOnDarkLayer(distance < REVEAL_RADIUS);
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [isMounted]);
+
+  useEffect(() => {
+    if (!isMounted) return;
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
+    // Check initial scroll position
+    handleScroll();
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isMounted]);
 
   return (
     <motion.nav
@@ -234,13 +262,26 @@ export default function Navigation() {
               href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden lg:flex items-center justify-center px-6 py-2.5 bg-[#e3b53d] rounded-lg text-black font-bold text-lg leading-none hover:bg-[#c4ae5a] hover:shadow-lg hover:shadow-[#e3b53d]/25 transition-all duration-300 neon-button"
+              className="group/btn hidden lg:flex items-center justify-center px-6 py-3.5 rounded-lg text-black font-bold text-lg leading-none transition-all duration-300 relative overflow-hidden hover:scale-105 hover:shadow-lg hover:shadow-[#ffd700]/40"
+              style={{
+                background: "linear-gradient(160deg, #b8860b 0%, #daa520 20%, #ffd700 40%, #ffec8b 50%, #ffd700 60%, #daa520 80%, #b8860b 100%)",
+                boxShadow: "inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -2px 4px rgba(0,0,0,0.15), 0 2px 8px rgba(184,134,11,0.4)",
+              }}
             >
-              Join Us
+              {/* Animated shine effect */}
+              <span
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: "linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.5) 45%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.5) 55%, transparent 80%)",
+                  animation: "shine 3s ease-in-out infinite",
+                }}
+              />
+              <span className="relative z-10">Join Us</span>
             </Link>
 
             {/* Menu icon button - desktop */}
             <div
+              ref={menuButtonRef}
               className="relative hidden lg:block"
               onMouseEnter={() => {
                 setIsNavDropdownOpen(true);
@@ -255,7 +296,7 @@ export default function Navigation() {
               <motion.button
                 ref={liquid.containerRef}
                 onMouseMove={liquid.handleMouseMove}
-                className="group relative flex items-center justify-center w-11 h-11 rounded-lg border-2 border-[#e3b53d]/40 hover:border-[#e3b53d]/70 transition-colors duration-300 overflow-hidden"
+                className={`group relative flex items-center justify-center w-12 h-12 rounded-lg border-2 transition-colors duration-300 overflow-hidden ${isOnDarkLayer || isScrolled ? 'border-white' : 'border-black'}`}
               >
                 {/* Primary liquid blob - trails behind cursor with stretch morphing */}
                 <motion.div
@@ -302,21 +343,21 @@ export default function Navigation() {
                 {/* Hamburger lines with momentum-based animation */}
                 <div className="relative z-10 flex flex-col justify-center items-center w-5 h-5 gap-[5px]">
                   <motion.span
-                    className="block w-5 h-[2.5px] bg-gray-300 group-hover:bg-white transition-colors duration-300 origin-center"
+                    className={`block w-5 h-[2.5px] transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-black'}`}
                     style={{
                       scaleX: liquid.lineStretchTop,
                       x: liquid.lineOffsetTop,
                     }}
                   />
                   <motion.span
-                    className="block w-5 h-[2.5px] bg-gray-300 group-hover:bg-white transition-colors duration-300 origin-center"
+                    className={`block w-5 h-[2.5px] transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-black'}`}
                     style={{
                       scaleX: liquid.lineStretchMid,
                       x: liquid.lineOffsetMid,
                     }}
                   />
                   <motion.span
-                    className="block w-5 h-[2.5px] bg-gray-300 group-hover:bg-white transition-colors duration-300 origin-center"
+                    className={`block w-5 h-[2.5px] transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-black'}`}
                     style={{
                       scaleX: liquid.lineStretchTop,
                       x: liquid.lineOffsetTop,
