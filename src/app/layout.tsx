@@ -4,6 +4,7 @@ import "./globals.css";
 import ClientOnly from "@/components/ClientOnly";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,11 +43,13 @@ export default function RootLayout({
             <div className="min-h-screen bg-black" />
           }
         >
-          <Navigation />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <Footer />
+          <SmoothScroll>
+            <Navigation />
+            <main className="min-h-screen">
+              {children}
+            </main>
+            <Footer />
+          </SmoothScroll>
         </ClientOnly>
       </body>
     </html>
