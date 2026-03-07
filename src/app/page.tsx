@@ -21,6 +21,7 @@ import {
   Briefcase,
 } from "lucide-react";
 import CountUp from "@/components/CountUp";
+import TrackVideoScroll from "@/components/TrackVideoScroll";
 
 const PixelRevealOverlay = dynamic(() => import("@/components/PixelRevealOverlay"), {
   ssr: false,
@@ -385,6 +386,9 @@ export default function Home() {
             background: "linear-gradient(to bottom, transparent, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.9))"
           }}
         />
+
+        {/* Track Video Scroll Section */}
+        <TrackVideoScroll />
 
         {/* Stats Section - sticky scroll zone */}
         <div ref={statsRef} className="h-[280vh] relative">
