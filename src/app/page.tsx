@@ -114,10 +114,12 @@ export default function Home() {
 
   // 3D parallax tilt — high-damping springs for smooth settle
   const tiltSpring = { stiffness: 150, damping: 30, mass: 0.5 };
-  const tiltX = useSpring(0, tiltSpring); // rotateX (vertical mouse → pitch)
-  const tiltY = useSpring(0, tiltSpring); // rotateY (horizontal mouse → yaw)
-  const fgShiftX = useSpring(0, tiltSpring); // foreground text parallax X
-  const fgShiftY = useSpring(0, tiltSpring); // foreground text parallax Y
+  const bgTiltX = useSpring(0, tiltSpring); // background rotateX (±1°)
+  const bgTiltY = useSpring(0, tiltSpring); // background rotateY (±1°)
+  const fgTiltX = useSpring(0, tiltSpring); // foreground rotateX (±2°)
+  const fgTiltY = useSpring(0, tiltSpring); // foreground rotateY (±2°)
+  const fgShiftX = useSpring(0, tiltSpring); // foreground parallax X
+  const fgShiftY = useSpring(0, tiltSpring); // foreground parallax Y
 
   const handleHeroMouseMove = (e: React.MouseEvent) => {
     const rect = heroSectionRef.current?.getBoundingClientRect();
@@ -125,38 +127,42 @@ export default function Home() {
     // Normalize to -1..1 from center
     const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
     const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    // Subtle tilt: max ±2 degrees
-    tiltX.set(-ny * 2);
-    tiltY.set(nx * 2);
+    // Background tilt: ±1°, foreground tilt: ±2°
+    bgTiltX.set(-ny * 1);
+    bgTiltY.set(nx * 1);
+    fgTiltX.set(-ny * 2);
+    fgTiltY.set(nx * 2);
     // Foreground shifts faster for depth (max ±8px)
     fgShiftX.set(nx * 8);
     fgShiftY.set(ny * 8);
   };
 
   const handleHeroMouseLeave = () => {
-    tiltX.set(0);
-    tiltY.set(0);
+    bgTiltX.set(0);
+    bgTiltY.set(0);
+    fgTiltX.set(0);
+    fgTiltY.set(0);
     fgShiftX.set(0);
     fgShiftY.set(0);
   };
 
-  // Heading text fade in (stats section)
-  const headingOpacity = useTransform(statsProgress, [0.0, 0.12], [0, 1]);
-  const headingY = useTransform(statsProgress, [0.0, 0.12], [40, 0]);
+  // Heading text fade in (stats section) — fast
+  const headingOpacity = useTransform(statsProgress, [0.0, 0.05], [0, 1]);
+  const headingY = useTransform(statsProgress, [0.0, 0.05], [30, 0]);
 
-  // Horizontal accent line sweep
-  const lineWidth = useTransform(statsProgress, [0.08, 0.22], ["0%", "100%"]);
-  const lineOpacity = useTransform(statsProgress, [0.08, 0.14], [0, 1]);
+  // Horizontal accent line sweep — fast
+  const lineWidth = useTransform(statsProgress, [0.03, 0.1], ["0%", "100%"]);
+  const lineOpacity = useTransform(statsProgress, [0.03, 0.06], [0, 1]);
 
-  // Stat columns — staggered fade-in from left to right
-  const stat0Y = useTransform(statsProgress, [0.13, 0.26], [60, 0]);
-  const stat0Opacity = useTransform(statsProgress, [0.13, 0.26], [0, 1]);
+  // Stat columns — staggered fade-in, much faster
+  const stat0Y = useTransform(statsProgress, [0.06, 0.12], [40, 0]);
+  const stat0Opacity = useTransform(statsProgress, [0.06, 0.12], [0, 1]);
 
-  const stat1Y = useTransform(statsProgress, [0.18, 0.31], [60, 0]);
-  const stat1Opacity = useTransform(statsProgress, [0.18, 0.31], [0, 1]);
+  const stat1Y = useTransform(statsProgress, [0.08, 0.14], [40, 0]);
+  const stat1Opacity = useTransform(statsProgress, [0.08, 0.14], [0, 1]);
 
-  const stat2Y = useTransform(statsProgress, [0.23, 0.36], [60, 0]);
-  const stat2Opacity = useTransform(statsProgress, [0.23, 0.36], [0, 1]);
+  const stat2Y = useTransform(statsProgress, [0.10, 0.16], [40, 0]);
+  const stat2Opacity = useTransform(statsProgress, [0.10, 0.16], [0, 1]);
 
   const statAnimations = [
     { y: stat0Y, opacity: stat0Opacity },
@@ -165,20 +171,20 @@ export default function Home() {
   ];
 
   // Teams content fade in
-  const teamsContentOpacity = useTransform(teamsProgress, [0.0, 0.15], [0, 1]);
-  const teamsContentY = useTransform(teamsProgress, [0.0, 0.15], [40, 0]);
+  const teamsContentOpacity = useTransform(teamsProgress, [0.0, 0.06], [0, 1]);
+  const teamsContentY = useTransform(teamsProgress, [0.0, 0.06], [30, 0]);
 
   // Count-up triggers — fire when each stat becomes visible via scroll
   const [statRevealed, setStatRevealed] = useState([false, false, false]);
 
   useMotionValueEvent(stat0Opacity, "change", (v) => {
-    if (v > 0.7 && !statRevealed[0]) setStatRevealed((prev) => [true, prev[1], prev[2]]);
+    if (v > 0.5 && !statRevealed[0]) setStatRevealed((prev) => [true, prev[1], prev[2]]);
   });
   useMotionValueEvent(stat1Opacity, "change", (v) => {
-    if (v > 0.7 && !statRevealed[1]) setStatRevealed((prev) => [prev[0], true, prev[2]]);
+    if (v > 0.5 && !statRevealed[1]) setStatRevealed((prev) => [prev[0], true, prev[2]]);
   });
   useMotionValueEvent(stat2Opacity, "change", (v) => {
-    if (v > 0.7 && !statRevealed[2]) setStatRevealed((prev) => [prev[0], prev[1], true]);
+    if (v > 0.5 && !statRevealed[2]) setStatRevealed((prev) => [prev[0], prev[1], true]);
   });
 
   return (
@@ -199,19 +205,20 @@ export default function Home() {
           className="absolute inset-0"
           style={{
             y: heroY,
-            rotateX: tiltX,
-            rotateY: tiltY,
-            transformStyle: "preserve-3d",
           }}
         >
           {/* LAYER 1 — BACKGROUND: Holographic wireframe car (revealed through pixel mask) */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/HeroPageBackgroundHolographicVFXSVG.svg"
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ zIndex: 0 }}
-          />
+          <motion.div
+            className="absolute inset-0"
+            style={{ zIndex: 0, rotateX: bgTiltX, rotateY: bgTiltY }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/HeroPageBackgroundHolographicVFXSVG.svg"
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </motion.div>
 
           {/* Neon ring glow behind car */}
           <div
@@ -258,8 +265,8 @@ export default function Home() {
               style={{ right: "8%", top: "30%" }}
             >
               <span
-                className="block text-[10px] uppercase tracking-widest text-white/40 mb-1"
-                style={{ fontFamily: "var(--font-inter-tight), sans-serif" }}
+                className="block uppercase tracking-widest text-white/40 mb-1"
+                style={{ fontFamily: "var(--font-inter-tight), sans-serif", fontSize: "clamp(8px, 0.65vw, 12px)" }}
               >
                 0–60 mph
               </span>
@@ -276,8 +283,8 @@ export default function Home() {
               style={{ right: "4%", top: "35%" }}
             >
               <span
-                className="block text-[10px] uppercase tracking-widest text-white/40 mb-1"
-                style={{ fontFamily: "var(--font-inter-tight), sans-serif" }}
+                className="block uppercase tracking-widest text-white/40 mb-1"
+                style={{ fontFamily: "var(--font-inter-tight), sans-serif", fontSize: "clamp(8px, 0.65vw, 12px)" }}
               >
                 Peak Power
               </span>
@@ -294,8 +301,8 @@ export default function Home() {
               style={{ right: "12%", top: "55%" }}
             >
               <span
-                className="block text-[10px] uppercase tracking-widest text-white/40 mb-1"
-                style={{ fontFamily: "var(--font-inter-tight), sans-serif" }}
+                className="block uppercase tracking-widest text-white/40 mb-1"
+                style={{ fontFamily: "var(--font-inter-tight), sans-serif", fontSize: "clamp(8px, 0.65vw, 12px)" }}
               >
                 Battery
               </span>
@@ -312,8 +319,8 @@ export default function Home() {
               style={{ left: "6%", bottom: "18%" }}
             >
               <span
-                className="block text-[10px] uppercase tracking-widest text-white/40 mb-1"
-                style={{ fontFamily: "var(--font-inter-tight), sans-serif" }}
+                className="block uppercase tracking-widest text-white/40 mb-1"
+                style={{ fontFamily: "var(--font-inter-tight), sans-serif", fontSize: "clamp(8px, 0.65vw, 12px)" }}
               >
                 Weight
               </span>
@@ -332,6 +339,8 @@ export default function Home() {
             style={{
               opacity: foregroundOpacity,
               zIndex: 15,
+              rotateX: fgTiltX,
+              rotateY: fgTiltY,
               x: fgShiftX,
               y: fgShiftY,
             }}
@@ -339,6 +348,15 @@ export default function Home() {
             <PixelRevealOverlay foregroundSrc="/HeroPageBackgroundSVG.svg" />
           </motion.div>
         </motion.div>
+
+        {/* Vignette — hides tilt edge offsets */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            zIndex: 16,
+            boxShadow: "inset 0 0 80px 40px rgba(0, 0, 0, 0.85), inset 0 0 200px 80px rgba(0, 0, 0, 0.4)",
+          }}
+        />
 
         {/* Scroll indicator */}
         <motion.div
