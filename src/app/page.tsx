@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent, useSpring } from "framer-motion";
 import {
   Zap,
   Gauge,
@@ -85,6 +85,7 @@ const stats = [
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
+  const heroSectionRef = useRef<HTMLElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const teamsRef = useRef<HTMLDivElement>(null);
 
@@ -110,6 +111,34 @@ export default function Home() {
   const heroY = useTransform(heroProgress, [0, 1], [0, -150]);
   const foregroundOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
   const scrollIndicatorOpacity = useTransform(heroProgress, [0, 0.3], [1, 0]);
+
+  // 3D parallax tilt — high-damping springs for smooth settle
+  const tiltSpring = { stiffness: 150, damping: 30, mass: 0.5 };
+  const tiltX = useSpring(0, tiltSpring); // rotateX (vertical mouse → pitch)
+  const tiltY = useSpring(0, tiltSpring); // rotateY (horizontal mouse → yaw)
+  const fgShiftX = useSpring(0, tiltSpring); // foreground text parallax X
+  const fgShiftY = useSpring(0, tiltSpring); // foreground text parallax Y
+
+  const handleHeroMouseMove = (e: React.MouseEvent) => {
+    const rect = heroSectionRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    // Normalize to -1..1 from center
+    const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+    const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    // Subtle tilt: max ±2 degrees
+    tiltX.set(-ny * 2);
+    tiltY.set(nx * 2);
+    // Foreground shifts faster for depth (max ±8px)
+    fgShiftX.set(nx * 8);
+    fgShiftY.set(ny * 8);
+  };
+
+  const handleHeroMouseLeave = () => {
+    tiltX.set(0);
+    tiltY.set(0);
+    fgShiftX.set(0);
+    fgShiftY.set(0);
+  };
 
   // Heading text fade in (stats section)
   const headingOpacity = useTransform(statsProgress, [0.0, 0.12], [0, 1]);
@@ -158,9 +187,23 @@ export default function Home() {
       <div ref={heroRef} className="h-screen" />
 
       {/* Fixed Hero - stays in place while content scrolls over */}
-      <section className="fixed inset-0 h-screen overflow-hidden bg-black" style={{ zIndex: 0 }}>
-        {/* Parallax container - both layers move together */}
-        <motion.div className="absolute inset-0" style={{ y: heroY }}>
+      <section
+        ref={heroSectionRef}
+        className="fixed inset-0 h-screen overflow-hidden bg-black"
+        style={{ zIndex: 0, perspective: "1200px" }}
+        onMouseMove={handleHeroMouseMove}
+        onMouseLeave={handleHeroMouseLeave}
+      >
+        {/* Parallax container - both layers move together, with 3D tilt */}
+        <motion.div
+          className="absolute inset-0"
+          style={{
+            y: heroY,
+            rotateX: tiltX,
+            rotateY: tiltY,
+            transformStyle: "preserve-3d",
+          }}
+        >
           {/* LAYER 1 — BACKGROUND: Holographic wireframe car (revealed through pixel mask) */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -284,7 +327,15 @@ export default function Home() {
           </div>
 
           {/* LAYER 2 — FOREGROUND: Realistic car photo drawn on canvas, fades to reveal holographic */}
-          <motion.div className="absolute inset-0" style={{ opacity: foregroundOpacity, zIndex: 15 }}>
+          <motion.div
+            className="absolute inset-0"
+            style={{
+              opacity: foregroundOpacity,
+              zIndex: 15,
+              x: fgShiftX,
+              y: fgShiftY,
+            }}
+          >
             <PixelRevealOverlay foregroundSrc="/HeroPageBackgroundSVG.svg" />
           </motion.div>
         </motion.div>
