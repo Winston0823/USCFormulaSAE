@@ -146,23 +146,23 @@ export default function Home() {
     fgShiftY.set(0);
   };
 
-  // Heading text fade in (stats section) — fast
-  const headingOpacity = useTransform(statsProgress, [0.0, 0.05], [0, 1]);
-  const headingY = useTransform(statsProgress, [0.0, 0.05], [30, 0]);
+  // Heading text fade in (stats section) — immediate
+  const headingOpacity = useTransform(statsProgress, [0.0, 0.02], [0, 1]);
+  const headingY = useTransform(statsProgress, [0.0, 0.02], [20, 0]);
 
-  // Horizontal accent line sweep — fast
-  const lineWidth = useTransform(statsProgress, [0.03, 0.1], ["0%", "100%"]);
-  const lineOpacity = useTransform(statsProgress, [0.03, 0.06], [0, 1]);
+  // Horizontal accent line sweep — very fast
+  const lineWidth = useTransform(statsProgress, [0.01, 0.05], ["0%", "100%"]);
+  const lineOpacity = useTransform(statsProgress, [0.01, 0.03], [0, 1]);
 
-  // Stat columns — staggered fade-in, much faster
-  const stat0Y = useTransform(statsProgress, [0.06, 0.12], [40, 0]);
-  const stat0Opacity = useTransform(statsProgress, [0.06, 0.12], [0, 1]);
+  // Stat columns — staggered fade-in, very fast
+  const stat0Y = useTransform(statsProgress, [0.02, 0.06], [30, 0]);
+  const stat0Opacity = useTransform(statsProgress, [0.02, 0.06], [0, 1]);
 
-  const stat1Y = useTransform(statsProgress, [0.08, 0.14], [40, 0]);
-  const stat1Opacity = useTransform(statsProgress, [0.08, 0.14], [0, 1]);
+  const stat1Y = useTransform(statsProgress, [0.03, 0.07], [30, 0]);
+  const stat1Opacity = useTransform(statsProgress, [0.03, 0.07], [0, 1]);
 
-  const stat2Y = useTransform(statsProgress, [0.10, 0.16], [40, 0]);
-  const stat2Opacity = useTransform(statsProgress, [0.10, 0.16], [0, 1]);
+  const stat2Y = useTransform(statsProgress, [0.04, 0.08], [30, 0]);
+  const stat2Opacity = useTransform(statsProgress, [0.04, 0.08], [0, 1]);
 
   const statAnimations = [
     { y: stat0Y, opacity: stat0Opacity },
@@ -171,8 +171,8 @@ export default function Home() {
   ];
 
   // Teams content fade in
-  const teamsContentOpacity = useTransform(teamsProgress, [0.0, 0.06], [0, 1]);
-  const teamsContentY = useTransform(teamsProgress, [0.0, 0.06], [30, 0]);
+  const teamsContentOpacity = useTransform(teamsProgress, [0.0, 0.02], [0, 1]);
+  const teamsContentY = useTransform(teamsProgress, [0.0, 0.02], [20, 0]);
 
   // Count-up triggers — fire when each stat becomes visible via scroll
   const [statRevealed, setStatRevealed] = useState([false, false, false]);
@@ -354,7 +354,7 @@ export default function Home() {
           className="absolute inset-0 pointer-events-none"
           style={{
             zIndex: 16,
-            boxShadow: "inset 0 0 80px 40px rgba(0, 0, 0, 0.85), inset 0 0 200px 80px rgba(0, 0, 0, 0.4)",
+            boxShadow: "inset 0 0 80px 40px rgba(0, 0, 0, 1), inset 0 0 200px 80px rgba(0, 0, 0, 0.7)",
           }}
         />
 
