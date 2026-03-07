@@ -1,9 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
 import {
   Zap,
   Gauge,
@@ -20,6 +20,7 @@ import {
   Cpu,
   Briefcase,
 } from "lucide-react";
+import CountUp from "@/components/CountUp";
 
 const PixelRevealOverlay = dynamic(() => import("@/components/PixelRevealOverlay"), {
   ssr: false,
@@ -84,7 +85,8 @@ const stats = [
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const teamsRef = useRef<HTMLDivElement>(null);
 
   // Hero scroll tracking
   const { scrollYProgress: heroProgress } = useScroll({
@@ -92,9 +94,15 @@ export default function Home() {
     offset: ["start start", "end start"],
   });
 
-  // Carousel scroll tracking
-  const { scrollYProgress: carouselProgress } = useScroll({
-    target: carouselRef,
+  // Stats section scroll tracking
+  const { scrollYProgress: statsProgress } = useScroll({
+    target: statsRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Teams section scroll tracking
+  const { scrollYProgress: teamsProgress } = useScroll({
+    target: teamsRef,
     offset: ["start start", "end end"],
   });
 
@@ -103,14 +111,46 @@ export default function Home() {
   const foregroundOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
   const scrollIndicatorOpacity = useTransform(heroProgress, [0, 0.3], [1, 0]);
 
-  // Carousel horizontal slide + fade effects
-  // 0-40% = Stats visible and centered (hold)
-  // 40-60% = transition (Stats slides left + fades, Teams slides in + fades in)
-  // 60-100% = Teams visible and centered (hold)
-  const statsX = useTransform(carouselProgress, [0.4, 0.6], ["0%", "-100%"]);
-  const statsOpacity = useTransform(carouselProgress, [0.4, 0.6], [1, 0]);
-  const teamsX = useTransform(carouselProgress, [0.4, 0.6], ["100%", "0%"]);
-  const teamsOpacity = useTransform(carouselProgress, [0.4, 0.6], [0, 1]);
+  // Heading text fade in (stats section)
+  const headingOpacity = useTransform(statsProgress, [0.0, 0.12], [0, 1]);
+  const headingY = useTransform(statsProgress, [0.0, 0.12], [40, 0]);
+
+  // Horizontal accent line sweep
+  const lineWidth = useTransform(statsProgress, [0.08, 0.22], ["0%", "100%"]);
+  const lineOpacity = useTransform(statsProgress, [0.08, 0.14], [0, 1]);
+
+  // Stat columns — staggered fade-in from left to right
+  const stat0Y = useTransform(statsProgress, [0.13, 0.26], [60, 0]);
+  const stat0Opacity = useTransform(statsProgress, [0.13, 0.26], [0, 1]);
+
+  const stat1Y = useTransform(statsProgress, [0.18, 0.31], [60, 0]);
+  const stat1Opacity = useTransform(statsProgress, [0.18, 0.31], [0, 1]);
+
+  const stat2Y = useTransform(statsProgress, [0.23, 0.36], [60, 0]);
+  const stat2Opacity = useTransform(statsProgress, [0.23, 0.36], [0, 1]);
+
+  const statAnimations = [
+    { y: stat0Y, opacity: stat0Opacity },
+    { y: stat1Y, opacity: stat1Opacity },
+    { y: stat2Y, opacity: stat2Opacity },
+  ];
+
+  // Teams content fade in
+  const teamsContentOpacity = useTransform(teamsProgress, [0.0, 0.15], [0, 1]);
+  const teamsContentY = useTransform(teamsProgress, [0.0, 0.15], [40, 0]);
+
+  // Count-up triggers — fire when each stat becomes visible via scroll
+  const [statRevealed, setStatRevealed] = useState([false, false, false]);
+
+  useMotionValueEvent(stat0Opacity, "change", (v) => {
+    if (v > 0.7 && !statRevealed[0]) setStatRevealed((prev) => [true, prev[1], prev[2]]);
+  });
+  useMotionValueEvent(stat1Opacity, "change", (v) => {
+    if (v > 0.7 && !statRevealed[1]) setStatRevealed((prev) => [prev[0], true, prev[2]]);
+  });
+  useMotionValueEvent(stat2Opacity, "change", (v) => {
+    if (v > 0.7 && !statRevealed[2]) setStatRevealed((prev) => [prev[0], prev[1], true]);
+  });
 
   return (
     <div className="relative">
@@ -170,113 +210,157 @@ export default function Home() {
           }}
         />
 
-        {/* Carousel Section - horizontal scroll-jacked transition */}
-        <div ref={carouselRef} className="h-[350vh] relative">
-          {/* Sticky container - stays in viewport during scroll */}
+        {/* Stats Section - sticky scroll zone */}
+        <div ref={statsRef} className="h-[280vh] relative">
           <div className="sticky top-0 h-screen overflow-hidden bg-black">
-
-            {/* Performance Stats Section - slides out left, fades out */}
-            <motion.section
-              className="absolute inset-0 flex items-center justify-center bg-black overflow-hidden"
-              style={{ x: statsX, opacity: statsOpacity }}
-            >
+            <section className="absolute inset-0 flex items-center bg-black overflow-hidden">
               {/* Background effects */}
               <div className="absolute inset-0 circuit-pattern opacity-30" />
-              <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#8b0000]/10 rounded-full blur-[100px]" />
-              <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#e3b53d]/10 rounded-full blur-[100px]" />
+              <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#8b0000]/10 rounded-full blur-[120px]" />
+              <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#e3b53d]/8 rounded-full blur-[100px]" />
 
-              <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-                <div className="text-center mb-16">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
+              <div className="relative max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 w-full flex flex-col items-center justify-center h-full">
+
+                {/* Heading — centered */}
+                <motion.div
+                  className="text-center mb-6 sm:mb-10"
+                  style={{ opacity: headingOpacity, y: headingY }}
+                >
+                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-6">
                     <Target className="w-4 h-4 mr-2" />
                     PERFORMANCE TARGETS
                   </span>
-                  <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-                    Built for <span className="text-[#e3b53d]">Speed</span>
+                  <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-4 leading-[0.95]">
+                    Built for{" "}
+                    <span className="text-[#e3b53d] italic">Speed</span>
                   </h2>
-                  <p className="text-gray-400 max-w-2xl mx-auto font-secondary">
+                  <p className="text-gray-400 text-lg max-w-lg mx-auto font-secondary">
                     Our engineering targets push the boundaries of what&apos;s possible in Formula SAE competition
                   </p>
-                </div>
+                </motion.div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                  {stats.map((stat) => (
-                    <div key={stat.label} className="relative group">
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#e3b53d]/20 to-transparent rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="relative p-6 sm:p-8 rounded-2xl bg-white/5 border border-[#e3b53d]/20 backdrop-blur-sm hover:border-[#e3b53d]/50 transition-all duration-300">
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="text-[#e3b53d]">{stat.icon}</span>
-                          <Rocket className="w-4 h-4 text-gray-600" />
+                {/* Horizontal accent line — sweeps in */}
+                <motion.div
+                  className="h-px mb-10 sm:mb-14"
+                  style={{
+                    width: lineWidth,
+                    opacity: lineOpacity,
+                    background: "linear-gradient(90deg, transparent, rgba(227,181,61,0.4), rgba(227,181,61,0.6), rgba(227,181,61,0.4), transparent)",
+                  }}
+                />
+
+                {/* Stats row — 3 columns, massive numbers */}
+                <div className="grid grid-cols-1 md:grid-cols-3 w-full max-w-5xl">
+                  {stats.map((stat, i) => (
+                    <motion.div
+                      key={stat.label}
+                      className="group relative flex flex-col items-center text-center py-10 sm:py-14 px-6"
+                      style={{
+                        y: statAnimations[i].y,
+                        opacity: statAnimations[i].opacity,
+                      }}
+                    >
+                      {/* Vertical gold divider between columns */}
+                      {i > 0 && (
+                        <div
+                          className="absolute left-0 top-[15%] h-[70%] w-px hidden md:block"
+                          style={{
+                            background: "linear-gradient(180deg, transparent, rgba(227,181,61,0.25) 30%, rgba(227,181,61,0.25) 70%, transparent)",
+                          }}
+                        />
+                      )}
+
+                      {/* Icon */}
+                      <span className="text-[#e3b53d]/50 mb-5 group-hover:text-[#e3b53d] transition-colors duration-500">
+                        {stat.icon}
+                      </span>
+
+                      {/* Number — MASSIVE */}
+                      <span className="text-7xl sm:text-8xl lg:text-[110px] font-black text-white tracking-tighter leading-none transition-colors duration-700 group-hover:text-[#e3b53d]">
+                        <CountUp value={stat.value} active={statRevealed[i]} />
+                      </span>
+
+                      {/* Unit */}
+                      <span className="text-base sm:text-lg font-semibold text-[#e3b53d] tracking-[0.3em] mt-4 uppercase">
+                        {stat.unit}
+                      </span>
+
+                      {/* Label */}
+                      <span className="text-xs sm:text-sm text-gray-500 tracking-widest uppercase mt-2 font-secondary">
+                        {stat.label}
+                      </span>
+
+                      {/* Hover glow — radial gold aura behind the number */}
+                      <div
+                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl"
+                        style={{
+                          background: "radial-gradient(ellipse at center 45%, rgba(227,181,61,0.07) 0%, transparent 65%)",
+                        }}
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        {/* Teams Section - separate sticky scroll zone */}
+        <div ref={teamsRef} className="h-[250vh] relative">
+          <div className="sticky top-0 h-screen overflow-hidden bg-black flex items-center justify-center">
+            <motion.div
+              className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24"
+              style={{ opacity: teamsContentOpacity, y: teamsContentY }}
+            >
+              <div className="text-center mb-16">
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
+                  <Users className="w-4 h-4 mr-2" />
+                  OUR TEAMS
+                </span>
+                <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+                  Specialized <span className="text-[#e3b53d]">Divisions</span>
+                </h2>
+                <p className="text-gray-400 max-w-2xl mx-auto">
+                  Eight specialized teams working in harmony to create a championship-winning machine
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                {teams.map((team) => (
+                  <Link key={team.slug} href={`/teams/${team.slug}`}>
+                    <div className="group relative h-full p-6 rounded-2xl bg-white/5 border border-[#e3b53d]/20 backdrop-blur-sm hover:border-[#e3b53d]/50 transition-all duration-300 tech-card cursor-pointer overflow-hidden">
+                      {/* Background icon */}
+                      <div className="absolute -right-4 -bottom-4 text-[#e3b53d]/5 group-hover:text-[#e3b53d]/10 transition-colors duration-500">
+                        {team.icon}
+                      </div>
+
+                      <div className="relative">
+                        <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#e3b53d] transition-colors">
+                          {team.name}
+                        </h3>
+
+                        <p className="text-gray-400 text-sm leading-relaxed mb-4 font-secondary">{team.description}</p>
+
+                        <div className="flex items-center text-sm font-medium text-[#e3b53d] group-hover:translate-x-2 transition-transform duration-300">
+                          <span>Explore Team</span>
+                          <ArrowRight className="w-4 h-4 ml-1" />
                         </div>
-                        <div className="text-4xl sm:text-5xl font-black text-white mb-1">
-                          {stat.value}
-                          <span className="text-lg sm:text-xl font-medium text-[#e3b53d] ml-1">{stat.unit}</span>
-                        </div>
-                        <p className="text-gray-400 text-sm font-secondary">{stat.label}</p>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </div>
-            </motion.section>
-
-            {/* Teams Section - slides in from right, fades in */}
-            <motion.section
-              className="absolute inset-0 flex items-center justify-center bg-black overflow-hidden"
-              style={{ x: teamsX, opacity: teamsOpacity }}
-            >
-              <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-                <div className="text-center mb-16">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
-                    <Users className="w-4 h-4 mr-2" />
-                    OUR TEAMS
-                  </span>
-                  <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
-                    Specialized <span className="text-[#e3b53d]">Divisions</span>
-                  </h2>
-                  <p className="text-gray-400 max-w-2xl mx-auto">
-                    Eight specialized teams working in harmony to create a championship-winning machine
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {teams.map((team) => (
-                    <Link key={team.slug} href={`/teams/${team.slug}`}>
-                      <div className="group relative h-full p-6 rounded-2xl bg-white/5 border border-[#e3b53d]/20 backdrop-blur-sm hover:border-[#e3b53d]/50 transition-all duration-300 tech-card cursor-pointer overflow-hidden">
-                        {/* Background icon */}
-                        <div className="absolute -right-4 -bottom-4 text-[#e3b53d]/5 group-hover:text-[#e3b53d]/10 transition-colors duration-500">
-                          {team.icon}
-                        </div>
-
-                        <div className="relative">
-                          <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#e3b53d] transition-colors">
-                            {team.name}
-                          </h3>
-
-                          <p className="text-gray-400 text-sm leading-relaxed mb-4 font-secondary">{team.description}</p>
-
-                          <div className="flex items-center text-sm font-medium text-[#e3b53d] group-hover:translate-x-2 transition-transform duration-300">
-                            <span>Explore Team</span>
-                            <ArrowRight className="w-4 h-4 ml-1" />
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-
-                <div className="text-center mt-12">
-                  <Link
-                    href="/teams"
-                    className="inline-flex items-center px-8 py-4 rounded-full bg-white/5 border border-[#e3b53d]/30 text-white font-semibold hover:bg-white/10 hover:border-[#e3b53d]/50 transition-all duration-300"
-                  >
-                    View All Teams
-                    <ArrowRight className="w-5 h-5 ml-2" />
                   </Link>
-                </div>
+                ))}
               </div>
-            </motion.section>
 
+              <div className="text-center mt-12">
+                <Link
+                  href="/teams"
+                  className="inline-flex items-center px-8 py-4 rounded-full bg-white/5 border border-[#e3b53d]/30 text-white font-semibold hover:bg-white/10 hover:border-[#e3b53d]/50 transition-all duration-300"
+                >
+                  View All Teams
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Link>
+              </div>
+            </motion.div>
           </div>
         </div>
 
