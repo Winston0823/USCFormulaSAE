@@ -21,6 +21,7 @@ import {
   Briefcase,
 } from "lucide-react";
 import CountUp from "@/components/CountUp";
+import ScrollVideo from "@/components/ScrollVideo";
 
 const PixelRevealOverlay = dynamic(() => import("@/components/PixelRevealOverlay"), {
   ssr: false,
@@ -86,6 +87,7 @@ const stats = [
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const teamsRef = useRef<HTMLDivElement>(null);
 
@@ -104,6 +106,12 @@ export default function Home() {
   // Teams section scroll tracking
   const { scrollYProgress: teamsProgress } = useScroll({
     target: teamsRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Content container scroll progress — drives video playback
+  const { scrollYProgress: contentProgress } = useScroll({
+    target: contentRef,
     offset: ["start start", "end end"],
   });
 
@@ -376,8 +384,11 @@ export default function Home() {
         </motion.div>
       </section>
 
+      {/* Scroll-driven video background — visible behind post-hero sections */}
+      <ScrollVideo progress={contentProgress} />
+
       {/* Content Container - scrolls over the hero with drop shadow */}
-      <div className="relative" style={{ zIndex: 10 }}>
+      <div ref={contentRef} className="relative" style={{ zIndex: 10 }}>
         {/* Drop shadow that casts onto the hero below */}
         <div
           className="absolute inset-x-0 -top-32 h-32 pointer-events-none"
@@ -388,8 +399,8 @@ export default function Home() {
 
         {/* Stats Section - sticky scroll zone */}
         <div ref={statsRef} className="h-[280vh] relative">
-          <div className="sticky top-0 h-screen overflow-hidden bg-black">
-            <section className="absolute inset-0 flex items-center bg-black overflow-hidden">
+          <div className="sticky top-0 h-screen overflow-hidden bg-black/80">
+            <section className="absolute inset-0 flex items-center bg-black/80 overflow-hidden">
               {/* Background effects */}
               <div className="absolute inset-0 circuit-pattern opacity-30" />
               <div className="absolute top-0 left-0 w-[30vw] h-[30vw] max-w-[500px] max-h-[500px] bg-[#8b0000]/10 rounded-full blur-[120px]" />
@@ -483,7 +494,7 @@ export default function Home() {
 
         {/* Teams Section - separate sticky scroll zone */}
         <div ref={teamsRef} className="h-[250vh] relative">
-          <div className="sticky top-0 h-screen overflow-hidden bg-black flex items-center justify-center">
+          <div className="sticky top-0 h-screen overflow-hidden bg-black/80 flex items-center justify-center">
             <motion.div
               className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24"
               style={{ opacity: teamsContentOpacity, y: teamsContentY }}
@@ -541,7 +552,7 @@ export default function Home() {
         </div>
 
         {/* Sponsorship CTA Section */}
-        <section className="relative py-24 overflow-hidden bg-black">
+        <section className="relative py-24 overflow-hidden bg-black/80">
           {/* Animated background */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#8b0000]/10 via-black to-[#e3b53d]/10" />
           <div className="absolute inset-0 cyber-grid opacity-20" />
