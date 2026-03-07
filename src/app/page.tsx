@@ -127,11 +127,11 @@ export default function Home() {
     // Normalize to -1..1 from center
     const nx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
     const ny = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-    // Background tilt: ±1°, foreground tilt: ±2°
-    bgTiltX.set(-ny * 1);
-    bgTiltY.set(nx * 1);
-    fgTiltX.set(-ny * 2);
-    fgTiltY.set(nx * 2);
+    // Shared tilt: ±3.5°
+    bgTiltX.set(-ny * 3.5);
+    bgTiltY.set(nx * 3.5);
+    fgTiltX.set(-ny * 3.5);
+    fgTiltY.set(nx * 3.5);
     // Foreground shifts faster for depth (max ±8px)
     fgShiftX.set(nx * 8);
     fgShiftY.set(ny * 8);
@@ -200,25 +200,26 @@ export default function Home() {
         onMouseMove={handleHeroMouseMove}
         onMouseLeave={handleHeroMouseLeave}
       >
-        {/* Parallax container - both layers move together, with 3D tilt */}
+        {/* Parallax container - single tilt applied to all layers together */}
         <motion.div
           className="absolute inset-0"
           style={{
             y: heroY,
+            rotateX: bgTiltX,
+            rotateY: bgTiltY,
+            willChange: "transform",
+            transformStyle: "preserve-3d",
+            scale: 1.08,
           }}
         >
           {/* LAYER 1 — BACKGROUND: Holographic wireframe car (revealed through pixel mask) */}
-          <motion.div
-            className="absolute inset-0"
-            style={{ zIndex: 0, rotateX: bgTiltX, rotateY: bgTiltY }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/HeroPageBackgroundHolographicVFXSVG.svg"
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </motion.div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/HeroPageBackgroundHolographicVFXSVG.svg"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ zIndex: 0, willChange: "transform" }}
+          />
 
           {/* Neon ring glow behind car */}
           <div
@@ -339,10 +340,9 @@ export default function Home() {
             style={{
               opacity: foregroundOpacity,
               zIndex: 15,
-              rotateX: fgTiltX,
-              rotateY: fgTiltY,
               x: fgShiftX,
               y: fgShiftY,
+              willChange: "transform",
             }}
           >
             <PixelRevealOverlay foregroundSrc="/HeroPageBackgroundSVG.svg" />
