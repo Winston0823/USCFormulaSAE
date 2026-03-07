@@ -155,6 +155,12 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
         // Scale based on smaller of width/height ratio to handle all resolutions
         const scale = Math.min(w / 1920, h / 1080);
 
+        // Text glow for readability against dark/busy backgrounds
+        ctx.shadowColor = "rgba(0, 0, 0, 0.9)";
+        ctx.shadowBlur = 20 * scale;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 2 * scale;
+
         // Line 1
         const fontSize1 = Math.max(16, Math.round(44 * scale));
         ctx.font = `800 ${fontSize1}px "Rajdhani", sans-serif`;
@@ -166,13 +172,21 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
         ctx.font = `800 ${fontSize2}px "Rajdhani", sans-serif`;
         ctx.fillText("FORMULA ELECTRIC RACING TEAM", baseX, textY + fontSize1 * 1.2);
 
-        // Established year
+        // Established year — gold with its own glow
+        ctx.shadowColor = "rgba(227, 181, 61, 0.4)";
+        ctx.shadowBlur = 12 * scale;
+        ctx.shadowOffsetY = 0;
         const fontSize3 = Math.max(10, Math.round(18 * scale));
         ctx.font = `500 ${fontSize3}px "Rajdhani", sans-serif`;
         ctx.fillStyle = "#e3b53d";
         ctx.letterSpacing = "0.25em";
         ctx.fillText("EST. 2014", baseX, textY + fontSize1 * 1.2 + fontSize2 * 1.3);
 
+        // Reset shadow
+        ctx.shadowColor = "transparent";
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
       }
 
       if (!imgRef.current) {

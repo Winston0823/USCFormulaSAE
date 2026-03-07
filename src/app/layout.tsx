@@ -57,10 +57,12 @@ export default function RootLayout({
         >
           <SmoothScroll>
             <Navigation />
-            <main className="min-h-screen">
+            <main>
               {children}
             </main>
-            <Footer />
+            <div className="relative" style={{ zIndex: 10 }}>
+              <Footer />
+            </div>
           </SmoothScroll>
         </ClientOnly>
       </body>

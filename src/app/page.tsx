@@ -22,7 +22,6 @@ import {
 } from "lucide-react";
 import CountUp from "@/components/CountUp";
 import TrackVideoScroll from "@/components/TrackVideoScroll";
-import Footer from "@/components/Footer";
 
 const PixelRevealOverlay = dynamic(() => import("@/components/PixelRevealOverlay"), {
   ssr: false,
@@ -116,8 +115,8 @@ export default function Home() {
     offset: ["start start", "end end"],
   });
 
-  // Hero parallax effects
-  const heroY = useTransform(heroProgress, [0, 1], [0, -150]);
+  // Hero parallax effects — use vh for screen-size independence
+  const heroY = useTransform(heroProgress, [0, 1], ["0vh", "-15vh"]);
   const foregroundOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
   const scrollIndicatorOpacity = useTransform(heroProgress, [0, 0.3], [1, 0]);
 
@@ -144,9 +143,10 @@ export default function Home() {
     bgTiltY.set(nx * 3.5);
     fgTiltX.set(-ny * 3.5);
     fgTiltY.set(nx * 3.5);
-    // Foreground shifts faster for depth (max ±8px)
-    fgShiftX.set(nx * 8);
-    fgShiftY.set(ny * 8);
+    // Foreground shifts faster for depth (max ±0.5vw equivalent)
+    const shiftScale = window.innerWidth * 0.005;
+    fgShiftX.set(nx * shiftScale);
+    fgShiftY.set(ny * shiftScale);
   };
 
   const handleHeroMouseLeave = () => {
@@ -160,20 +160,20 @@ export default function Home() {
 
   // Heading text fade in (stats section) — immediate
   const headingOpacity = useTransform(statsProgress, [0.0, 0.02], [0, 1]);
-  const headingY = useTransform(statsProgress, [0.0, 0.02], [20, 0]);
+  const headingY = useTransform(statsProgress, [0.0, 0.02], ["2vh", "0vh"]);
 
   // Horizontal accent line sweep — very fast
   const lineWidth = useTransform(statsProgress, [0.01, 0.05], ["0%", "100%"]);
   const lineOpacity = useTransform(statsProgress, [0.01, 0.03], [0, 1]);
 
   // Stat columns — staggered fade-in, very fast
-  const stat0Y = useTransform(statsProgress, [0.02, 0.06], [30, 0]);
+  const stat0Y = useTransform(statsProgress, [0.02, 0.06], ["3vh", "0vh"]);
   const stat0Opacity = useTransform(statsProgress, [0.02, 0.06], [0, 1]);
 
-  const stat1Y = useTransform(statsProgress, [0.03, 0.07], [30, 0]);
+  const stat1Y = useTransform(statsProgress, [0.03, 0.07], ["3vh", "0vh"]);
   const stat1Opacity = useTransform(statsProgress, [0.03, 0.07], [0, 1]);
 
-  const stat2Y = useTransform(statsProgress, [0.04, 0.08], [30, 0]);
+  const stat2Y = useTransform(statsProgress, [0.04, 0.08], ["3vh", "0vh"]);
   const stat2Opacity = useTransform(statsProgress, [0.04, 0.08], [0, 1]);
 
   const statAnimations = [
@@ -184,7 +184,7 @@ export default function Home() {
 
   // Teams content fade in
   const teamsContentOpacity = useTransform(teamsProgress, [0.0, 0.02], [0, 1]);
-  const teamsContentY = useTransform(teamsProgress, [0.0, 0.02], [20, 0]);
+  const teamsContentY = useTransform(teamsProgress, [0.0, 0.02], ["2vh", "0vh"]);
 
   // Count-up triggers — fire when each stat becomes visible via scroll
   const [statRevealed, setStatRevealed] = useState([false, false, false]);
@@ -369,7 +369,7 @@ export default function Home() {
           className="absolute inset-0 pointer-events-none"
           style={{
             zIndex: 16,
-            boxShadow: "inset 0 0 80px 40px rgba(0, 0, 0, 1), inset 0 0 200px 80px rgba(0, 0, 0, 0.7)",
+            boxShadow: "inset 0 0 5vw 2.5vw rgba(0, 0, 0, 1), inset 0 0 12vw 5vw rgba(0, 0, 0, 0.7)",
           }}
         />
 
@@ -378,7 +378,7 @@ export default function Home() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.5 }}
-          style={{ opacity: scrollIndicatorOpacity, zIndex: 20, position: "absolute", bottom: 32, left: "50%", transform: "translateX(-50%)" }}
+          style={{ opacity: scrollIndicatorOpacity, zIndex: 20, position: "absolute", bottom: "3vh", left: "50%", transform: "translateX(-50%)" }}
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}
@@ -393,13 +393,16 @@ export default function Home() {
 
       {/* Content Container - scrolls over the hero with drop shadow */}
       <div ref={contentRef} className="relative" style={{ zIndex: 10 }}>
-        {/* Drop shadow that casts onto the hero below */}
+        {/* Fade-to-black overlay — smoothly covers the Hero as content scrolls up */}
         <div
-          className="absolute inset-x-0 -top-32 h-32 pointer-events-none"
+          className="absolute inset-x-0 -top-[50vh] h-[50vh] pointer-events-none"
           style={{
-            background: "linear-gradient(to bottom, transparent, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.9))"
+            background: "linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.85) 70%, #000000 100%)"
           }}
         />
+
+        {/* Solid black transition zone — fully hides the Hero before Stats begins */}
+        <div className="h-[70vh] bg-black" />
 
         {/* Stats Section - sticky scroll zone */}
         <div ref={statsRef} className="h-[150vh] relative">
@@ -584,8 +587,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Footer */}
-        <Footer />
       </div>
     </div>
   );
