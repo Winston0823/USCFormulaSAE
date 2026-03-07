@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import CountUp from "@/components/CountUp";
 import TrackVideoScroll from "@/components/TrackVideoScroll";
+import Footer from "@/components/Footer";
 
 const PixelRevealOverlay = dynamic(() => import("@/components/PixelRevealOverlay"), {
   ssr: false,
@@ -89,11 +90,18 @@ export default function Home() {
   const heroSectionRef = useRef<HTMLElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const teamsRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   // Hero scroll tracking
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
+  });
+
+  // Content area scroll tracking (for track video background)
+  const { scrollYProgress: contentProgress } = useScroll({
+    target: contentRef,
+    offset: ["start start", "end end"],
   });
 
   // Stats section scroll tracking
@@ -112,6 +120,9 @@ export default function Home() {
   const heroY = useTransform(heroProgress, [0, 1], [0, -150]);
   const foregroundOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
   const scrollIndicatorOpacity = useTransform(heroProgress, [0, 0.3], [1, 0]);
+
+  // Track video opacity - fades in after hero is scrolled past
+  const trackVideoOpacity = useTransform(heroProgress, [0.7, 1], [0, 1]);
 
   // 3D parallax tilt — high-damping springs for smooth settle
   const tiltSpring = { stiffness: 150, damping: 30, mass: 0.5 };
@@ -190,6 +201,9 @@ export default function Home() {
 
   return (
     <div className="relative">
+      {/* Track Video Fixed Background - visible behind content sections */}
+      <TrackVideoScroll scrollProgress={contentProgress} opacity={trackVideoOpacity} />
+
       {/* Hero Section Container - creates scroll tracking area */}
       <div ref={heroRef} className="h-screen" />
 
@@ -378,7 +392,7 @@ export default function Home() {
       </section>
 
       {/* Content Container - scrolls over the hero with drop shadow */}
-      <div className="relative" style={{ zIndex: 10 }}>
+      <div ref={contentRef} className="relative" style={{ zIndex: 10 }}>
         {/* Drop shadow that casts onto the hero below */}
         <div
           className="absolute inset-x-0 -top-32 h-32 pointer-events-none"
@@ -387,15 +401,12 @@ export default function Home() {
           }}
         />
 
-        {/* Track Video Scroll Section */}
-        <TrackVideoScroll />
-
         {/* Stats Section - sticky scroll zone */}
-        <div ref={statsRef} className="h-[280vh] relative">
-          <div className="sticky top-0 h-screen overflow-hidden bg-black">
-            <section className="absolute inset-0 flex items-center bg-black overflow-hidden">
+        <div ref={statsRef} className="h-[150vh] relative">
+          <div className="sticky top-0 h-screen overflow-hidden bg-black/80 backdrop-blur-sm">
+            <section className="absolute inset-0 flex items-center overflow-hidden">
               {/* Background effects */}
-              <div className="absolute inset-0 circuit-pattern opacity-30" />
+              <div className="absolute inset-0 circuit-pattern opacity-20" />
               <div className="absolute top-0 left-0 w-[30vw] h-[30vw] max-w-[500px] max-h-[500px] bg-[#8b0000]/10 rounded-full blur-[120px]" />
               <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#e3b53d]/8 rounded-full blur-[100px]" />
 
@@ -486,8 +497,8 @@ export default function Home() {
         </div>
 
         {/* Teams Section - separate sticky scroll zone */}
-        <div ref={teamsRef} className="h-[250vh] relative">
-          <div className="sticky top-0 h-screen overflow-hidden bg-black flex items-center justify-center">
+        <div ref={teamsRef} className="h-[150vh] relative">
+          <div className="sticky top-0 h-screen overflow-hidden bg-black/80 backdrop-blur-sm flex items-center justify-center">
             <motion.div
               className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24"
               style={{ opacity: teamsContentOpacity, y: teamsContentY }}
@@ -572,6 +583,9 @@ export default function Home() {
             </motion.div>
           </div>
         </section>
+
+        {/* Footer */}
+        <Footer />
       </div>
     </div>
   );
