@@ -8,6 +8,18 @@ const LERP = 0.1;
 const TRAIL_DECAY = 0.015; // ~1.5 second fade at 60fps
 const MIN_ALPHA = 0.01;    // Threshold to stop rendering pixel
 
+// Laser pulse constants
+const PULSE_SPEED = 900;      // px per second
+const PULSE_DURATION = 1.4;   // seconds
+const PULSE_THICKNESS = 50;   // ring width in px
+const MAX_PULSES = 3;         // max concurrent pulses
+
+interface ClickPulse {
+  x: number;
+  y: number;
+  time: number;
+}
+
 // Diagonal, non-axis-aligned waves break up the star/cross pattern
 function waterNoise(x: number, y: number, t: number): number {
   return (
@@ -30,6 +42,7 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
   const smoothRef = useRef({ x: -9999, y: -9999 });
   const imgRef = useRef<HTMLImageElement | null>(null);
   const pixelAlphaRef = useRef<Map<string, number>>(new Map());
+  const pulsesRef = useRef<ClickPulse[]>([]);
 
   useEffect(() => {
     if (foregroundSrc) {
@@ -68,6 +81,19 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
       };
     };
     window.addEventListener("mousemove", onMouseMove);
+
+    const onClick = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const pulse: ClickPulse = {
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+        time: performance.now() / 1000,
+      };
+      const pulses = pulsesRef.current;
+      pulses.push(pulse);
+      if (pulses.length > MAX_PULSES) pulses.shift();
+    };
+    window.addEventListener("mousedown", onClick);
 
     let raf: number;
 
@@ -195,6 +221,80 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
       ctx.globalAlpha = 1;
       ctx.globalCompositeOperation = "source-over";
 
+      // === LASER PULSE EFFECT ON CLICK ===
+      const pulses = pulsesRef.current;
+      // Remove expired pulses
+      for (let i = pulses.length - 1; i >= 0; i--) {
+        if (t - pulses[i].time > PULSE_DURATION) pulses.splice(i, 1);
+      }
+
+      if (pulses.length > 0) {
+        // Build edge pixel set — pixels that have at least one missing neighbor
+        const edgePixels: { px: number; py: number }[] = [];
+        for (const [key, alpha] of pixelAlpha) {
+          if (alpha < MIN_ALPHA) continue;
+          const [px, py] = key.split(",").map(Number);
+          const hasEmptyNeighbor =
+            !pixelAlpha.has(`${px - PIXEL_SIZE},${py}`) ||
+            !pixelAlpha.has(`${px + PIXEL_SIZE},${py}`) ||
+            !pixelAlpha.has(`${px},${py - PIXEL_SIZE}`) ||
+            !pixelAlpha.has(`${px},${py + PIXEL_SIZE}`) ||
+            (pixelAlpha.get(`${px - PIXEL_SIZE},${py}`) ?? 0) < MIN_ALPHA ||
+            (pixelAlpha.get(`${px + PIXEL_SIZE},${py}`) ?? 0) < MIN_ALPHA ||
+            (pixelAlpha.get(`${px},${py - PIXEL_SIZE}`) ?? 0) < MIN_ALPHA ||
+            (pixelAlpha.get(`${px},${py + PIXEL_SIZE}`) ?? 0) < MIN_ALPHA;
+          if (hasEmptyNeighbor) {
+            edgePixels.push({ px, py });
+          }
+        }
+
+        for (const pulse of pulses) {
+          const elapsed = t - pulse.time;
+          const pulseRadius = elapsed * PULSE_SPEED;
+          const pulseFade = 1 - elapsed / PULSE_DURATION;
+          const pulseFade2 = pulseFade * pulseFade; // quadratic falloff
+
+          // Draw faint shockwave ring
+          ctx.globalAlpha = pulseFade2 * 0.15;
+          ctx.strokeStyle = "#e3b53d";
+          ctx.lineWidth = 2;
+          ctx.beginPath();
+          ctx.arc(pulse.x, pulse.y, pulseRadius, 0, Math.PI * 2);
+          ctx.stroke();
+
+          // Light up edge pixels hit by the shockwave
+          for (const { px, py } of edgePixels) {
+            const cx = px + PIXEL_SIZE / 2;
+            const cy = py + PIXEL_SIZE / 2;
+            const d = Math.hypot(cx - pulse.x, cy - pulse.y);
+            const distFromRing = Math.abs(d - pulseRadius);
+
+            if (distFromRing < PULSE_THICKNESS) {
+              // Bell curve intensity based on distance from ring center
+              const intensity = Math.exp(-(distFromRing * distFromRing) / (PULSE_THICKNESS * 8));
+              const finalAlpha = intensity * pulseFade2;
+
+              // White-hot core
+              ctx.globalAlpha = finalAlpha * 0.9;
+              ctx.fillStyle = "#ffffff";
+              ctx.fillRect(px - 1, py - 1, PIXEL_SIZE + 2, PIXEL_SIZE + 2);
+
+              // Gold glow layer
+              ctx.globalAlpha = finalAlpha * 0.7;
+              ctx.fillStyle = "#e3b53d";
+              ctx.fillRect(px - 3, py - 3, PIXEL_SIZE + 6, PIXEL_SIZE + 6);
+
+              // Outer bloom
+              ctx.globalAlpha = finalAlpha * 0.25;
+              ctx.fillStyle = "#e3b53d";
+              ctx.fillRect(px - 6, py - 6, PIXEL_SIZE + 12, PIXEL_SIZE + 12);
+            }
+          }
+        }
+
+        ctx.globalAlpha = 1;
+      }
+
       raf = requestAnimationFrame(frame);
     }
 
@@ -204,6 +304,7 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mousedown", onClick);
     };
   }, []);
 

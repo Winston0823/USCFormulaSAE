@@ -196,14 +196,14 @@ export default function Home() {
           <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 4 }}>
             {/* Revealed text — appears when mask erases foreground */}
             <p
-              className="absolute text-white/90"
+              className="absolute text-white/90 uppercase"
               style={{
                 right: "6%",
                 top: "12%",
                 fontFamily: "var(--font-rajdhani), sans-serif",
-                fontWeight: 700,
-                fontSize: "clamp(0.9rem, 2.2vw, 2.5rem)",
-                letterSpacing: "0.03em",
+                fontWeight: 800,
+                fontSize: "clamp(1rem, 2.3vw, 2.75rem)",
+                letterSpacing: "0.05em",
               }}
             >
               Built by students. Driven by purpose. <span className="text-[#e3b53d]">Powered by electricity.</span>

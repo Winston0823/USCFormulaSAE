@@ -262,12 +262,13 @@ export default function Navigation() {
               href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="group/btn hidden lg:flex items-center justify-center px-6 py-3 rounded-lg text-[#e3b53d] font-semibold text-sm tracking-wide leading-none transition-all duration-300 relative overflow-hidden hover:scale-105 hover:text-black border border-[#e3b53d]/30 hover:border-[#e3b53d]/60"
+              className="group/btn hidden lg:flex items-center justify-center px-7 py-3.5 rounded-lg text-[#e3b53d] font-medium text-base tracking-widest leading-none transition-all duration-300 relative overflow-hidden hover:scale-105 hover:text-black border border-[#e3b53d]/30 hover:border-[#e3b53d]/60 uppercase"
               style={{
                 background: "rgba(0, 0, 0, 0.3)",
                 backdropFilter: "blur(12px)",
                 WebkitBackdropFilter: "blur(12px)",
-                fontFamily: "var(--font-inter-tight), sans-serif",
+                fontFamily: "var(--font-rajdhani), sans-serif",
+                letterSpacing: "0.25em",
               }}
             >
               {/* Liquid gold fill on hover */}
