@@ -262,13 +262,21 @@ export default function Navigation() {
               href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="group/btn hidden lg:flex items-center justify-center px-7 py-3.5 rounded-lg text-[#e3b53d] font-medium text-base tracking-widest leading-none transition-all duration-300 relative overflow-hidden hover:scale-105 hover:text-black border border-[#e3b53d]/30 hover:border-[#e3b53d]/60 uppercase"
+              className="group/btn hidden lg:flex items-center justify-center px-7 py-3.5 rounded-lg text-[#e3b53d] font-medium text-base tracking-widest leading-none transition-all duration-300 relative overflow-hidden hover:scale-105 hover:text-black border border-[#e3b53d]/20 hover:border-[#e3b53d]/50 uppercase"
               style={{
                 background: "rgba(0, 0, 0, 0.3)",
                 backdropFilter: "blur(12px)",
                 WebkitBackdropFilter: "blur(12px)",
                 fontFamily: "var(--font-rajdhani), sans-serif",
                 letterSpacing: "0.25em",
+                boxShadow: "0 0 0 0 rgba(227, 181, 61, 0), inset 0 0 0 0 rgba(227, 181, 61, 0)",
+                transition: "all 0.3s ease, box-shadow 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 20px rgba(227, 181, 61, 0.25), 0 0 40px rgba(227, 181, 61, 0.1), inset 0 0 12px rgba(227, 181, 61, 0.08)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 0 rgba(227, 181, 61, 0), inset 0 0 0 0 rgba(227, 181, 61, 0)";
               }}
             >
               {/* Liquid gold fill on hover */}
@@ -298,7 +306,7 @@ export default function Navigation() {
               <motion.button
                 ref={liquid.containerRef}
                 onMouseMove={liquid.handleMouseMove}
-                className={`group relative flex items-center justify-center w-12 h-12 rounded-lg border-2 transition-colors duration-300 overflow-hidden ${isOnDarkLayer || isScrolled ? 'border-white' : 'border-black'}`}
+                className={`group relative flex items-center justify-center w-12 h-12 rounded-lg border-2 transition-all duration-300 overflow-hidden hover:shadow-[0_0_16px_rgba(227,181,61,0.3)] hover:rotate-[6deg] ${isOnDarkLayer || isScrolled ? 'border-white hover:border-[#e3b53d]/60' : 'border-black hover:border-[#e3b53d]/60'}`}
               >
                 {/* Primary liquid blob - trails behind cursor with stretch morphing */}
                 <motion.div
@@ -345,21 +353,21 @@ export default function Navigation() {
                 {/* Hamburger lines with momentum-based animation */}
                 <div className="relative z-10 flex flex-col justify-center items-center w-5 h-5 gap-[5px]">
                   <motion.span
-                    className={`block w-5 h-[2.5px] transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-black'}`}
+                    className={`block w-5 h-[3px] rounded-full transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-black'}`}
                     style={{
                       scaleX: liquid.lineStretchTop,
                       x: liquid.lineOffsetTop,
                     }}
                   />
                   <motion.span
-                    className={`block w-5 h-[2.5px] transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-black'}`}
+                    className={`block w-5 h-[3px] rounded-full transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-black'}`}
                     style={{
                       scaleX: liquid.lineStretchMid,
                       x: liquid.lineOffsetMid,
                     }}
                   />
                   <motion.span
-                    className={`block w-5 h-[2.5px] transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-black'}`}
+                    className={`block w-5 h-[3px] rounded-full transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-black'}`}
                     style={{
                       scaleX: liquid.lineStretchTop,
                       x: liquid.lineOffsetTop,
