@@ -170,11 +170,118 @@ export default function Home() {
             style={{ zIndex: 0 }}
           />
 
+          {/* Neon ring glow behind car */}
+          <div
+            className="absolute pulse-glow"
+            style={{
+              zIndex: 1,
+              left: "50%",
+              top: "62%",
+              transform: "translate(-50%, -50%)",
+              width: "70vw",
+              height: "20vh",
+              borderRadius: "50%",
+              background: "radial-gradient(ellipse, rgba(227, 181, 61, 0.12) 0%, rgba(139, 0, 0, 0.08) 40%, transparent 70%)",
+              filter: "blur(30px)",
+            }}
+          />
+
           {/* Animated grid overlay */}
-          <div className="absolute inset-0 cyber-grid opacity-20" style={{ zIndex: 1 }} />
+          <div className="absolute inset-0 cyber-grid opacity-20" style={{ zIndex: 2 }} />
 
           {/* Scanlines effect */}
-          <div className="absolute inset-0 scanlines opacity-20" style={{ zIndex: 2 }} />
+          <div className="absolute inset-0 scanlines opacity-20" style={{ zIndex: 3 }} />
+
+          {/* REVEALED CONTENT — visible when foreground canvas is erased */}
+          <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 4 }}>
+            {/* Revealed text — appears when mask erases foreground */}
+            <p
+              className="absolute text-white/90"
+              style={{
+                right: "6%",
+                top: "12%",
+                fontFamily: "var(--font-rajdhani), sans-serif",
+                fontWeight: 700,
+                fontSize: "clamp(0.9rem, 2.2vw, 2.5rem)",
+                letterSpacing: "0.03em",
+              }}
+            >
+              Built by students. Driven by purpose. <span className="text-[#e3b53d]">Powered by electricity.</span>
+            </p>
+
+            {/* Telemetry stat boxes */}
+            <div
+              className="absolute glass rounded-lg px-3 py-2 sm:px-4 sm:py-3"
+              style={{ right: "8%", top: "30%" }}
+            >
+              <span
+                className="block text-[10px] uppercase tracking-widest text-white/40 mb-1"
+                style={{ fontFamily: "var(--font-inter-tight), sans-serif" }}
+              >
+                0–60 mph
+              </span>
+              <span
+                className="block text-lg sm:text-xl md:text-2xl font-bold text-[#e3b53d]"
+                style={{ fontFamily: "var(--font-jetbrains), monospace" }}
+              >
+                3.2s
+              </span>
+            </div>
+
+            <div
+              className="absolute glass rounded-lg px-3 py-2 sm:px-4 sm:py-3"
+              style={{ right: "4%", top: "35%" }}
+            >
+              <span
+                className="block text-[10px] uppercase tracking-widest text-white/40 mb-1"
+                style={{ fontFamily: "var(--font-inter-tight), sans-serif" }}
+              >
+                Peak Power
+              </span>
+              <span
+                className="block text-lg sm:text-xl md:text-2xl font-bold text-[#e3b53d]"
+                style={{ fontFamily: "var(--font-jetbrains), monospace" }}
+              >
+                80 kW
+              </span>
+            </div>
+
+            <div
+              className="absolute glass rounded-lg px-3 py-2 sm:px-4 sm:py-3"
+              style={{ right: "12%", top: "55%" }}
+            >
+              <span
+                className="block text-[10px] uppercase tracking-widest text-white/40 mb-1"
+                style={{ fontFamily: "var(--font-inter-tight), sans-serif" }}
+              >
+                Battery
+              </span>
+              <span
+                className="block text-lg sm:text-xl md:text-2xl font-bold text-[#e3b53d]"
+                style={{ fontFamily: "var(--font-jetbrains), monospace" }}
+              >
+                600V
+              </span>
+            </div>
+
+            <div
+              className="absolute glass rounded-lg px-3 py-2 sm:px-4 sm:py-3"
+              style={{ left: "6%", bottom: "18%" }}
+            >
+              <span
+                className="block text-[10px] uppercase tracking-widest text-white/40 mb-1"
+                style={{ fontFamily: "var(--font-inter-tight), sans-serif" }}
+              >
+                Weight
+              </span>
+              <span
+                className="block text-lg sm:text-xl md:text-2xl font-bold text-[#e3b53d]"
+                style={{ fontFamily: "var(--font-jetbrains), monospace" }}
+              >
+                230 kg
+              </span>
+            </div>
+          </div>
 
           {/* LAYER 2 — FOREGROUND: Realistic car photo drawn on canvas, fades to reveal holographic */}
           <motion.div className="absolute inset-0" style={{ opacity: foregroundOpacity, zIndex: 15 }}>
@@ -216,7 +323,7 @@ export default function Home() {
             <section className="absolute inset-0 flex items-center bg-black overflow-hidden">
               {/* Background effects */}
               <div className="absolute inset-0 circuit-pattern opacity-30" />
-              <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#8b0000]/10 rounded-full blur-[120px]" />
+              <div className="absolute top-0 left-0 w-[30vw] h-[30vw] max-w-[500px] max-h-[500px] bg-[#8b0000]/10 rounded-full blur-[120px]" />
               <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#e3b53d]/8 rounded-full blur-[100px]" />
 
               <div className="relative max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 w-full flex flex-col items-center justify-center h-full">
@@ -230,11 +337,11 @@ export default function Home() {
                     <Target className="w-4 h-4 mr-2" />
                     PERFORMANCE TARGETS
                   </span>
-                  <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white mb-4 leading-[0.95]">
-                    Built for{" "}
-                    <span className="text-[#e3b53d] italic">Speed</span>
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-[0.95]">
+                    Engineering the future,{" "}
+                    <span className="text-[#e3b53d] italic">one lap at a time.</span>
                   </h2>
-                  <p className="text-gray-400 text-lg max-w-lg mx-auto font-secondary">
+                  <p className="text-gray-400 text-base sm:text-lg max-w-lg mx-auto font-secondary">
                     Our engineering targets push the boundaries of what&apos;s possible in Formula SAE competition
                   </p>
                 </motion.div>
@@ -276,7 +383,7 @@ export default function Home() {
                       </span>
 
                       {/* Number — MASSIVE */}
-                      <span className="text-7xl sm:text-8xl lg:text-[110px] font-black text-white tracking-tighter leading-none transition-colors duration-700 group-hover:text-[#e3b53d]">
+                      <span className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[110px] font-black text-white tracking-tighter leading-none transition-colors duration-700 group-hover:text-[#e3b53d]">
                         <CountUp value={stat.value} active={statRevealed[i]} />
                       </span>
 
@@ -317,7 +424,7 @@ export default function Home() {
                   <Users className="w-4 h-4 mr-2" />
                   OUR TEAMS
                 </span>
-                <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
                   Specialized <span className="text-[#e3b53d]">Divisions</span>
                 </h2>
                 <p className="text-gray-400 max-w-2xl mx-auto">

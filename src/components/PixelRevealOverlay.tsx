@@ -37,6 +37,8 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
       img.src = foregroundSrc;
       img.onload = () => { imgRef.current = img; };
     }
+    // Ensure fonts are loaded for canvas text
+    document.fonts.ready.then(() => { /* fonts loaded, canvas will use them */ });
   }, [foregroundSrc]);
 
   useEffect(() => {
@@ -91,8 +93,63 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
       ctx.globalCompositeOperation = "source-over";
       ctx.globalAlpha = 1;
       if (imgRef.current) {
-        ctx.drawImage(imgRef.current, 0, 0, w, h);
-      } else {
+        // Mimic object-cover: scale image to cover canvas, centered
+        const img = imgRef.current;
+        const imgAspect = img.naturalWidth / img.naturalHeight;
+        const canvasAspect = w / h;
+        let sw = img.naturalWidth, sh = img.naturalHeight, sx = 0, sy = 0;
+        if (imgAspect > canvasAspect) {
+          sw = img.naturalHeight * canvasAspect;
+          sx = (img.naturalWidth - sw) / 2;
+        } else {
+          sh = img.naturalWidth / canvasAspect;
+          sy = (img.naturalHeight - sh) / 2;
+        }
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
+      }
+
+      // Dark gradient overlay — covers full hero, fades from left to right
+      {
+        const grad = ctx.createLinearGradient(0, 0, w, 0);
+        grad.addColorStop(0, "rgba(0, 0, 0, 0.7)");
+        grad.addColorStop(0.45, "rgba(0, 0, 0, 0.3)");
+        grad.addColorStop(0.75, "rgba(0, 0, 0, 0)");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+      }
+
+      // Positioning statement text — drawn on canvas so pixel mask erases it too
+      {
+        ctx.textAlign = "left";
+        ctx.textBaseline = "top";
+        ctx.letterSpacing = "0.05em";
+        const baseX = w * 0.06;
+        const textY = h * 0.58;
+
+        // Scale based on smaller of width/height ratio to handle all resolutions
+        const scale = Math.min(w / 1920, h / 1080);
+
+        // Line 1
+        const fontSize1 = Math.max(16, Math.round(44 * scale));
+        ctx.font = `800 ${fontSize1}px "Rajdhani", sans-serif`;
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText("USC'S PREMIER", baseX, textY);
+
+        // Line 2 — larger
+        const fontSize2 = Math.max(22, Math.round(72 * scale));
+        ctx.font = `800 ${fontSize2}px "Rajdhani", sans-serif`;
+        ctx.fillText("FORMULA ELECTRIC RACING TEAM", baseX, textY + fontSize1 * 1.2);
+
+        // Established year
+        const fontSize3 = Math.max(10, Math.round(18 * scale));
+        ctx.font = `500 ${fontSize3}px "Rajdhani", sans-serif`;
+        ctx.fillStyle = "#e3b53d";
+        ctx.letterSpacing = "0.25em";
+        ctx.fillText("EST. 2014", baseX, textY + fontSize1 * 1.2 + fontSize2 * 1.3);
+
+      }
+
+      if (!imgRef.current) {
         ctx.fillStyle = "#0f0f12";
         ctx.fillRect(0, 0, w, h);
       }

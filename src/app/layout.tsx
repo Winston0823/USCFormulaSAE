@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Rajdhani } from "next/font/google";
+import { Geist, Geist_Mono, Rajdhani, Inter_Tight, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import ClientOnly from "@/components/ClientOnly";
 import Navigation from "@/components/Navigation";
@@ -22,6 +22,18 @@ const rajdhani = Rajdhani({
   subsets: ["latin"],
 });
 
+const interTight = Inter_Tight({
+  variable: "--font-inter-tight",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains",
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   title: "USC Formula Electric | Racing Excellence",
   description: "University of Southern California Formula Electric Racing Team - Engineering the future of motorsport",
@@ -35,7 +47,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${rajdhani.variable} antialiased bg-black text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} ${rajdhani.variable} ${interTight.variable} ${jetbrainsMono.variable} antialiased bg-black text-white`}
         suppressHydrationWarning
       >
         <ClientOnly

@@ -232,8 +232,8 @@ export default function Navigation() {
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-black/95 backdrop-blur-md border-b border-[#e3b53d]/20"
-          : "bg-transparent"
+          ? "bg-black/40 backdrop-blur-xl border-b border-white/10"
+          : "bg-black/20 backdrop-blur-lg border-b border-white/5"
       }`}
     >
       <div className="w-full px-4 sm:px-6 lg:px-8">
@@ -262,18 +262,19 @@ export default function Navigation() {
               href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="group/btn hidden lg:flex items-center justify-center px-6 py-3.5 rounded-lg text-black font-bold text-lg leading-none transition-all duration-300 relative overflow-hidden hover:scale-105 hover:shadow-lg hover:shadow-[#ffd700]/40"
+              className="group/btn hidden lg:flex items-center justify-center px-6 py-3 rounded-lg text-[#e3b53d] font-semibold text-sm tracking-wide leading-none transition-all duration-300 relative overflow-hidden hover:scale-105 hover:text-black border border-[#e3b53d]/30 hover:border-[#e3b53d]/60"
               style={{
-                background: "linear-gradient(160deg, #b8860b 0%, #daa520 20%, #ffd700 40%, #ffec8b 50%, #ffd700 60%, #daa520 80%, #b8860b 100%)",
-                boxShadow: "inset 0 2px 4px rgba(255,255,255,0.5), inset 0 -2px 4px rgba(0,0,0,0.15), 0 2px 8px rgba(184,134,11,0.4)",
+                background: "rgba(0, 0, 0, 0.3)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
+                fontFamily: "var(--font-inter-tight), sans-serif",
               }}
             >
-              {/* Animated shine effect */}
+              {/* Liquid gold fill on hover */}
               <span
-                className="absolute inset-0 pointer-events-none"
+                className="absolute inset-0 pointer-events-none transition-transform duration-500 ease-out origin-left scale-x-0 group-hover/btn:scale-x-100"
                 style={{
-                  background: "linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.5) 45%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0.5) 55%, transparent 80%)",
-                  animation: "shine 3s ease-in-out infinite",
+                  background: "linear-gradient(90deg, #e3b53d, #daa520)",
                 }}
               />
               <span className="relative z-10">Join Us</span>
