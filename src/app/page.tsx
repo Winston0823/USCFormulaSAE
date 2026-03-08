@@ -373,6 +373,60 @@ export default function Home() {
           }}
         />
 
+        {/* Hero text — above vignette, reacts to tilt */}
+        <motion.div
+          className="absolute pointer-events-none"
+          style={{
+            zIndex: 17,
+            left: "6%",
+            top: "58%",
+            rotateX: fgTiltX,
+            rotateY: fgTiltY,
+            x: fgShiftX,
+            y: fgShiftY,
+            willChange: "transform",
+          }}
+        >
+          <p
+            className="text-white uppercase"
+            style={{
+              fontFamily: "var(--font-rajdhani), sans-serif",
+              fontWeight: 800,
+              fontSize: "clamp(1rem, 2.3vw, 2.75rem)",
+              letterSpacing: "0.05em",
+              textShadow: "0 2px 20px rgba(0, 0, 0, 0.9)",
+            }}
+          >
+            USC&apos;S PREMIER
+          </p>
+          <p
+            className="text-white uppercase"
+            style={{
+              fontFamily: "var(--font-rajdhani), sans-serif",
+              fontWeight: 800,
+              fontSize: "clamp(1.4rem, 3.75vw, 4.5rem)",
+              letterSpacing: "0.05em",
+              textShadow: "0 2px 20px rgba(0, 0, 0, 0.9)",
+              marginTop: "-0.1em",
+            }}
+          >
+            FORMULA ELECTRIC RACING TEAM
+          </p>
+          <p
+            className="text-[#e3b53d] uppercase"
+            style={{
+              fontFamily: "var(--font-rajdhani), sans-serif",
+              fontWeight: 500,
+              fontSize: "clamp(0.6rem, 0.95vw, 1.125rem)",
+              letterSpacing: "0.25em",
+              textShadow: "0 0 12px rgba(227, 181, 61, 0.4)",
+              marginTop: "0.5em",
+            }}
+          >
+            EST. 2014
+          </p>
+        </motion.div>
+
         {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}

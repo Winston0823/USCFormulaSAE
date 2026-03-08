@@ -34,15 +34,18 @@ function waterNoise(x: number, y: number, t: number): number {
 
 interface Props {
   foregroundSrc?: string;
+  onMaskUpdate?: (dataUrl: string) => void;
 }
 
-export default function PixelRevealOverlay({ foregroundSrc }: Props) {
+export default function PixelRevealOverlay({ foregroundSrc, onMaskUpdate }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const maskCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const mouseRef = useRef({ x: -9999, y: -9999 });
   const smoothRef = useRef({ x: -9999, y: -9999 });
   const imgRef = useRef<HTMLImageElement | null>(null);
   const pixelAlphaRef = useRef<Map<string, number>>(new Map());
   const pulsesRef = useRef<ClickPulse[]>([]);
+  const lastMaskUpdateRef = useRef<number>(0);
 
   useEffect(() => {
     if (foregroundSrc) {
@@ -165,12 +168,12 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
         const fontSize1 = Math.max(16, Math.round(44 * scale));
         ctx.font = `800 ${fontSize1}px "Rajdhani", sans-serif`;
         ctx.fillStyle = "#ffffff";
-        ctx.fillText("USC'S PREMIER", baseX, textY);
+        ctx.fillText("", baseX, textY);
 
         // Line 2 — larger
         const fontSize2 = Math.max(22, Math.round(72 * scale));
         ctx.font = `800 ${fontSize2}px "Rajdhani", sans-serif`;
-        ctx.fillText("FORMULA ELECTRIC RACING TEAM", baseX, textY + fontSize1 * 1.2);
+        ctx.fillText("", baseX, textY + fontSize1 * 1.2);
 
         // Established year — gold with its own glow
         ctx.shadowColor = "rgba(227, 181, 61, 0.4)";
@@ -180,7 +183,7 @@ export default function PixelRevealOverlay({ foregroundSrc }: Props) {
         ctx.font = `500 ${fontSize3}px "Rajdhani", sans-serif`;
         ctx.fillStyle = "#e3b53d";
         ctx.letterSpacing = "0.25em";
-        ctx.fillText("EST. 2014", baseX, textY + fontSize1 * 1.2 + fontSize2 * 1.3);
+        ctx.fillText("", baseX, textY + fontSize1 * 1.2 + fontSize2 * 1.3);
 
         // Reset shadow
         ctx.shadowColor = "transparent";
