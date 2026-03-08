@@ -306,7 +306,7 @@ export default function Navigation() {
               <motion.button
                 ref={liquid.containerRef}
                 onMouseMove={liquid.handleMouseMove}
-                className={`group relative flex items-center justify-center w-12 h-12 rounded-lg border-2 transition-all duration-300 overflow-hidden hover:shadow-[0_0_16px_rgba(227,181,61,0.3)] hover:rotate-[6deg] ${isOnDarkLayer || isScrolled ? 'border-white hover:border-[#e3b53d]/60' : 'border-black hover:border-[#e3b53d]/60'}`}
+                className={`group relative flex items-center justify-center w-12 h-12 rounded-lg border-2 transition-all duration-300 overflow-hidden hover:shadow-[0_0_16px_rgba(227,181,61,0.3)] hover:rotate-[6deg] ${isOnDarkLayer || isScrolled ? 'border-white hover:border-[#e3b53d]/60' : 'border-gray-400 hover:border-[#e3b53d]/60'}`}
               >
                 {/* Primary liquid blob - trails behind cursor with stretch morphing */}
                 <motion.div
@@ -353,21 +353,21 @@ export default function Navigation() {
                 {/* Hamburger lines with momentum-based animation */}
                 <div className="relative z-10 flex flex-col justify-center items-center w-5 h-5 gap-[5px]">
                   <motion.span
-                    className={`block w-5 h-[3px] rounded-full transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-black'}`}
+                    className={`block w-5 h-[3px] rounded-full transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-gray-400'}`}
                     style={{
                       scaleX: liquid.lineStretchTop,
                       x: liquid.lineOffsetTop,
                     }}
                   />
                   <motion.span
-                    className={`block w-5 h-[3px] rounded-full transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-black'}`}
+                    className={`block w-5 h-[3px] rounded-full transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-gray-400'}`}
                     style={{
                       scaleX: liquid.lineStretchMid,
                       x: liquid.lineOffsetMid,
                     }}
                   />
                   <motion.span
-                    className={`block w-5 h-[3px] rounded-full transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-black'}`}
+                    className={`block w-5 h-[3px] rounded-full transition-colors duration-300 origin-center ${isOnDarkLayer || isScrolled ? 'bg-white' : 'bg-gray-400'}`}
                     style={{
                       scaleX: liquid.lineStretchTop,
                       x: liquid.lineOffsetTop,
