@@ -406,80 +406,124 @@ export default function Home() {
         {/* Stats Section - sticky scroll zone */}
         <div ref={statsRef} className="h-[150vh] relative">
           <div className="sticky top-0 h-screen overflow-hidden bg-black/80 backdrop-blur-sm">
-            <section className="absolute inset-0 flex items-center overflow-hidden">
+            <section className="absolute inset-0 flex items-center justify-center overflow-hidden">
               {/* Background effects */}
               <div className="absolute inset-0 circuit-pattern opacity-20" />
               <div className="absolute top-0 left-0 w-[30vw] h-[30vw] max-w-[500px] max-h-[500px] bg-[#8b0000]/10 rounded-full blur-[120px]" />
-              <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#e3b53d]/8 rounded-full blur-[100px]" />
+              <div className="absolute bottom-0 right-1/4 w-[25vw] h-[25vw] bg-[#e3b53d]/8 rounded-full blur-[100px]" />
 
-              <div className="relative max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 w-full flex flex-col items-center justify-center h-full">
+              {/* Fluid container - scales with viewport, constrained by min/max */}
+              <div
+                className="relative w-full flex flex-col items-center justify-center"
+                style={{
+                  height: "clamp(400px, 75vh, 800px)",
+                  maxWidth: "min(90vw, 1200px)",
+                  padding: "clamp(1rem, 3vw, 2.5rem)",
+                }}
+              >
 
-                {/* Heading — centered */}
+                {/* Heading — centered, fluid typography */}
                 <motion.div
-                  className="text-center mb-6 sm:mb-10"
-                  style={{ opacity: headingOpacity, y: headingY }}
+                  className="text-center"
+                  style={{
+                    opacity: headingOpacity,
+                    y: headingY,
+                    marginBottom: "clamp(1rem, 3vh, 2.5rem)",
+                  }}
                 >
-                  <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-6">
-                    <Target className="w-4 h-4 mr-2" />
-                    PERFORMANCE TARGETS
-                  </span>
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-[0.95]">
+                  <h2
+                    className="font-bold text-white leading-[0.95]"
+                    style={{
+                      fontSize: "clamp(1.25rem, 3.8vw, 3rem)",
+                      marginBottom: "clamp(0.5rem, 1.5vh, 1rem)",
+                    }}
+                  >
                     Engineering the future,{" "}
                     <span className="text-[#e3b53d] italic">one lap at a time.</span>
                   </h2>
-                  <p className="text-gray-400 text-base sm:text-lg max-w-lg mx-auto font-secondary">
+                  <p
+                    className="text-gray-400 font-secondary mx-auto"
+                    style={{
+                      fontSize: "clamp(0.875rem, 1.4vw, 1.125rem)",
+                      maxWidth: "clamp(280px, 40vw, 520px)",
+                    }}
+                  >
                     Our engineering targets push the boundaries of what&apos;s possible in Formula SAE competition
                   </p>
                 </motion.div>
 
                 {/* Horizontal accent line — sweeps in */}
                 <motion.div
-                  className="h-px mb-10 sm:mb-14"
                   style={{
+                    height: "1px",
                     width: lineWidth,
                     opacity: lineOpacity,
+                    marginBottom: "clamp(1.5rem, 4vh, 3.5rem)",
                     background: "linear-gradient(90deg, transparent, rgba(227,181,61,0.4), rgba(227,181,61,0.6), rgba(227,181,61,0.4), transparent)",
                   }}
                 />
 
-                {/* Stats row — 3 columns, massive numbers */}
-                <div className="grid grid-cols-1 md:grid-cols-3 w-full max-w-5xl">
+                {/* Stats row — 3 columns, fluid scaling */}
+                <div
+                  className="grid grid-cols-3 w-full"
+                  style={{ maxWidth: "min(95%, 1000px)" }}
+                >
                   {stats.map((stat, i) => (
                     <motion.div
                       key={stat.label}
-                      className="group relative flex flex-col items-center text-center py-10 sm:py-14 px-6"
+                      className="group relative flex flex-col items-center text-center"
                       style={{
                         y: statAnimations[i].y,
                         opacity: statAnimations[i].opacity,
+                        padding: "clamp(1rem, 3vh, 3.5rem) clamp(0.5rem, 2vw, 1.5rem)",
                       }}
                     >
                       {/* Vertical gold divider between columns */}
                       {i > 0 && (
                         <div
-                          className="absolute left-0 top-[15%] h-[70%] w-px hidden md:block"
+                          className="absolute left-0 top-[15%] h-[70%] w-px"
                           style={{
                             background: "linear-gradient(180deg, transparent, rgba(227,181,61,0.25) 30%, rgba(227,181,61,0.25) 70%, transparent)",
                           }}
                         />
                       )}
 
-                      {/* Icon */}
-                      <span className="text-[#e3b53d]/50 mb-5 group-hover:text-[#e3b53d] transition-colors duration-500">
+                      {/* Icon — fluid size */}
+                      <span
+                        className="text-[#e3b53d]/50 group-hover:text-[#e3b53d] transition-colors duration-500 [&>svg]:w-[clamp(1.25rem,2vw,1.5rem)] [&>svg]:h-[clamp(1.25rem,2vw,1.5rem)]"
+                        style={{ marginBottom: "clamp(0.75rem, 1.5vh, 1.25rem)" }}
+                      >
                         {stat.icon}
                       </span>
 
-                      {/* Number — MASSIVE */}
-                      <span className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[110px] font-black text-white tracking-tighter leading-none transition-colors duration-700 group-hover:text-[#e3b53d]">
+                      {/* Number — MASSIVE, fluid scaling */}
+                      <span
+                        className="font-black text-white tracking-tighter leading-none transition-colors duration-700 group-hover:text-[#e3b53d]"
+                        style={{ fontSize: "clamp(2.5rem, 8vw, 7rem)" }}
+                      >
                         <CountUp value={stat.value} active={statRevealed[i]} />
                       </span>
 
-                      {/* Unit */}
-                      <span className="text-base sm:text-lg font-semibold text-[#e3b53d] tracking-[0.3em] mt-4 uppercase">
+                      {/* Unit — fluid */}
+                      <span
+                        className="font-semibold text-[#e3b53d] uppercase"
+                        style={{
+                          fontSize: "clamp(0.65rem, 1.2vw, 1.125rem)",
+                          letterSpacing: "0.3em",
+                          marginTop: "clamp(0.5rem, 1.5vh, 1rem)",
+                        }}
+                      >
                         {stat.unit}
                       </span>
 
-                      {/* Label */}
-                      <span className="text-xs sm:text-sm text-gray-500 tracking-widest uppercase mt-2 font-secondary">
+                      {/* Label — fluid */}
+                      <span
+                        className="text-gray-500 tracking-widest uppercase font-secondary"
+                        style={{
+                          fontSize: "clamp(0.5rem, 0.9vw, 0.875rem)",
+                          marginTop: "clamp(0.25rem, 0.5vh, 0.5rem)",
+                        }}
+                      >
                         {stat.label}
                       </span>
 
@@ -507,7 +551,7 @@ export default function Home() {
             >
               {/* Title area */}
               <div className="text-center px-4 mb-6">
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3">
+                <h2 className="font-bold text-white mb-3" style={{ fontSize: "clamp(1.25rem, 3.8vw, 3rem)" }}>
                   Specialized <span className="text-[#e3b53d]">Divisions</span>
                 </h2>
                 <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
