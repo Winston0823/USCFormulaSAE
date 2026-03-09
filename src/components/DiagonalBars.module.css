@@ -1,0 +1,252 @@
+.barsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  height: clamp(280px, 50vh, 480px);
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 60px;
+}
+
+.barItem {
+  position: relative;
+  height: 100%;
+  cursor: pointer;
+  margin: 0 -18px;
+  flex: 1 1 140px;
+  min-width: 80px;
+  transition: flex 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 1;
+  text-decoration: none;
+  display: block;
+}
+
+.barItem:hover {
+  z-index: 10;
+  flex: 3.5 1 400px;
+}
+
+.barsContainer:hover .barItem:not(:hover) {
+  flex: 0.5 1 60px;
+}
+
+.barShape {
+  position: absolute;
+  inset: 0;
+  background: #161616;
+  clip-path: polygon(60px 0%, 100% 0%, calc(100% - 60px) 100%, 0% 100%);
+  overflow: hidden;
+}
+
+.barBorder {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.barBorder polygon {
+  fill: none;
+  stroke: rgba(227, 181, 61, 0.3);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.3s ease, stroke-width 0.3s ease;
+}
+
+.barItem:hover .barBorder polygon {
+  stroke: #e3b53d;
+  stroke-width: 2;
+}
+
+.cornerAccent {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.topLeft {
+  border-top: 2px solid #e3b53d;
+  border-left: 2px solid #e3b53d;
+}
+
+.bottomRight {
+  border-bottom: 2px solid #e3b53d;
+  border-right: 2px solid #e3b53d;
+}
+
+.barVideo {
+  position: absolute;
+  top: -20px;
+  left: -80px;
+  right: -80px;
+  bottom: -20px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.barItem:hover .barVideo {
+  opacity: 1;
+}
+
+.videoPlaceholder {
+  position: absolute;
+  inset: 0;
+  background-size: 300% 300%;
+  animation: videoShimmer 4s ease infinite paused;
+}
+
+.barItem:hover .videoPlaceholder {
+  animation-play-state: running;
+}
+
+.barVideoOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 10, 0.2) 0%,
+    rgba(10, 10, 10, 0.05) 40%,
+    rgba(10, 10, 10, 0.6) 100%
+  );
+  z-index: 1;
+}
+
+.barLabel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-80deg) scale(1);
+  transform-origin: center center;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  white-space: nowrap;
+  color: white;
+  z-index: 6;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9);
+  will-change: transform;
+  text-transform: uppercase;
+}
+
+.barItem:hover .barLabel {
+  transform: translate(-50%, -50%) rotate(0deg) scale(1.6);
+}
+
+.barsContainer:hover .barItem:not(:hover) .barLabel {
+  transform: translate(-50%, -50%) rotate(-80deg) scale(0.7);
+  opacity: 0.35;
+}
+
+.barDescription {
+  position: absolute;
+  bottom: 36px;
+  left: 32px;
+  right: 32px;
+  font-size: 13px;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+  z-index: 6;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+  pointer-events: none;
+  margin: 0;
+}
+
+.barItem:hover .barDescription {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.barIndex {
+  position: absolute;
+  z-index: 6;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #e3b53d;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.barItem:hover .barIndex {
+  opacity: 1;
+}
+
+@keyframes videoShimmer {
+  0% {
+    background-position: 0% 0%;
+  }
+  25% {
+    background-position: 100% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .barItem,
+  .barLabel,
+  .barDescription,
+  .barVideo {
+    transition-duration: 0.01ms !important;
+  }
+  .videoPlaceholder {
+    animation-duration: 0.01ms !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  .barsContainer {
+    padding: 0 40px;
+    height: clamp(280px, 50vh, 450px);
+  }
+}
+
+@media (max-width: 768px) {
+  .barsContainer {
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 0 60px 24px 24px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .barItem {
+    flex: 0 0 90px;
+    min-width: 90px;
+    scroll-snap-align: start;
+  }
+
+  .barItem:hover {
+    flex: 0 0 280px;
+    min-width: 280px;
+  }
+
+  .barsContainer:hover .barItem:not(:hover) {
+    flex: 0 0 60px;
+    min-width: 60px;
+  }
+
+  .barDescription {
+    font-size: 12px;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+  }
+}
