@@ -413,14 +413,14 @@ export default function Home() {
             FORMULA ELECTRIC RACING TEAM
           </p>
           <p
-            className="text-[#e3b53d] uppercase"
+            className="text-[#f0c85a] uppercase"
             style={{
               fontFamily: "var(--font-rajdhani), sans-serif",
               fontWeight: 500,
               fontSize: "clamp(0.6rem, 0.95vw, 1.125rem)",
               letterSpacing: "0.25em",
-              textShadow: "0 0 12px rgba(227, 181, 61, 0.4)",
-              marginTop: "0.5em",
+              textShadow: "0 0 14px rgba(240, 200, 90, 0.5)",
+              marginTop: "0.2em",
             }}
           >
             EST. 2014
