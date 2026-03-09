@@ -100,23 +100,23 @@ export default function Home() {
     fgShiftY.set(0);
   };
 
-  // Heading text fade in (stats section) — immediate
-  const headingOpacity = useTransform(statsProgress, [0.0, 0.02], [0, 1]);
-  const headingY = useTransform(statsProgress, [0.0, 0.02], ["2vh", "0vh"]);
+  // Heading text fade in (stats section) — smooth entrance
+  const headingOpacity = useTransform(statsProgress, [0.05, 0.18], [0, 1]);
+  const headingY = useTransform(statsProgress, [0.05, 0.18], ["6vh", "0vh"]);
 
-  // Horizontal accent line sweep — very fast
-  const lineWidth = useTransform(statsProgress, [0.01, 0.05], ["0%", "100%"]);
-  const lineOpacity = useTransform(statsProgress, [0.01, 0.03], [0, 1]);
+  // Horizontal accent line sweep — follows heading
+  const lineWidth = useTransform(statsProgress, [0.15, 0.30], ["0%", "100%"]);
+  const lineOpacity = useTransform(statsProgress, [0.15, 0.22], [0, 1]);
 
-  // Stat columns — staggered fade-in, very fast
-  const stat0Y = useTransform(statsProgress, [0.02, 0.06], ["3vh", "0vh"]);
-  const stat0Opacity = useTransform(statsProgress, [0.02, 0.06], [0, 1]);
+  // Stat columns — staggered fade-in with clear separation
+  const stat0Y = useTransform(statsProgress, [0.22, 0.38], ["8vh", "0vh"]);
+  const stat0Opacity = useTransform(statsProgress, [0.22, 0.38], [0, 1]);
 
-  const stat1Y = useTransform(statsProgress, [0.03, 0.07], ["3vh", "0vh"]);
-  const stat1Opacity = useTransform(statsProgress, [0.03, 0.07], [0, 1]);
+  const stat1Y = useTransform(statsProgress, [0.32, 0.48], ["8vh", "0vh"]);
+  const stat1Opacity = useTransform(statsProgress, [0.32, 0.48], [0, 1]);
 
-  const stat2Y = useTransform(statsProgress, [0.04, 0.08], ["3vh", "0vh"]);
-  const stat2Opacity = useTransform(statsProgress, [0.04, 0.08], [0, 1]);
+  const stat2Y = useTransform(statsProgress, [0.42, 0.58], ["8vh", "0vh"]);
+  const stat2Opacity = useTransform(statsProgress, [0.42, 0.58], [0, 1]);
 
   const statAnimations = [
     { y: stat0Y, opacity: stat0Opacity },
@@ -124,9 +124,13 @@ export default function Home() {
     { y: stat2Y, opacity: stat2Opacity },
   ];
 
-  // Teams content fade in
-  const teamsContentOpacity = useTransform(teamsProgress, [0.0, 0.02], [0, 1]);
-  const teamsContentY = useTransform(teamsProgress, [0.0, 0.02], ["2vh", "0vh"]);
+  // Teams section — heading fades in first
+  const teamsHeadingOpacity = useTransform(teamsProgress, [0.05, 0.18], [0, 1]);
+  const teamsHeadingY = useTransform(teamsProgress, [0.05, 0.18], ["6vh", "0vh"]);
+
+  // Teams bars fade in after heading
+  const teamsBarsOpacity = useTransform(teamsProgress, [0.18, 0.35], [0, 1]);
+  const teamsBarsY = useTransform(teamsProgress, [0.18, 0.35], ["8vh", "0vh"]);
 
   // Count-up triggers — fire when each stat becomes visible via scroll
   const [statRevealed, setStatRevealed] = useState([false, false, false]);
@@ -545,25 +549,28 @@ export default function Home() {
         {/* Teams Section - separate sticky scroll zone */}
         <div ref={teamsRef} className="h-[150vh] relative">
           <div className="sticky top-0 h-screen overflow-hidden bg-black/80 backdrop-blur-sm">
-            <motion.div
-              className="relative w-full h-[calc(100vh-5rem)] mt-20 flex flex-col justify-center"
-              style={{ opacity: teamsContentOpacity, y: teamsContentY }}
-            >
-              {/* Title area */}
-              <div className="text-center px-4 mb-6">
+            <div className="relative w-full h-[calc(100vh-5rem)] mt-20 flex flex-col justify-center">
+              {/* Title area — fades in first */}
+              <motion.div
+                className="text-center px-4 mb-6"
+                style={{ opacity: teamsHeadingOpacity, y: teamsHeadingY }}
+              >
                 <h2 className="font-bold text-white mb-3" style={{ fontSize: "clamp(1.25rem, 3.8vw, 3rem)" }}>
                   Specialized <span className="text-[#e3b53d]">Divisions</span>
                 </h2>
                 <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
                   No matter your major, there&apos;s a team that sharpens your skills and puts them on the track
                 </p>
-              </div>
+              </motion.div>
 
-              {/* Bars area */}
-              <div className="w-full flex items-center justify-center">
+              {/* Bars area — fades in after heading */}
+              <motion.div
+                className="w-full flex items-center justify-center"
+                style={{ opacity: teamsBarsOpacity, y: teamsBarsY }}
+              >
                 <DiagonalBars />
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
         </div>
 
