@@ -273,7 +273,12 @@ export default function TeamPage() {
 
   // Scroll to top on page load
   useEffect(() => {
-    window.scrollTo(0, 0);
+    const lenis = (window as Window & { __lenis?: { scrollTo: (target: number) => void } }).__lenis;
+    if (lenis) {
+      lenis.scrollTo(0);
+    } else {
+      window.scrollTo(0, 0);
+    }
   }, [slug]);
 
   if (!team) {

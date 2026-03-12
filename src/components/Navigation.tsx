@@ -388,7 +388,12 @@ export default function Navigation() {
                             const el = document.getElementById(id);
                             if (el) {
                               e.preventDefault();
-                              el.scrollIntoView({ behavior: "smooth" });
+                              const lenis = (window as Window & { __lenis?: { scrollTo: (target: HTMLElement, opts?: { offset?: number }) => void } }).__lenis;
+                              if (lenis) {
+                                lenis.scrollTo(el, { offset: -80 });
+                              } else {
+                                el.scrollIntoView({ behavior: "smooth" });
+                              }
                             }
                           }
                         }}
@@ -434,7 +439,12 @@ export default function Navigation() {
                         const el = document.getElementById(id);
                         if (el) {
                           e.preventDefault();
-                          el.scrollIntoView({ behavior: "smooth" });
+                          const lenis = (window as Window & { __lenis?: { scrollTo: (target: HTMLElement, opts?: { offset?: number }) => void } }).__lenis;
+                          if (lenis) {
+                            lenis.scrollTo(el, { offset: -80 });
+                          } else {
+                            el.scrollIntoView({ behavior: "smooth" });
+                          }
                         }
                       }
                     }}

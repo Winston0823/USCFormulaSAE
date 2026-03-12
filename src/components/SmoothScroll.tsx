@@ -1,18 +1,30 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 
+// Expose lenis instance globally for programmatic scrolling
+declare global {
+  interface Window {
+    __lenis?: Lenis;
+  }
+}
+
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const lenisRef = useRef<Lenis | null>(null);
+
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.8,        // Duration of scroll animation (higher = slower feeling)
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Smooth easing
+      duration: 1.8,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 0.8,  // Reduce scroll speed (lower = slower)
+      wheelMultiplier: 0.8,
       touchMultiplier: 1.5,
     });
+
+    lenisRef.current = lenis;
+    window.__lenis = lenis;
 
     function raf(time: number) {
       lenis.raf(time);
@@ -21,22 +33,17 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
     requestAnimationFrame(raf);
 
-    // Handle hash scroll on page load and navigation
-    const scrollToHash = () => {
-      const hash = window.location.hash;
-      if (hash) {
-        const el = document.querySelector(hash);
-        if (el) {
-          setTimeout(() => lenis.scrollTo(el as HTMLElement, { offset: -80 }), 100);
-        }
+    // Handle hash on initial page load
+    const hash = window.location.hash;
+    if (hash) {
+      const el = document.querySelector(hash);
+      if (el) {
+        setTimeout(() => lenis.scrollTo(el as HTMLElement, { offset: -80 }), 300);
       }
-    };
-
-    scrollToHash();
-    window.addEventListener("hashchange", scrollToHash);
+    }
 
     return () => {
-      window.removeEventListener("hashchange", scrollToHash);
+      window.__lenis = undefined;
       lenis.destroy();
     };
   }, []);
