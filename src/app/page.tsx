@@ -15,6 +15,7 @@ import {
 import CountUp from "@/components/CountUp";
 import TrackVideoScroll from "@/components/TrackVideoScroll";
 import DiagonalBars from "@/components/DiagonalBars";
+import LoadingWrapper from "@/components/LoadingWrapper";
 
 const PixelRevealOverlay = dynamic(() => import("@/components/PixelRevealOverlay"), {
   ssr: false,
@@ -175,6 +176,7 @@ export default function Home() {
   });
 
   return (
+    <LoadingWrapper>
     <div className="relative">
       {/* Track Video Fixed Background - visible behind content sections */}
       <TrackVideoScroll scrollProgress={contentProgress} opacity={trackVideoOpacity} />
@@ -637,5 +639,6 @@ export default function Home() {
 
       </div>
     </div>
+    </LoadingWrapper>
   );
 }

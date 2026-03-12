@@ -5,7 +5,6 @@ import ClientOnly from "@/components/ClientOnly";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
-import LoadingWrapper from "@/components/LoadingWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -56,17 +55,15 @@ export default function RootLayout({
             <div className="min-h-screen bg-black" />
           }
         >
-          <LoadingWrapper>
-            <SmoothScroll>
-              <Navigation />
-              <main>
-                {children}
-              </main>
-              <div className="relative" style={{ zIndex: 10 }}>
-                <Footer />
-              </div>
-            </SmoothScroll>
-          </LoadingWrapper>
+          <SmoothScroll>
+            <Navigation />
+            <main>
+              {children}
+            </main>
+            <div className="relative" style={{ zIndex: 10 }}>
+              <Footer />
+            </div>
+          </SmoothScroll>
         </ClientOnly>
       </body>
     </html>
