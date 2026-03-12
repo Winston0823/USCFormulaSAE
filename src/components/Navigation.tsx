@@ -171,12 +171,7 @@ const teams = [
 const navItems = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
-  {
-    name: "Teams",
-    href: "/teams",
-    hasDropdown: true,
-    dropdownItems: teams.map(t => ({ name: t.name, href: `/teams/${t.slug}` }))
-  },
+  { name: "Teams", href: "/#teams" },
   { name: "Sponsors", href: "/sponsorship" },
   { name: "Contact", href: "/contact" },
 ];
