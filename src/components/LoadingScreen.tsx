@@ -314,6 +314,7 @@ export default function LoadingScreen({ onReady, heroReady = false }: LoadingScr
               width="186"
               height="178"
               viewBox="0 0 93 89"
+              overflow="visible"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               initial={{ filter: "drop-shadow(0 0 0px transparent)" }}
