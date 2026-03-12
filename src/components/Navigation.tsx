@@ -181,6 +181,7 @@ const REVEAL_RADIUS = 180; // Match PixelRevealOverlay radius
 export default function Navigation() {
   const [isMounted, setIsMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isPastHero, setIsPastHero] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isNavDropdownOpen, setIsNavDropdownOpen] = useState(false);
 
@@ -214,6 +215,8 @@ export default function Navigation() {
     if (!isMounted) return;
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+      // Check if scrolled past hero section (viewport height)
+      setIsPastHero(window.scrollY > window.innerHeight * 0.8);
     };
     // Check initial scroll position
     handleScroll();
@@ -225,10 +228,12 @@ export default function Navigation() {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-black/40 backdrop-blur-xl border-b border-white/10"
-          : "bg-black/20 backdrop-blur-lg border-b border-white/5"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        isPastHero
+          ? "bg-transparent backdrop-blur-none border-b border-transparent"
+          : isScrolled
+            ? "bg-black/40 backdrop-blur-xl border-b border-white/10"
+            : "bg-black/20 backdrop-blur-lg border-b border-white/5"
       }`}
     >
       <div className="w-full px-4 sm:px-6 lg:px-8">

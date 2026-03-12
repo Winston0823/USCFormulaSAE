@@ -56,9 +56,10 @@ export default function RootLayout({
             <div className="min-h-screen bg-black" />
           }
         >
+          {/* Navigation MUST be outside LoadingWrapper to avoid transform breaking position:fixed */}
+          <Navigation />
           <LoadingWrapper>
             <SmoothScroll>
-              <Navigation />
               <main>
                 {children}
               </main>
