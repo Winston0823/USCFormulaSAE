@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import LoadingScreen from "./LoadingScreen";
 
@@ -8,36 +8,15 @@ interface LoadingWrapperProps {
   children: ReactNode;
 }
 
-// Module-level flag to track if this is a fresh page load
-// This resets on hard refresh but persists during client-side navigation
-let hasLoadedInSession = false;
-
 export default function LoadingWrapper({ children }: LoadingWrapperProps) {
-  const [shouldShowLoader, setShouldShowLoader] = useState(false);
   const [isReady, setIsReady] = useState(false);
   const [showContent, setShowContent] = useState(false);
 
-  useEffect(() => {
-    // Only show loader on fresh page loads (refresh), not client-side navigation
-    if (!hasLoadedInSession) {
-      setShouldShowLoader(true);
-      hasLoadedInSession = true;
-    } else {
-      // Skip loading screen for client-side navigation
-      setIsReady(true);
-      setShowContent(true);
-    }
-  }, []);
-
   const handleReady = () => {
     setIsReady(true);
+    // Small delay before showing content to ensure smooth transition
     setTimeout(() => setShowContent(true), 50);
   };
-
-  // If not showing loader, render children immediately
-  if (!shouldShowLoader) {
-    return <>{children}</>;
-  }
 
   return (
     <>
@@ -76,7 +55,7 @@ export default function LoadingWrapper({ children }: LoadingWrapperProps) {
         )}
       </AnimatePresence>
 
-      {/* Hidden content for preloading */}
+      {/* Hidden content for preloading - prevents layout shift */}
       {!showContent && (
         <div
           style={{
