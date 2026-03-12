@@ -1,16 +1,16 @@
 "use client";
 
-import { useRef, useEffect, useCallback, useState } from "react";
-import { motion, MotionValue, useSpring } from "framer-motion";
+import { useRef, useEffect, useCallback, useState, type ReactNode } from "react";
+import { useScroll, useSpring } from "framer-motion";
 
 const FRAME_COUNT = 97;
 
 interface TrackVideoScrollProps {
-  scrollProgress: MotionValue<number>;
-  opacity: MotionValue<number>;
+  children: ReactNode;
 }
 
-export default function TrackVideoScroll({ scrollProgress, opacity }: TrackVideoScrollProps) {
+export default function TrackVideoScroll({ children }: TrackVideoScrollProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const framesRef = useRef<HTMLImageElement[]>([]);
   const lastFrameRef = useRef<number>(-1);
@@ -19,14 +19,19 @@ export default function TrackVideoScroll({ scrollProgress, opacity }: TrackVideo
   const imgDims = useRef({ w: 0, h: 0 });
   const [, forceRender] = useState(0);
 
-  const smoothProgress = useSpring(scrollProgress, {
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     mass: 0.5,
   });
 
   // Draw a frame with cover-fit: crops to fill the canvas viewport
-  const drawCover = useCallback((ctx: CanvasRenderingContext2D, img: HTMLImageElement | ImageBitmap) => {
+  const drawCover = useCallback((ctx: CanvasRenderingContext2D, img: HTMLImageElement) => {
     const canvas = ctx.canvas;
     const cw = canvas.width;
     const ch = canvas.height;
@@ -43,21 +48,19 @@ export default function TrackVideoScroll({ scrollProgress, opacity }: TrackVideo
     ctx.drawImage(img, sx, sy, sw, sh);
   }, []);
 
-  // Resize canvas to match screen
+  // Resize canvas to match viewport
   const resizeCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const dpr = window.devicePixelRatio || 1;
     canvas.width = window.innerWidth * dpr;
     canvas.height = window.innerHeight * dpr;
-    // Repaint current frame after resize
     lastFrameRef.current = -1;
   }, []);
 
-  // Preload all frame images on mount
+  // Preload all frame images
   useEffect(() => {
     const images: HTMLImageElement[] = [];
-
     for (let i = 1; i <= FRAME_COUNT; i++) {
       const img = new Image();
       img.src = `/track-frames/frame-${String(i).padStart(3, "0")}.jpg`;
@@ -77,17 +80,12 @@ export default function TrackVideoScroll({ scrollProgress, opacity }: TrackVideo
       };
       images.push(img);
     }
-
     framesRef.current = images;
   }, [resizeCanvas, drawCover]);
 
-  // Handle window resize
   useEffect(() => {
-    const handleResize = () => {
-      resizeCanvas();
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("resize", resizeCanvas);
+    return () => window.removeEventListener("resize", resizeCanvas);
   }, [resizeCanvas]);
 
   const paintFrame = useCallback(() => {
@@ -96,7 +94,7 @@ export default function TrackVideoScroll({ scrollProgress, opacity }: TrackVideo
     if (!isReady.current || !frames.length || !canvas) return;
 
     const idx = Math.min(
-      Math.floor(smoothProgress.get() * (frames.length - 1)),
+      Math.max(0, Math.floor(smoothProgress.get() * (frames.length - 1))),
       frames.length - 1
     );
 
@@ -107,7 +105,6 @@ export default function TrackVideoScroll({ scrollProgress, opacity }: TrackVideo
     if (ctx) drawCover(ctx, frames[idx]);
   }, [smoothProgress, drawCover]);
 
-  // rAF loop
   useEffect(() => {
     let raf: number;
     const loop = () => {
@@ -119,21 +116,26 @@ export default function TrackVideoScroll({ scrollProgress, opacity }: TrackVideo
   }, [paintFrame]);
 
   return (
-    <motion.div
-      className="fixed inset-0 overflow-hidden pointer-events-none bg-black"
-      style={{ zIndex: 1, opacity }}
-    >
-      <canvas
-        ref={canvasRef}
-        className="absolute inset-0 w-full h-full"
-      />
-      {/* Subtle overlay grid */}
-      <div className="absolute inset-0 cyber-grid opacity-10 pointer-events-none" />
-      {/* Vignette for depth */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{ boxShadow: "inset 0 0 10vw 4vw rgba(0,0,0,0.8)" }}
-      />
-    </motion.div>
+    <div ref={containerRef} className="relative">
+      {/* Sticky video background — viewport-sized, stays behind content */}
+      <div className="sticky top-0 h-screen overflow-hidden" style={{ zIndex: 0 }}>
+        <canvas
+          ref={canvasRef}
+          className="absolute inset-0 w-full h-full"
+        />
+        {/* Subtle overlay grid */}
+        <div className="absolute inset-0 cyber-grid opacity-10 pointer-events-none" />
+        {/* Vignette for depth */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{ boxShadow: "inset 0 0 10vw 4vw rgba(0,0,0,0.8)" }}
+        />
+      </div>
+
+      {/* Content scrolls over the sticky video — pulled up to overlap */}
+      <div className="relative" style={{ zIndex: 1, marginTop: "-100vh" }}>
+        {children}
+      </div>
+    </div>
   );
 }

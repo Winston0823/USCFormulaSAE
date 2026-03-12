@@ -63,12 +63,6 @@ export default function Home() {
     offset: ["start start", "end start"],
   });
 
-  // Content area scroll tracking (for track video background)
-  const { scrollYProgress: contentProgress } = useScroll({
-    target: contentRef,
-    offset: ["start start", "end end"],
-  });
-
   // Stats section scroll tracking
   const { scrollYProgress: statsProgress } = useScroll({
     target: statsRef,
@@ -85,9 +79,6 @@ export default function Home() {
   const heroY = useTransform(heroProgress, [0, 1], ["0vh", "-15vh"]);
   const foregroundOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
   const scrollIndicatorOpacity = useTransform(heroProgress, [0, 0.3], [1, 0]);
-
-  // Track video opacity - fades in after hero is scrolled past
-  const trackVideoOpacity = useTransform(heroProgress, [0.7, 1], [0, 1]);
 
   // 3D parallax tilt — high-damping springs for smooth settle
   const tiltSpring = { stiffness: 150, damping: 30, mass: 0.5 };
@@ -125,22 +116,22 @@ export default function Home() {
   };
 
   // Heading text fade in (stats section) — smooth entrance
-  const headingOpacity = useTransform(statsProgress, [0.05, 0.18], [0, 1]);
-  const headingY = useTransform(statsProgress, [0.05, 0.18], ["6vh", "0vh"]);
+  const headingOpacity = useTransform(statsProgress, [0.08, 0.22], [0, 1]);
+  const headingY = useTransform(statsProgress, [0.08, 0.22], ["4vh", "0vh"]);
 
   // Horizontal accent line sweep — follows heading
-  const lineWidth = useTransform(statsProgress, [0.15, 0.30], ["0%", "100%"]);
-  const lineOpacity = useTransform(statsProgress, [0.15, 0.22], [0, 1]);
+  const lineWidth = useTransform(statsProgress, [0.18, 0.32], ["0%", "100%"]);
+  const lineOpacity = useTransform(statsProgress, [0.18, 0.26], [0, 1]);
 
   // Stat columns — staggered fade-in with clear separation
-  const stat0Y = useTransform(statsProgress, [0.22, 0.38], ["8vh", "0vh"]);
-  const stat0Opacity = useTransform(statsProgress, [0.22, 0.38], [0, 1]);
+  const stat0Y = useTransform(statsProgress, [0.24, 0.40], ["6vh", "0vh"]);
+  const stat0Opacity = useTransform(statsProgress, [0.24, 0.40], [0, 1]);
 
-  const stat1Y = useTransform(statsProgress, [0.32, 0.48], ["8vh", "0vh"]);
+  const stat1Y = useTransform(statsProgress, [0.32, 0.48], ["6vh", "0vh"]);
   const stat1Opacity = useTransform(statsProgress, [0.32, 0.48], [0, 1]);
 
-  const stat2Y = useTransform(statsProgress, [0.42, 0.58], ["8vh", "0vh"]);
-  const stat2Opacity = useTransform(statsProgress, [0.42, 0.58], [0, 1]);
+  const stat2Y = useTransform(statsProgress, [0.40, 0.56], ["6vh", "0vh"]);
+  const stat2Opacity = useTransform(statsProgress, [0.40, 0.56], [0, 1]);
 
   const statAnimations = [
     { y: stat0Y, opacity: stat0Opacity },
@@ -171,9 +162,6 @@ export default function Home() {
 
   return (
     <div className="relative">
-      {/* Track Video Fixed Background - visible behind content sections */}
-      <TrackVideoScroll scrollProgress={contentProgress} opacity={trackVideoOpacity} />
-
       {/* Hero Section Container - creates scroll tracking area */}
       <div ref={heroRef} className="h-screen" />
 
@@ -430,10 +418,13 @@ export default function Home() {
         />
 
         {/* Solid black transition zone — fully hides the Hero before Stats begins */}
-        <div className="h-[70vh] bg-black" />
+        <div className="h-[4vh] bg-black" />
+
+        {/* Track Video sticky background — wraps stats + teams */}
+        <TrackVideoScroll>
 
         {/* Stats Section - sticky scroll zone */}
-        <div ref={statsRef} className="h-[150vh] relative">
+        <div ref={statsRef} className="h-[130vh] relative">
           <div className="sticky top-0 h-screen overflow-hidden bg-black/80 backdrop-blur-sm">
             <section className="absolute inset-0 flex items-center justify-center overflow-hidden">
               {/* Background effects */}
@@ -600,6 +591,8 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        </TrackVideoScroll>
 
         {/* Sponsorship CTA Section */}
         <section className="relative py-24 overflow-hidden bg-black">
