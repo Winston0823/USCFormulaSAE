@@ -35,9 +35,10 @@ function waterNoise(x: number, y: number, t: number): number {
 interface Props {
   foregroundSrc?: string;
   onMaskUpdate?: (dataUrl: string) => void;
+  onImageLoad?: () => void;
 }
 
-export default function PixelRevealOverlay({ foregroundSrc, onMaskUpdate }: Props) {
+export default function PixelRevealOverlay({ foregroundSrc, onMaskUpdate, onImageLoad }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const maskCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const mouseRef = useRef({ x: -9999, y: -9999 });
@@ -51,11 +52,14 @@ export default function PixelRevealOverlay({ foregroundSrc, onMaskUpdate }: Prop
     if (foregroundSrc) {
       const img = new Image();
       img.src = foregroundSrc;
-      img.onload = () => { imgRef.current = img; };
+      img.onload = () => {
+        imgRef.current = img;
+        onImageLoad?.();
+      };
     }
     // Ensure fonts are loaded for canvas text
     document.fonts.ready.then(() => { /* fonts loaded, canvas will use them */ });
-  }, [foregroundSrc]);
+  }, [foregroundSrc, onImageLoad]);
 
   useEffect(() => {
     const canvas = canvasRef.current;

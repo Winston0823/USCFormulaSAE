@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { motion, useScroll, useTransform, useMotionValueEvent, useSpring } from "framer-motion";
@@ -32,6 +32,35 @@ export default function Home() {
   const statsRef = useRef<HTMLDivElement>(null);
   const teamsRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  // Hero asset loading state
+  const [heroAssetsLoaded, setHeroAssetsLoaded] = useState({
+    holographic: false,
+    foreground: false,
+  });
+
+  // Signal loading complete when both hero images are loaded
+  const signalHeroLoaded = useCallback(() => {
+    const heroLoadedCallback = (window as Window & { __heroLoaded?: () => void }).__heroLoaded;
+    if (heroLoadedCallback) {
+      heroLoadedCallback();
+    }
+  }, []);
+
+  // Check if all hero assets are loaded
+  useEffect(() => {
+    if (heroAssetsLoaded.holographic && heroAssetsLoaded.foreground) {
+      signalHeroLoaded();
+    }
+  }, [heroAssetsLoaded, signalHeroLoaded]);
+
+  const handleHolographicLoad = useCallback(() => {
+    setHeroAssetsLoaded(prev => ({ ...prev, holographic: true }));
+  }, []);
+
+  const handleForegroundLoad = useCallback(() => {
+    setHeroAssetsLoaded(prev => ({ ...prev, foreground: true }));
+  }, []);
 
   // Hero scroll tracking
   const { scrollYProgress: heroProgress } = useScroll({
@@ -180,6 +209,7 @@ export default function Home() {
             alt=""
             className="absolute inset-0 w-full h-full object-cover"
             style={{ zIndex: 0, willChange: "transform" }}
+            onLoad={handleHolographicLoad}
           />
 
           {/* Neon ring glow behind car */}
@@ -306,7 +336,7 @@ export default function Home() {
               willChange: "transform",
             }}
           >
-            <PixelRevealOverlay foregroundSrc="/HeroPageBackgroundSVG.svg" />
+            <PixelRevealOverlay foregroundSrc="/HeroPageBackgroundSVG.svg" onImageLoad={handleForegroundLoad} />
           </motion.div>
         </motion.div>
 
@@ -548,6 +578,8 @@ export default function Home() {
 
         {/* Teams Section - separate sticky scroll zone */}
         <div ref={teamsRef} className="h-[150vh] relative">
+          {/* Anchor positioned ~40% into scroll zone so animations have completed when navigating here */}
+          <div id="teams" className="absolute top-[40%] scroll-mt-20" />
           <div className="sticky top-0 h-screen overflow-hidden bg-black/80 backdrop-blur-sm">
             <div className="relative w-full h-[calc(100vh-5rem)] mt-20 flex flex-col justify-center">
               {/* Title area — fades in first */}
