@@ -382,6 +382,16 @@ export default function Navigation() {
                       <Link
                         key={item.name}
                         href={item.href}
+                        onClick={(e) => {
+                          if (item.href.startsWith("/#")) {
+                            const id = item.href.slice(2);
+                            const el = document.getElementById(id);
+                            if (el) {
+                              e.preventDefault();
+                              el.scrollIntoView({ behavior: "smooth" });
+                            }
+                          }
+                        }}
                         className="block px-4 py-2 text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
                       >
                         {item.name}
@@ -417,7 +427,17 @@ export default function Navigation() {
                 <div key={item.name}>
                   <Link
                     href={item.href}
-                    onClick={() => setIsMobileMenuOpen(false)}
+                    onClick={(e) => {
+                      setIsMobileMenuOpen(false);
+                      if (item.href.startsWith("/#")) {
+                        const id = item.href.slice(2);
+                        const el = document.getElementById(id);
+                        if (el) {
+                          e.preventDefault();
+                          el.scrollIntoView({ behavior: "smooth" });
+                        }
+                      }
+                    }}
                     className="block text-lg text-gray-300 hover:text-white transition-colors py-2 border-b border-[#e3b53d]/10"
                   >
                     {item.name}

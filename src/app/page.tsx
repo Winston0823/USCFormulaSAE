@@ -221,14 +221,15 @@ export default function Home() {
           <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 4 }}>
             {/* Revealed text — appears when mask erases foreground */}
             <p
-              className="absolute text-white/90 uppercase"
+              className="absolute text-white/90 uppercase whitespace-nowrap text-right"
               style={{
-                right: "6%",
-                top: "12%",
+                right: "clamp(1rem, 4%, 3rem)",
+                top: "clamp(4rem, 18vh, 11rem)",
                 fontFamily: "var(--font-rajdhani), sans-serif",
                 fontWeight: 800,
-                fontSize: "clamp(1rem, 2.3vw, 2.75rem)",
+                fontSize: "clamp(0.75rem, 2.3vw, 2.75rem)",
                 letterSpacing: "0.05em",
+                lineHeight: 1.2,
               }}
             >
               Built by students. Driven by purpose. <span className="text-[#e3b53d]">Powered by electricity.</span>
@@ -564,8 +565,7 @@ export default function Home() {
 
         {/* Teams Section - separate sticky scroll zone */}
         <div ref={teamsRef} className="h-[150vh] relative">
-          {/* Anchor positioned ~40% into scroll zone so animations have completed when navigating here */}
-          <div id="teams" className="absolute top-[40%] scroll-mt-20" />
+          <div id="teams" className="absolute top-0 scroll-mt-20" />
           <div className="sticky top-0 h-screen overflow-hidden bg-black/80 backdrop-blur-sm">
             <div className="relative w-full h-[calc(100vh-5rem)] mt-20 flex flex-col justify-center">
               {/* Title area — fades in first */}

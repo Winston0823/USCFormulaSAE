@@ -317,18 +317,9 @@ export default function LoadingScreen({ onReady, heroReady = false }: LoadingScr
               overflow="visible"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              initial={{ filter: "drop-shadow(0 0 0px transparent)" }}
-              animate={{
-                filter: [
-                  `drop-shadow(0 0 20px ${USC_GOLD}40)`,
-                  `drop-shadow(0 0 40px ${USC_GOLD}60)`,
-                  `drop-shadow(0 0 20px ${USC_GOLD}40)`,
-                ]
-              }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
+              style={{
+                filter: `drop-shadow(0 0 30px ${USC_GOLD}50)`,
+                willChange: "transform",
               }}
             >
               {/* Plume - slides from top-left */}

@@ -21,7 +21,22 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
     requestAnimationFrame(raf);
 
+    // Handle hash scroll on page load and navigation
+    const scrollToHash = () => {
+      const hash = window.location.hash;
+      if (hash) {
+        const el = document.querySelector(hash);
+        if (el) {
+          setTimeout(() => lenis.scrollTo(el as HTMLElement, { offset: -80 }), 100);
+        }
+      }
+    };
+
+    scrollToHash();
+    window.addEventListener("hashchange", scrollToHash);
+
     return () => {
+      window.removeEventListener("hashchange", scrollToHash);
       lenis.destroy();
     };
   }, []);

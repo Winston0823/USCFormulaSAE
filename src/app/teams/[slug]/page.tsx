@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -269,6 +270,11 @@ export default function TeamPage() {
   const params = useParams();
   const slug = params.slug as string;
   const team = teamsData[slug];
+
+  // Scroll to top on page load
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
 
   if (!team) {
     return (
