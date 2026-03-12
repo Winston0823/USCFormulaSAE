@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, useCallback, useEffect, type ReactNode } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { LoadingContext } from "./LoadingContext";
 import LoadingScreen from "./LoadingScreen";
 
 interface LoadingWrapperProps {
@@ -11,6 +12,7 @@ interface LoadingWrapperProps {
 export default function LoadingWrapper({ children }: LoadingWrapperProps) {
   const [isReady, setIsReady] = useState(false);
   const [showContent, setShowContent] = useState(false);
+  const [heroReady, setHeroReady] = useState(false);
 
   const handleReady = () => {
     setIsReady(true);
@@ -18,10 +20,27 @@ export default function LoadingWrapper({ children }: LoadingWrapperProps) {
     setTimeout(() => setShowContent(true), 50);
   };
 
+  const signalReady = useCallback(() => {
+    setHeroReady(true);
+  }, []);
+
+  // 5-second failsafe — single source of truth
+  useEffect(() => {
+    const failsafe = setTimeout(() => {
+      setHeroReady((prev) => {
+        if (!prev) {
+          console.warn("LoadingWrapper: Failsafe triggered - forcing hero ready");
+        }
+        return true;
+      });
+    }, 5000);
+    return () => clearTimeout(failsafe);
+  }, []);
+
   return (
     <>
       {/* Loading Screen */}
-      <LoadingScreen onReady={handleReady} />
+      <LoadingScreen onReady={handleReady} heroReady={heroReady} />
 
       {/* Main Content - with zoom-in effect */}
       <AnimatePresence>
@@ -50,7 +69,9 @@ export default function LoadingWrapper({ children }: LoadingWrapperProps) {
               transformOrigin: "center center",
             }}
           >
-            {children}
+            <LoadingContext.Provider value={{ signalReady }}>
+              {children}
+            </LoadingContext.Provider>
           </motion.div>
         )}
       </AnimatePresence>
@@ -65,7 +86,9 @@ export default function LoadingWrapper({ children }: LoadingWrapperProps) {
             opacity: 0,
           }}
         >
-          {children}
+          <LoadingContext.Provider value={{ signalReady }}>
+            {children}
+          </LoadingContext.Provider>
         </div>
       )}
     </>

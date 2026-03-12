@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence, useSpring, useTransform } from "framer-motion";
 
 interface LoadingScreenProps {
   onReady?: () => void;
+  heroReady?: boolean;
 }
 
 // USC Brand Colors
@@ -224,9 +225,8 @@ function TelemetryData({ progress }: { progress: number }) {
   );
 }
 
-export default function LoadingScreen({ onReady }: LoadingScreenProps) {
+export default function LoadingScreen({ onReady, heroReady = false }: LoadingScreenProps) {
   const [isVisible, setIsVisible] = useState(true);
-  const [assetsLoaded, setAssetsLoaded] = useState(false);
   const [animationComplete, setAnimationComplete] = useState(false);
 
   // Simulated progress with spring physics
@@ -273,42 +273,23 @@ export default function LoadingScreen({ onReady }: LoadingScreenProps) {
     }, 1800);
   }, [progress]);
 
-  // Callback for when hero assets are loaded
-  const handleHeroLoaded = useCallback(() => {
-    setAssetsLoaded(true);
-    progress.set(100);
-  }, [progress]);
-
-  // Expose the loading callback globally for the page to call
+  // When heroReady becomes true, set progress to 100
   useEffect(() => {
-    (window as Window & { __heroLoaded?: () => void }).__heroLoaded = handleHeroLoaded;
-    return () => {
-      delete (window as Window & { __heroLoaded?: () => void }).__heroLoaded;
-    };
-  }, [handleHeroLoaded]);
+    if (heroReady) {
+      progress.set(100);
+    }
+  }, [heroReady, progress]);
 
-  // 5-second failsafe
+  // Dismiss loader when heroReady and animation complete — don't gate on spring value
   useEffect(() => {
-    const failsafe = setTimeout(() => {
-      if (!assetsLoaded) {
-        console.warn("LoadingScreen: Failsafe triggered - forcing ready state");
-        handleHeroLoaded();
-      }
-    }, 5000);
-
-    return () => clearTimeout(failsafe);
-  }, [assetsLoaded, handleHeroLoaded]);
-
-  // Dismiss loader when ready
-  useEffect(() => {
-    if (assetsLoaded && animationComplete && displayProgress >= 99) {
+    if (heroReady && animationComplete) {
       const timer = setTimeout(() => {
         setIsVisible(false);
         onReady?.();
-      }, 300);
+      }, 400);
       return () => clearTimeout(timer);
     }
-  }, [assetsLoaded, animationComplete, displayProgress, onReady]);
+  }, [heroReady, animationComplete, onReady]);
 
   return (
     <AnimatePresence>

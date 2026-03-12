@@ -15,6 +15,7 @@ import {
 import CountUp from "@/components/CountUp";
 import TrackVideoScroll from "@/components/TrackVideoScroll";
 import DiagonalBars from "@/components/DiagonalBars";
+import { useLoadingSignal } from "@/components/LoadingContext";
 
 const PixelRevealOverlay = dynamic(() => import("@/components/PixelRevealOverlay"), {
   ssr: false,
@@ -33,6 +34,8 @@ export default function Home() {
   const teamsRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
+  const { signalReady } = useLoadingSignal();
+
   // Hero asset loading state
   const [heroAssetsLoaded, setHeroAssetsLoaded] = useState({
     holographic: false,
@@ -40,19 +43,11 @@ export default function Home() {
   });
 
   // Signal loading complete when both hero images are loaded
-  const signalHeroLoaded = useCallback(() => {
-    const heroLoadedCallback = (window as Window & { __heroLoaded?: () => void }).__heroLoaded;
-    if (heroLoadedCallback) {
-      heroLoadedCallback();
-    }
-  }, []);
-
-  // Check if all hero assets are loaded
   useEffect(() => {
     if (heroAssetsLoaded.holographic && heroAssetsLoaded.foreground) {
-      signalHeroLoaded();
+      signalReady();
     }
-  }, [heroAssetsLoaded, signalHeroLoaded]);
+  }, [heroAssetsLoaded, signalReady]);
 
   const handleHolographicLoad = useCallback(() => {
     setHeroAssetsLoaded(prev => ({ ...prev, holographic: true }));
