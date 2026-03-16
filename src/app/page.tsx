@@ -21,16 +21,18 @@ const PixelRevealOverlay = dynamic(() => import("@/components/PixelRevealOverlay
   ssr: false,
 });
 
-const stats = [
-  { label: "Top Speed Target", value: "40", unit: "MPH", icon: <Gauge className="w-6 h-6" /> },
-  { label: "0-60 Acceleration", value: "4.2", unit: "SEC", icon: <Timer className="w-6 h-6" /> },
-  { label: "Team Members", value: "50+", unit: "ENGINEERS", icon: <Users className="w-6 h-6" /> },
+const engineeringStats = [
+  { label: "TOP SPEED TARGET", value: "40", unit: "MPH", icon: <Gauge className="w-6 h-6" /> },
+  { label: "0-60 ACCELERATION", value: "4.2", unit: "SEC", icon: <Timer className="w-6 h-6" /> },
 ];
+
+const teamStat = { label: "Team Members", value: "50+", unit: "ENGINEERS", icon: <Users className="w-6 h-6" /> };
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const engineersRef = useRef<HTMLDivElement>(null);
   const teamsRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -66,6 +68,12 @@ export default function Home() {
   // Stats section scroll tracking
   const { scrollYProgress: statsProgress } = useScroll({
     target: statsRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Engineers section scroll tracking
+  const { scrollYProgress: engineersProgress } = useScroll({
+    target: engineersRef,
     offset: ["start start", "end end"],
   });
 
@@ -123,21 +131,23 @@ export default function Home() {
   const lineWidth = useTransform(statsProgress, [0.18, 0.32], ["0%", "100%"]);
   const lineOpacity = useTransform(statsProgress, [0.18, 0.26], [0, 1]);
 
-  // Stat columns — staggered fade-in with clear separation
-  const stat0Y = useTransform(statsProgress, [0.24, 0.40], ["6vh", "0vh"]);
-  const stat0Opacity = useTransform(statsProgress, [0.24, 0.40], [0, 1]);
+  // Stat columns — staggered fade-in with clear separation (2 engineering stats)
+  const stat0Y = useTransform(statsProgress, [0.24, 0.42], ["6vh", "0vh"]);
+  const stat0Opacity = useTransform(statsProgress, [0.24, 0.42], [0, 1]);
 
-  const stat1Y = useTransform(statsProgress, [0.32, 0.48], ["6vh", "0vh"]);
-  const stat1Opacity = useTransform(statsProgress, [0.32, 0.48], [0, 1]);
-
-  const stat2Y = useTransform(statsProgress, [0.40, 0.56], ["6vh", "0vh"]);
-  const stat2Opacity = useTransform(statsProgress, [0.40, 0.56], [0, 1]);
+  const stat1Y = useTransform(statsProgress, [0.34, 0.52], ["6vh", "0vh"]);
+  const stat1Opacity = useTransform(statsProgress, [0.34, 0.52], [0, 1]);
 
   const statAnimations = [
     { y: stat0Y, opacity: stat0Opacity },
     { y: stat1Y, opacity: stat1Opacity },
-    { y: stat2Y, opacity: stat2Opacity },
   ];
+
+  // Engineers section — heading and content animations (smooth entrance)
+  const engineersHeadingOpacity = useTransform(engineersProgress, [0.08, 0.25], [0, 1]);
+  const engineersHeadingY = useTransform(engineersProgress, [0.08, 0.25], ["5vh", "0vh"]);
+  const engineersContentOpacity = useTransform(engineersProgress, [0.20, 0.42], [0, 1]);
+  const engineersContentY = useTransform(engineersProgress, [0.20, 0.42], ["8vh", "0vh"]);
 
   // Teams section — heading fades in first
   const teamsHeadingOpacity = useTransform(teamsProgress, [0.05, 0.18], [0, 1]);
@@ -148,16 +158,17 @@ export default function Home() {
   const teamsBarsY = useTransform(teamsProgress, [0.18, 0.35], ["8vh", "0vh"]);
 
   // Count-up triggers — fire when each stat becomes visible via scroll
-  const [statRevealed, setStatRevealed] = useState([false, false, false]);
+  const [statRevealed, setStatRevealed] = useState([false, false]);
+  const [engineersRevealed, setEngineersRevealed] = useState(false);
 
   useMotionValueEvent(stat0Opacity, "change", (v) => {
-    if (v > 0.5 && !statRevealed[0]) setStatRevealed((prev) => [true, prev[1], prev[2]]);
+    if (v > 0.5 && !statRevealed[0]) setStatRevealed((prev) => [true, prev[1]]);
   });
   useMotionValueEvent(stat1Opacity, "change", (v) => {
-    if (v > 0.5 && !statRevealed[1]) setStatRevealed((prev) => [prev[0], true, prev[2]]);
+    if (v > 0.5 && !statRevealed[1]) setStatRevealed((prev) => [prev[0], true]);
   });
-  useMotionValueEvent(stat2Opacity, "change", (v) => {
-    if (v > 0.5 && !statRevealed[2]) setStatRevealed((prev) => [prev[0], prev[1], true]);
+  useMotionValueEvent(engineersContentOpacity, "change", (v) => {
+    if (v > 0.5 && !engineersRevealed) setEngineersRevealed(true);
   });
 
   return (
@@ -386,7 +397,7 @@ export default function Home() {
               marginTop: "0.2em",
             }}
           >
-            EST. 2014
+            EST. 2022
           </p>
         </motion.div>
 
@@ -473,91 +484,189 @@ export default function Home() {
                   </p>
                 </motion.div>
 
-                {/* Horizontal accent line — sweeps in */}
+                {/* Horizontal accent line — laser pulse effect */}
                 <motion.div
+                  className="laser-line"
                   style={{
-                    height: "1px",
+                    height: "2px",
                     width: lineWidth,
                     opacity: lineOpacity,
                     marginBottom: "clamp(1.5rem, 4vh, 3.5rem)",
-                    background: "linear-gradient(90deg, transparent, rgba(227,181,61,0.4), rgba(227,181,61,0.6), rgba(227,181,61,0.4), transparent)",
+                    background: "linear-gradient(90deg, transparent, #e3b53d, #e3b53d, transparent)",
+                    borderRadius: "1px",
                   }}
                 />
 
-                {/* Stats row — 3 columns, fluid scaling */}
+                {/* Stats row — 2 columns for engineering targets */}
                 <div
-                  className="grid grid-cols-3 w-full"
-                  style={{ maxWidth: "min(95%, 1000px)" }}
+                  className="grid grid-cols-1 sm:grid-cols-2 w-full gap-6 sm:gap-0"
+                  style={{ maxWidth: "min(95%, 900px)" }}
                 >
-                  {stats.map((stat, i) => (
+                  {engineeringStats.map((stat, i) => (
                     <motion.div
                       key={stat.label}
                       className="group relative flex flex-col items-center text-center"
                       style={{
                         y: statAnimations[i].y,
                         opacity: statAnimations[i].opacity,
-                        padding: "clamp(1rem, 3vh, 3.5rem) clamp(0.5rem, 2vw, 1.5rem)",
+                        padding: "clamp(1.5rem, 4vh, 4rem) clamp(1.5rem, 4vw, 3rem)",
                       }}
                     >
-                      {/* Vertical gold divider between columns */}
+                      {/* Vertical gold divider between columns — hidden on mobile */}
                       {i > 0 && (
                         <div
-                          className="absolute left-0 top-[15%] h-[70%] w-px"
+                          className="absolute left-0 top-[10%] h-[80%] w-px hidden sm:block"
                           style={{
-                            background: "linear-gradient(180deg, transparent, rgba(227,181,61,0.25) 30%, rgba(227,181,61,0.25) 70%, transparent)",
+                            background: "linear-gradient(180deg, transparent, rgba(227,181,61,0.3) 30%, rgba(227,181,61,0.3) 70%, transparent)",
                           }}
                         />
                       )}
 
-                      {/* Icon — fluid size */}
-                      <span
-                        className="text-[#e3b53d]/50 group-hover:text-[#e3b53d] transition-colors duration-500 [&>svg]:w-[clamp(1.25rem,2vw,1.5rem)] [&>svg]:h-[clamp(1.25rem,2vw,1.5rem)]"
-                        style={{ marginBottom: "clamp(0.75rem, 1.5vh, 1.25rem)" }}
+                      {/* Header label with line accents */}
+                      <div
+                        className="relative z-10 flex items-center"
+                        style={{
+                          gap: "clamp(0.75rem, 2vw, 1.5rem)",
+                          marginBottom: "clamp(1rem, 3vh, 2rem)",
+                        }}
                       >
-                        {stat.icon}
-                      </span>
+                        <span
+                          className="h-px"
+                          style={{
+                            width: "clamp(2rem, 5vw, 4rem)",
+                            background: "linear-gradient(90deg, transparent, rgba(227,181,61,0.6))",
+                          }}
+                        />
+                        <span
+                          className="font-secondary text-gray-300 uppercase tracking-[0.2em]"
+                          style={{
+                            fontSize: "clamp(0.85rem, 1.6vw, 1.25rem)",
+                            fontWeight: 600,
+                          }}
+                        >
+                          {stat.label}
+                        </span>
+                        <span
+                          className="h-px"
+                          style={{
+                            width: "clamp(2rem, 5vw, 4rem)",
+                            background: "linear-gradient(90deg, rgba(227,181,61,0.6), transparent)",
+                          }}
+                        />
+                      </div>
 
                       {/* Number — MASSIVE, fluid scaling */}
                       <span
-                        className="font-black text-white tracking-tighter leading-none transition-colors duration-700 group-hover:text-[#e3b53d]"
-                        style={{ fontSize: "clamp(2.5rem, 8vw, 7rem)" }}
+                        className="relative z-10 font-black text-white tracking-tighter leading-none transition-colors duration-700 group-hover:text-[#e3b53d]"
+                        style={{ fontSize: "clamp(3.5rem, 12vw, 9rem)" }}
                       >
                         <CountUp value={stat.value} active={statRevealed[i]} />
                       </span>
 
-                      {/* Unit — fluid */}
+                      {/* Unit — fluid, more prominent */}
                       <span
-                        className="font-semibold text-[#e3b53d] uppercase"
+                        className="relative z-10 font-bold text-[#e3b53d] uppercase"
                         style={{
-                          fontSize: "clamp(0.65rem, 1.2vw, 1.125rem)",
-                          letterSpacing: "0.3em",
-                          marginTop: "clamp(0.5rem, 1.5vh, 1rem)",
+                          fontSize: "clamp(1rem, 2vw, 1.75rem)",
+                          letterSpacing: "0.2em",
+                          marginTop: "clamp(0.25rem, 1vh, 0.75rem)",
                         }}
                       >
                         {stat.unit}
-                      </span>
-
-                      {/* Label — fluid */}
-                      <span
-                        className="text-gray-500 tracking-widest uppercase font-secondary"
-                        style={{
-                          fontSize: "clamp(0.5rem, 0.9vw, 0.875rem)",
-                          marginTop: "clamp(0.25rem, 0.5vh, 0.5rem)",
-                        }}
-                      >
-                        {stat.label}
                       </span>
 
                       {/* Hover glow — radial gold aura behind the number */}
                       <div
                         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl"
                         style={{
-                          background: "radial-gradient(ellipse at center 45%, rgba(227,181,61,0.07) 0%, transparent 65%)",
+                          background: "radial-gradient(ellipse at center 50%, rgba(227,181,61,0.1) 0%, transparent 60%)",
                         }}
                       />
                     </motion.div>
                   ))}
                 </div>
+
+              </div>
+            </section>
+          </div>
+        </div>
+
+        {/* Engineers Section - separate sticky scroll zone */}
+        <div ref={engineersRef} className="h-[140vh] relative">
+          <div className="sticky top-0 h-screen overflow-hidden bg-black/80 backdrop-blur-sm">
+            <section className="absolute inset-0 flex items-center justify-center overflow-hidden">
+              {/* Background effects */}
+              <div className="absolute inset-0 circuit-pattern opacity-15" />
+              <div className="absolute top-1/4 right-0 w-[35vw] h-[35vw] max-w-[600px] max-h-[600px] bg-[#e3b53d]/5 rounded-full blur-[150px]" />
+              <div className="absolute bottom-0 left-1/4 w-[25vw] h-[25vw] bg-[#8b0000]/8 rounded-full blur-[100px]" />
+
+              {/* Content container */}
+              <div
+                className="relative w-full flex flex-col items-center justify-center px-4"
+                style={{ maxWidth: "min(90vw, 1000px)" }}
+              >
+                {/* Heading */}
+                <motion.div
+                  className="text-center"
+                  style={{
+                    opacity: engineersHeadingOpacity,
+                    y: engineersHeadingY,
+                    marginBottom: "clamp(1.5rem, 4vh, 3rem)",
+                  }}
+                >
+                  <h2
+                    className="font-bold text-white leading-tight"
+                    style={{ fontSize: "clamp(1.5rem, 4vw, 3.5rem)" }}
+                  >
+                    Built by <span className="text-[#e3b53d]">Students</span>
+                  </h2>
+                  <p
+                    className="text-gray-400 font-secondary mx-auto mt-3"
+                    style={{
+                      fontSize: "clamp(0.9rem, 1.5vw, 1.25rem)",
+                      maxWidth: "clamp(280px, 50vw, 600px)",
+                    }}
+                  >
+                    A passionate team of engineers, designers, and innovators pushing the limits of electric motorsport
+                  </p>
+                </motion.div>
+
+                {/* Large number display */}
+                <motion.div
+                  className="relative flex flex-col items-center"
+                  style={{ opacity: engineersContentOpacity, y: engineersContentY }}
+                >
+                  {/* Number */}
+                  <span
+                    className="relative z-10 font-black text-[#e3b53d] tracking-tighter leading-none"
+                    style={{ fontSize: "clamp(5rem, 20vw, 14rem)" }}
+                  >
+                    <CountUp value={teamStat.value} active={engineersRevealed} />
+                  </span>
+
+                  {/* Label */}
+                  <span
+                    className="relative z-10 font-semibold text-white uppercase"
+                    style={{
+                      fontSize: "clamp(1rem, 2.5vw, 1.75rem)",
+                      letterSpacing: "0.25em",
+                      marginTop: "clamp(0.25rem, 1vh, 0.75rem)",
+                    }}
+                  >
+                    {teamStat.unit}
+                  </span>
+
+                  {/* Subtitle */}
+                  <span
+                    className="relative z-10 text-gray-500 font-secondary text-center"
+                    style={{
+                      fontSize: "clamp(0.85rem, 1.4vw, 1.1rem)",
+                      marginTop: "clamp(0.75rem, 2vh, 1.5rem)",
+                    }}
+                  >
+                    across all divisions
+                  </span>
+                </motion.div>
               </div>
             </section>
           </div>

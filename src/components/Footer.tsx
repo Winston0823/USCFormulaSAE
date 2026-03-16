@@ -44,7 +44,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <FooterLink href="/">Home</FooterLink>
               <FooterLink href="/about">About Us</FooterLink>
-              <FooterLink href="/teams">Our Teams</FooterLink>
+              <FooterLink href="/#teams">Our Teams</FooterLink>
               <FooterLink href="/sponsorship">Sponsorship</FooterLink>
               <FooterLink href="/contact">Contact</FooterLink>
             </ul>

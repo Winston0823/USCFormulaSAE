@@ -262,28 +262,28 @@ export default function Navigation() {
               href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="group/btn hidden lg:flex items-center justify-center px-7 py-3.5 rounded-lg text-[#e3b53d] font-medium text-base tracking-widest leading-none transition-all duration-300 relative overflow-hidden hover:scale-105 hover:text-black border border-[#e3b53d]/20 hover:border-[#e3b53d]/50 uppercase"
+              className="group/btn hidden lg:flex items-center justify-center px-7 py-3.5 rounded-lg text-black font-semibold text-base tracking-widest leading-none transition-all duration-300 relative overflow-hidden hover:scale-105 hover:text-[#e3b53d] border border-[#e3b53d] hover:border-[#e3b53d] uppercase"
               style={{
-                background: "rgba(0, 0, 0, 0.3)",
+                background: "linear-gradient(90deg, #e3b53d, #daa520)",
                 backdropFilter: "blur(12px)",
                 WebkitBackdropFilter: "blur(12px)",
                 fontFamily: "var(--font-rajdhani), sans-serif",
                 letterSpacing: "0.25em",
-                boxShadow: "0 0 0 0 rgba(227, 181, 61, 0), inset 0 0 0 0 rgba(227, 181, 61, 0)",
+                boxShadow: "0 0 15px rgba(227, 181, 61, 0.3)",
                 transition: "all 0.3s ease, box-shadow 0.3s ease",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 20px rgba(227, 181, 61, 0.25), 0 0 40px rgba(227, 181, 61, 0.1), inset 0 0 12px rgba(227, 181, 61, 0.08)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 20px rgba(227, 181, 61, 0.4), 0 0 40px rgba(227, 181, 61, 0.2)";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 0 0 rgba(227, 181, 61, 0), inset 0 0 0 0 rgba(227, 181, 61, 0)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 0 15px rgba(227, 181, 61, 0.3)";
               }}
             >
-              {/* Liquid gold fill on hover */}
+              {/* Black fill on hover */}
               <span
                 className="absolute inset-0 pointer-events-none transition-transform duration-500 ease-out origin-left scale-x-0 group-hover/btn:scale-x-100"
                 style={{
-                  background: "linear-gradient(90deg, #e3b53d, #daa520)",
+                  background: "rgba(0, 0, 0, 0.9)",
                 }}
               />
               <span className="relative z-10">Join Us</span>
