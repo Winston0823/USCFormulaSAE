@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useParams } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import {
   Wind,
@@ -15,10 +15,12 @@ import {
   Briefcase,
   ArrowRight,
   ArrowLeft,
+  ArrowUpRight,
   Users,
   Mail,
   Linkedin,
-  Image as ImageIcon,
+  Wrench,
+  GraduationCap,
 } from "lucide-react";
 
 interface TeamMember {
@@ -31,7 +33,6 @@ interface TeamMember {
 interface TeamData {
   name: string;
   icon: React.ReactNode;
-  bgIcon: React.ReactNode;
   tagline: string;
   description: string;
   responsibilities: string[];
@@ -39,13 +40,14 @@ interface TeamData {
   members: TeamMember[];
   skills: string[];
   tools: string[];
+  accentHue: string; // subtle per-team color variation
 }
 
 const teamsData: Record<string, TeamData> = {
   aerodynamics: {
     name: "Aerodynamics",
-    icon: <Wind className="w-12 h-12" />,
-    bgIcon: <Wind className="w-64 h-64" />,
+    icon: <Wind />,
+    accentHue: "from-sky-500/20 via-transparent",
     tagline: "Shaping the Air, Defining Performance",
     description:
       "The Aerodynamics team is responsible for designing and manufacturing all aerodynamic components on the vehicle. We use computational fluid dynamics (CFD) simulations and wind tunnel testing to optimize airflow around the car, maximizing downforce while minimizing drag. Our work directly impacts the car's cornering speed and overall lap times.",
@@ -72,8 +74,8 @@ const teamsData: Record<string, TeamData> = {
   },
   frame: {
     name: "Frame",
-    icon: <Box className="w-12 h-12" />,
-    bgIcon: <Box className="w-64 h-64" />,
+    icon: <Box />,
+    accentHue: "from-orange-500/20 via-transparent",
     tagline: "The Foundation of Speed",
     description:
       "The Frame team designs and builds the structural backbone of our race car. We create a chassis that is lightweight yet incredibly rigid, providing optimal handling characteristics while ensuring driver safety. Our work involves extensive finite element analysis, material selection, and precision fabrication.",
@@ -100,8 +102,8 @@ const teamsData: Record<string, TeamData> = {
   },
   drivetrain: {
     name: "Drivetrain",
-    icon: <Cog className="w-12 h-12" />,
-    bgIcon: <Cog className="w-64 h-64" />,
+    icon: <Cog />,
+    accentHue: "from-emerald-500/20 via-transparent",
     tagline: "Connecting Power to Performance",
     description:
       "The Drivetrain team is responsible for all systems that transfer power from the motor to the wheels. We design and optimize gear ratios, chain systems, differentials, and axles to ensure efficient power delivery and reliability during competition events.",
@@ -127,8 +129,8 @@ const teamsData: Record<string, TeamData> = {
   },
   powertrain: {
     name: "Powertrain",
-    icon: <Zap className="w-12 h-12" />,
-    bgIcon: <Zap className="w-64 h-64" />,
+    icon: <Zap />,
+    accentHue: "from-amber-500/20 via-transparent",
     tagline: "Engineering Pure Performance",
     description:
       "The Powertrain team extracts maximum performance from our electric motor package. We handle motor selection, tuning, battery management systems, and cooling. Our goal is to deliver reliable power throughout competition while maximizing efficiency and performance.",
@@ -155,8 +157,8 @@ const teamsData: Record<string, TeamData> = {
   },
   "vehicle-dynamics": {
     name: "Vehicle Dynamics",
-    icon: <Gauge className="w-12 h-12" />,
-    bgIcon: <Gauge className="w-64 h-64" />,
+    icon: <Gauge />,
+    accentHue: "from-rose-500/20 via-transparent",
     tagline: "Mastering Motion",
     description:
       "The Vehicle Dynamics team optimizes how the car handles through corners and over various track surfaces. We design suspension geometry, select and tune dampers, choose tire compounds, and use data acquisition to continuously refine our setup for maximum grip and driver confidence.",
@@ -183,8 +185,8 @@ const teamsData: Record<string, TeamData> = {
   },
   ergonomics: {
     name: "Ergonomics",
-    icon: <User className="w-12 h-12" />,
-    bgIcon: <User className="w-64 h-64" />,
+    icon: <User />,
+    accentHue: "from-violet-500/20 via-transparent",
     tagline: "The Driver-Machine Interface",
     description:
       "The Ergonomics team creates the perfect connection between driver and machine. We design the cockpit layout, pedal box, steering system, seat, and all driver controls. Our focus is on maximizing driver comfort, visibility, and the ability to extract maximum performance from the car.",
@@ -210,8 +212,8 @@ const teamsData: Record<string, TeamData> = {
   },
   systems: {
     name: "Systems",
-    icon: <Cpu className="w-12 h-12" />,
-    bgIcon: <Cpu className="w-64 h-64" />,
+    icon: <Cpu />,
+    accentHue: "from-cyan-500/20 via-transparent",
     tagline: "Bringing Intelligence to Speed",
     description:
       "The Systems team handles all electronics, wiring, sensors, and vehicle control systems. We design the electrical architecture, program the ECU, create custom circuit boards, and develop data acquisition systems that allow us to monitor and optimize every aspect of the car's performance.",
@@ -238,8 +240,8 @@ const teamsData: Record<string, TeamData> = {
   },
   business: {
     name: "Business",
-    icon: <Briefcase className="w-12 h-12" />,
-    bgIcon: <Briefcase className="w-64 h-64" />,
+    icon: <Briefcase />,
+    accentHue: "from-[#e3b53d]/20 via-transparent",
     tagline: "Driving Success Beyond the Track",
     description:
       "The Business team is the engine that keeps our organization running. We manage sponsorship relationships, marketing campaigns, team finances, event logistics, and recruitment. Our work ensures the team has the resources, visibility, and organizational structure needed to succeed.",
@@ -266,12 +268,41 @@ const teamsData: Record<string, TeamData> = {
   },
 };
 
+// Team navigation order for prev/next
+const teamOrder = [
+  "aerodynamics",
+  "frame",
+  "drivetrain",
+  "powertrain",
+  "vehicle-dynamics",
+  "ergonomics",
+  "systems",
+  "business",
+];
+
+function getAdjacentTeams(slug: string) {
+  const idx = teamOrder.indexOf(slug);
+  const prev = idx > 0 ? teamOrder[idx - 1] : teamOrder[teamOrder.length - 1];
+  const next = idx < teamOrder.length - 1 ? teamOrder[idx + 1] : teamOrder[0];
+  return { prev, next };
+}
+
 export default function TeamPage() {
   const params = useParams();
   const slug = params.slug as string;
   const team = teamsData[slug];
+  const heroRef = useRef<HTMLDivElement>(null);
 
-  // Scroll to top on page load
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+
+  const heroOpacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const iconScale = useTransform(scrollYProgress, [0, 1], [1, 1.3]);
+  const iconOpacity = useTransform(scrollYProgress, [0, 0.6], [0.06, 0]);
+
   useEffect(() => {
     const lenis = (window as Window & { __lenis?: { scrollTo: (target: number) => void } }).__lenis;
     if (lenis) {
@@ -294,128 +325,189 @@ export default function TeamPage() {
     );
   }
 
+  const { prev, next } = getAdjacentTeams(slug);
+
   return (
     <div className="min-h-screen bg-black">
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-20 overflow-hidden">
+      {/* ═══════════════════════════════════════════
+          HERO — Full viewport, dramatic type scale
+         ═══════════════════════════════════════════ */}
+      <section ref={heroRef} className="relative min-h-[90vh] flex items-end overflow-hidden">
+        {/* Layered background */}
         <div className="absolute inset-0 hero-gradient" />
-        <div className="absolute inset-0 cyber-grid opacity-20" />
+        <div className={`absolute inset-0 bg-gradient-to-br ${team.accentHue} to-transparent`} />
+        <div className="absolute inset-0 cyber-grid opacity-10" />
 
-        {/* Large background icon */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 text-[#e3b53d]/5">
-          {team.bgIcon}
-        </div>
+        {/* Massive team icon watermark */}
+        <motion.div
+          style={{ scale: iconScale, opacity: iconOpacity }}
+          className="absolute right-[-5%] top-[15%] text-[#e3b53d] pointer-events-none"
+        >
+          <div className="w-[30vw] h-[30vw] max-w-[500px] max-h-[500px] [&>svg]:w-full [&>svg]:h-full">
+            {team.icon}
+          </div>
+        </motion.div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Back button */}
+        {/* Hero content — pinned to bottom for editorial feel */}
+        <motion.div
+          style={{ opacity: heroOpacity, y: heroY }}
+          className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-40"
+        >
+          {/* Back navigation */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="mb-8"
+            transition={{ duration: 0.4 }}
           >
             <Link
               href="/#teams"
-              className="inline-flex items-center text-gray-400 hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-[#e3b53d] transition-colors font-secondary uppercase tracking-[0.15em] cursor-pointer"
             >
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              Back to All Teams
+              <ArrowLeft className="w-4 h-4" />
+              All Teams
             </Link>
           </motion.div>
 
-          <div className="flex flex-col lg:flex-row gap-12 items-start">
-            {/* Team Info */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="flex-1"
-            >
-              <h1 className="text-5xl sm:text-6xl font-black text-white mb-4">{team.name}</h1>
-              <p className="text-xl mb-6 text-[#e3b53d]">
-                {team.tagline}
-              </p>
-              <p className="text-lg text-gray-400 leading-relaxed">{team.description}</p>
-            </motion.div>
+          {/* Team name — oversized editorial treatment */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="mt-6"
+          >
+            <h1 className="text-[clamp(3rem,10vw,8rem)] font-black text-white leading-[0.9] tracking-tight">
+              {team.name}
+            </h1>
+          </motion.div>
 
-            {/* Team Image Placeholder */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="lg:w-[400px]"
-            >
-              <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-[#0a0a0a] to-black border border-[#e3b53d]/20 overflow-hidden relative">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-[#e3b53d]/20 flex items-center justify-center">
-                      <ImageIcon className="w-10 h-10 text-[#e3b53d]" />
-                    </div>
-                    <p className="text-gray-500 text-sm">Team Photo Placeholder</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+          {/* Tagline + description — asymmetric two-column */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-8 flex flex-col lg:flex-row gap-6 lg:gap-16 items-start"
+          >
+            <p className="text-[#e3b53d] text-xl sm:text-2xl font-secondary font-medium leading-tight lg:w-1/3 shrink-0">
+              {team.tagline}
+            </p>
+            <p className="text-gray-400 text-lg leading-relaxed lg:max-w-xl">
+              {team.description}
+            </p>
+          </motion.div>
+
+          {/* Divider line */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="mt-12 h-px bg-gradient-to-r from-[#e3b53d]/60 via-[#e3b53d]/20 to-transparent origin-left"
+          />
+        </motion.div>
+      </section>
+
+      {/* ═══════════════════════════════════════════
+          WHAT WE DO — Staggered responsibility grid
+         ═══════════════════════════════════════════ */}
+      <section className="py-24 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mb-14"
+          >
+            <span className="text-[#e3b53d] text-sm font-secondary uppercase tracking-[0.2em] block mb-3">
+              Responsibilities
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white">
+              What We Do
+            </h2>
+          </motion.div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {team.responsibilities.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.08, duration: 0.5 }}
+                className="group relative p-6 rounded-xl bg-white/[0.03] border border-white/[0.06] hover:border-[#e3b53d]/30 hover:bg-white/[0.06] transition-all duration-300 cursor-default"
+              >
+                <span className="text-[#e3b53d]/40 text-5xl font-black font-data absolute top-4 right-5 group-hover:text-[#e3b53d]/20 transition-colors select-none">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <p className="text-gray-300 font-secondary text-base leading-relaxed relative z-10 pr-8 mt-6">
+                  {item}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Responsibilities & Skills */}
-      <section className="py-20">
+      {/* ═══════════════════════════════════════════
+          SKILLS & TOOLS — Side-by-side compact layout
+         ═══════════════════════════════════════════ */}
+      <section className="py-20 border-y border-white/[0.06]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Responsibilities */}
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
+            {/* Skills */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl font-bold text-white mb-6">What We Do</h2>
-              <div className="space-y-4">
-                {team.responsibilities.map((item, index) => (
+              <div className="flex items-center gap-3 mb-8">
+                <GraduationCap className="w-5 h-5 text-[#e3b53d]" />
+                <span className="text-sm font-secondary uppercase tracking-[0.2em] text-[#e3b53d]">
+                  Skills You&apos;ll Learn
+                </span>
+              </div>
+              <div className="space-y-3">
+                {team.skills.map((skill, i) => (
                   <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
+                    key={skill}
+                    initial={{ opacity: 0, x: -12 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-[#e3b53d]/20"
+                    transition={{ delay: i * 0.1 }}
+                    className="flex items-center gap-4 group"
                   >
-                    <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 text-sm font-bold bg-[#e3b53d]/20 text-[#e3b53d]">
-                      {index + 1}
-                    </div>
-                    <span className="text-gray-300 font-secondary text-base">{item}</span>
+                    <span className="w-8 h-px bg-[#e3b53d]/40 group-hover:w-12 group-hover:bg-[#e3b53d] transition-all duration-300" />
+                    <span className="text-white text-lg font-secondary font-medium group-hover:text-[#e3b53d] transition-colors">
+                      {skill}
+                    </span>
                   </motion.div>
                 ))}
               </div>
             </motion.div>
 
-            {/* Skills & Tools */}
+            {/* Tools */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
+              transition={{ delay: 0.15 }}
             >
-              <h2 className="text-3xl font-bold text-white mb-6">Skills You&apos;ll Learn</h2>
-              <div className="flex flex-wrap gap-3 mb-8 justify-center">
-                {team.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-4 py-2 rounded-full text-base font-semibold font-secondary bg-[#e3b53d]/15 text-[#e3b53d] border border-[#e3b53d]/30"
-                  >
-                    {skill}
-                  </span>
-                ))}
+              <div className="flex items-center gap-3 mb-8">
+                <Wrench className="w-5 h-5 text-[#e3b53d]" />
+                <span className="text-sm font-secondary uppercase tracking-[0.2em] text-[#e3b53d]">
+                  Tools We Use
+                </span>
               </div>
-
-              <h2 className="text-3xl font-bold text-white mb-6">Tools We Use</h2>
-              <div className="flex flex-wrap gap-3 justify-center">
-                {team.tools.map((tool) => (
-                  <span
+              <div className="flex flex-wrap gap-3">
+                {team.tools.map((tool, i) => (
+                  <motion.span
                     key={tool}
-                    className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-gray-300 text-base font-semibold font-secondary"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="px-5 py-2.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-gray-300 text-base font-secondary font-medium hover:border-[#e3b53d]/30 hover:text-white transition-all duration-300"
                   >
                     {tool}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
             </motion.div>
@@ -423,127 +515,165 @@ export default function TeamPage() {
         </div>
       </section>
 
-      {/* Team Members */}
-      <section className="py-20 bg-gradient-to-b from-transparent to-[#0a0a0a]">
+      {/* ═══════════════════════════════════════════
+          TEAM — Leads featured, members in clean grid
+         ═══════════════════════════════════════════ */}
+      <section className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Leads */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mb-16"
+            className="mb-14"
           >
-            <div className="flex items-center gap-3 mb-8">
-              <Users className="w-6 h-6 text-[#e3b53d]" />
-              <h2 className="text-3xl font-bold text-white">Team Leads</h2>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              {team.leads.map((lead, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="p-6 rounded-2xl bg-white/5 border border-[#e3b53d]/20 hover:border-[#e3b53d]/40 transition-colors"
-                >
-                  <div className="flex items-start gap-4">
-                    {/* Avatar placeholder */}
-                    <div className="w-16 h-16 rounded-full bg-[#e3b53d]/20 flex items-center justify-center shrink-0">
-                      <User className="w-8 h-8 text-[#e3b53d]" />
-                    </div>
-
-                    <div className="flex-1">
-                      <h3 className="text-xl font-bold text-white mb-1">{lead.name}</h3>
-                      <p className="text-[#e3b53d] text-sm font-medium mb-2">
-                        {lead.role}
-                      </p>
-                      <p className="text-gray-400 text-sm">
-                        {lead.major} &bull; {lead.year}
-                      </p>
-                    </div>
-
-                    {/* Social links placeholder */}
-                    <div className="flex gap-2">
-                      <button className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
-                        <Mail className="w-4 h-4" />
-                      </button>
-                      <button className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
-                        <Linkedin className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+            <span className="text-[#e3b53d] text-sm font-secondary uppercase tracking-[0.2em] block mb-3">
+              The People
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white">
+              Our Team
+            </h2>
           </motion.div>
 
-          {/* Members */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl font-bold text-white mb-8">Team Members</h2>
+          {/* Leads — Featured cards */}
+          <div className="grid md:grid-cols-2 gap-5 mb-12">
+            {team.leads.map((lead, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.12 }}
+                className="relative p-7 rounded-2xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/[0.08] hover:border-[#e3b53d]/30 transition-all duration-300 group overflow-hidden"
+              >
+                {/* Subtle gold accent line */}
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-[#e3b53d]/50 via-[#e3b53d]/10 to-transparent" />
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {team.members.map((member, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.05 }}
-                  className="p-4 rounded-xl bg-white/5 border border-[#e3b53d]/20 hover:border-[#e3b53d]/40 transition-colors"
-                >
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-full bg-[#e3b53d]/15 flex items-center justify-center">
-                      <User className="w-5 h-5 text-[#e3b53d]" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-white">{member.name}</h4>
-                      <p className="text-xs text-gray-500">{member.role}</p>
-                    </div>
+                <div className="flex items-start gap-5">
+                  <div className="w-14 h-14 rounded-full bg-[#e3b53d]/10 border border-[#e3b53d]/20 flex items-center justify-center shrink-0 group-hover:bg-[#e3b53d]/15 transition-colors">
+                    <User className="w-6 h-6 text-[#e3b53d]" />
                   </div>
-                  <p className="text-gray-400 text-sm">
-                    {member.major} &bull; {member.year}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-white leading-tight">{lead.name}</h3>
+                        <p className="text-[#e3b53d] text-sm font-secondary font-semibold mt-1 uppercase tracking-wider">
+                          {lead.role}
+                        </p>
+                      </div>
+                      <div className="flex gap-1.5 shrink-0">
+                        <button className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-500 hover:text-[#e3b53d] hover:border-[#e3b53d]/30 transition-all cursor-pointer">
+                          <Mail className="w-3.5 h-3.5" />
+                        </button>
+                        <button className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-500 hover:text-[#e3b53d] hover:border-[#e3b53d]/30 transition-all cursor-pointer">
+                          <Linkedin className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                    <p className="text-gray-500 text-sm mt-2.5 font-secondary">
+                      {lead.major} &middot; {lead.year}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Members — Clean minimal grid */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {team.members.map((member, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.06 }}
+                className="p-5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/[0.12] hover:bg-white/[0.04] transition-all duration-300 group"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-9 h-9 rounded-full bg-white/[0.06] flex items-center justify-center group-hover:bg-[#e3b53d]/10 transition-colors">
+                    <User className="w-4 h-4 text-gray-500 group-hover:text-[#e3b53d] transition-colors" />
+                  </div>
+                  <div className="min-w-0">
+                    <h4 className="font-semibold text-white text-sm leading-tight truncate">{member.name}</h4>
+                    <p className="text-[#e3b53d]/70 text-xs font-secondary">{member.role}</p>
+                  </div>
+                </div>
+                <p className="text-gray-600 text-xs font-secondary">
+                  {member.major} &middot; {member.year}
+                </p>
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Join CTA */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#8b0000]/10 via-transparent to-[#e3b53d]/10" />
-        <div className="absolute inset-0 circuit-pattern opacity-20" />
+      {/* ═══════════════════════════════════════════
+          JOIN CTA — Bold, simple
+         ═══════════════════════════════════════════ */}
+      <section className="py-32 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#e3b53d]/[0.04] via-transparent to-transparent" />
 
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
-              Join the <span className="text-[#e3b53d]">{team.name}</span> Team
+            <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[0.95] mb-6">
+              Join{" "}
+              <span className="text-[#e3b53d]">{team.name}</span>
             </h2>
-            <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+            <p className="text-gray-500 text-lg sm:text-xl max-w-lg mx-auto mb-10 font-secondary">
               Ready to contribute to one of the most exciting engineering projects on campus?
-              We&apos;d love to have you on the team.
             </p>
             <Link
               href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-10 py-5 bg-[#e3b53d] rounded-full text-black font-bold text-xl leading-none hover:bg-[#c4ae5a] hover:shadow-2xl hover:shadow-[#e3b53d]/30 transition-all duration-300 neon-button"
+              className="inline-flex items-center gap-3 px-10 py-4 bg-[#e3b53d] rounded-full text-black font-bold text-lg leading-none hover:bg-[#d4a832] hover:shadow-[0_0_40px_rgba(227,181,61,0.25)] transition-all duration-300 neon-button cursor-pointer"
             >
               Join Now
-              <ArrowRight className="w-6 h-6 ml-2" />
+              <ArrowRight className="w-5 h-5" />
             </Link>
           </motion.div>
+        </div>
+      </section>
+
+      {/* ═══════════════════════════════════════════
+          TEAM NAVIGATION — Previous / Next
+         ═══════════════════════════════════════════ */}
+      <section className="border-t border-white/[0.06]">
+        <div className="max-w-7xl mx-auto grid grid-cols-2">
+          <Link
+            href={`/teams/${prev}`}
+            className="group flex items-center gap-4 px-6 sm:px-10 py-8 border-r border-white/[0.06] hover:bg-white/[0.02] transition-colors cursor-pointer"
+          >
+            <ArrowLeft className="w-5 h-5 text-gray-600 group-hover:text-[#e3b53d] transition-colors shrink-0" />
+            <div className="min-w-0">
+              <span className="text-xs text-gray-600 font-secondary uppercase tracking-[0.15em] block mb-1">
+                Previous
+              </span>
+              <span className="text-white font-bold text-sm sm:text-base group-hover:text-[#e3b53d] transition-colors truncate block">
+                {teamsData[prev]?.name}
+              </span>
+            </div>
+          </Link>
+          <Link
+            href={`/teams/${next}`}
+            className="group flex items-center justify-end gap-4 px-6 sm:px-10 py-8 hover:bg-white/[0.02] transition-colors cursor-pointer"
+          >
+            <div className="min-w-0 text-right">
+              <span className="text-xs text-gray-600 font-secondary uppercase tracking-[0.15em] block mb-1">
+                Next
+              </span>
+              <span className="text-white font-bold text-sm sm:text-base group-hover:text-[#e3b53d] transition-colors truncate block">
+                {teamsData[next]?.name}
+              </span>
+            </div>
+            <ArrowUpRight className="w-5 h-5 text-gray-600 group-hover:text-[#e3b53d] transition-colors shrink-0" />
+          </Link>
         </div>
       </section>
     </div>
