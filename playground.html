@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USC Formula Electric — Site Playground</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --surface: #141418;
+    --border: #222228;
+    --text: #e0e0e0;
+    --muted: #888;
+    --gold: #e3b53d;
+    --gold-dim: rgba(227,181,61,0.15);
+    --red: #8b0000;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── Header ── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  header h1 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+  .header-meta {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'SF Mono', 'Cascadia Code', monospace;
+  }
+
+  /* ── Main layout ── */
+  .main {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 280px;
+    flex-shrink: 0;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .group-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+
+  /* Page nav buttons */
+  .page-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+  }
+  .page-btn {
+    padding: 8px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+  .page-btn:hover {
+    background: var(--gold-dim);
+    border-color: rgba(227,181,61,0.3);
+  }
+  .page-btn.active {
+    background: var(--gold);
+    color: #000;
+    border-color: var(--gold);
+  }
+
+  /* Team sub-buttons */
+  .team-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .team-btn {
+    padding: 5px 6px;
+    font-size: 10px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+  .team-btn:hover {
+    color: var(--text);
+    border-color: rgba(227,181,61,0.3);
+  }
+  .team-btn.active {
+    background: rgba(227,181,61,0.1);
+    color: var(--gold);
+    border-color: rgba(227,181,61,0.4);
+  }
+
+  /* Viewport presets */
+  .viewport-row {
+    display: flex;
+    gap: 6px;
+  }
+  .vp-btn {
+    flex: 1;
+    padding: 8px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .vp-btn span { font-size: 9px; color: var(--muted); opacity: 0.7; }
+  .vp-btn:hover { background: var(--gold-dim); border-color: rgba(227,181,61,0.3); color: var(--text); }
+  .vp-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
+  .vp-btn.active span { color: #000; opacity: 0.8; }
+
+  /* Custom width slider */
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+  }
+  .slider-row input[type=range] {
+    flex: 1;
+    accent-color: var(--gold);
+    height: 4px;
+  }
+  .slider-val {
+    font-size: 11px;
+    font-family: monospace;
+    color: var(--gold);
+    min-width: 44px;
+    text-align: right;
+  }
+
+  /* Zoom */
+  .zoom-row {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .zoom-btn {
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .zoom-btn:hover { color: var(--text); border-color: rgba(227,181,61,0.3); }
+  .zoom-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
+
+  /* Info panel */
+  .info-panel {
+    margin-top: auto;
+    padding: 12px;
+    background: rgba(227,181,61,0.05);
+    border: 1px solid rgba(227,181,61,0.15);
+    border-radius: 8px;
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  .info-panel kbd {
+    display: inline-block;
+    padding: 1px 5px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 10px;
+    color: var(--text);
+  }
+
+  /* ── Preview area ── */
+  .preview-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .iframe-container {
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 0 60px rgba(227,181,61,0.04), 0 4px 30px rgba(0,0,0,0.6);
+    transition: width 0.3s ease, height 0.3s ease;
+    position: relative;
+  }
+
+  .iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+
+  /* Viewport label */
+  .vp-label {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 12px;
+    background: rgba(20,20,24,0.9);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 10px;
+    font-family: monospace;
+    color: var(--muted);
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  /* ── Bottom prompt bar ── */
+  .prompt-bar {
+    flex-shrink: 0;
+    padding: 12px 20px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .prompt-text {
+    flex: 1;
+    font-size: 12px;
+    font-family: 'SF Mono', 'Cascadia Code', monospace;
+    color: var(--muted);
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .copy-btn {
+    padding: 6px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    background: var(--gold);
+    color: #000;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .copy-btn:hover { filter: brightness(1.1); }
+  .copy-btn.copied { background: #22c55e; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>USC FORMULA ELECTRIC — PLAYGROUND</h1>
+  <span class="header-meta">localhost:3000</span>
+</header>
+
+<div class="main">
+  <!-- Sidebar Controls -->
+  <div class="sidebar">
+    <!-- Pages -->
+    <div>
+      <div class="group-label">Pages</div>
+      <div class="page-grid" id="pageGrid"></div>
+    </div>
+
+    <!-- Teams -->
+    <div id="teamsSection" style="display:none">
+      <div class="group-label">Teams</div>
+      <div class="team-grid" id="teamGrid"></div>
+    </div>
+
+    <!-- Viewport -->
+    <div>
+      <div class="group-label">Viewport</div>
+      <div class="viewport-row" id="vpRow"></div>
+      <div class="slider-row">
+        <input type="range" id="widthSlider" min="320" max="1920" value="1440">
+        <span class="slider-val" id="widthVal">1440px</span>
+      </div>
+    </div>
+
+    <!-- Zoom -->
+    <div>
+      <div class="group-label">Zoom</div>
+      <div class="zoom-row" id="zoomRow"></div>
+    </div>
+
+    <!-- Shortcuts -->
+    <div class="info-panel">
+      <kbd>&larr;</kbd> <kbd>&rarr;</kbd> cycle pages<br>
+      <kbd>1</kbd>-<kbd>6</kbd> jump to page<br>
+      <kbd>-</kbd> <kbd>+</kbd> zoom in/out
+    </div>
+  </div>
+
+  <!-- Preview -->
+  <div class="preview-area">
+    <div class="iframe-container" id="iframeContainer">
+      <iframe id="preview" src="http://localhost:3000"></iframe>
+    </div>
+    <div class="vp-label" id="vpLabel">1440 x 900</div>
+  </div>
+</div>
+
+<!-- Prompt bar -->
+<div class="prompt-bar">
+  <div class="prompt-text" id="promptText">Viewing Home at 1440px desktop viewport.</div>
+  <button class="copy-btn" id="copyBtn" onclick="copyPrompt()">Copy</button>
+</div>
+
+<script>
+const PAGES = [
+  { name: 'Home', path: '/' },
+  { name: 'Events', path: '/events' },
+  { name: 'About', path: '/about' },
+  { name: 'Teams', path: '/#teams' },
+  { name: 'Sponsors', path: '/sponsorship' },
+  { name: 'Contact', path: '/contact' },
+];
+
+const TEAMS = [
+  { name: 'Aero', slug: 'aerodynamics' },
+  { name: 'Frame', slug: 'frame' },
+  { name: 'Drivetrain', slug: 'drivetrain' },
+  { name: 'Powertrain', slug: 'powertrain' },
+  { name: 'Veh. Dyn.', slug: 'vehicle-dynamics' },
+  { name: 'Ergo', slug: 'ergonomics' },
+  { name: 'Systems', slug: 'systems' },
+  { name: 'Business', slug: 'business' },
+];
+
+const VIEWPORTS = [
+  { name: 'Mobile', w: 375, h: 812, label: '375px' },
+  { name: 'Tablet', w: 768, h: 1024, label: '768px' },
+  { name: 'Laptop', w: 1280, h: 800, label: '1280px' },
+  { name: 'Desktop', w: 1440, h: 900, label: '1440px' },
+];
+
+const ZOOMS = [50, 75, 100, 125];
+
+const DEFAULTS = { page: 0, team: null, vp: 3, zoom: 100, customW: 1440 };
+const state = { ...DEFAULTS };
+
+// ── Build controls ──
+const pageGrid = document.getElementById('pageGrid');
+PAGES.forEach((p, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'page-btn';
+  btn.textContent = p.name;
+  btn.onclick = () => { state.page = i; state.team = (i === 3 ? state.team : null); updateAll(); };
+  pageGrid.appendChild(btn);
+});
+
+const teamGrid = document.getElementById('teamGrid');
+TEAMS.forEach((t, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'team-btn';
+  btn.textContent = t.name;
+  btn.onclick = () => { state.page = 3; state.team = i; updateAll(); };
+  teamGrid.appendChild(btn);
+});
+
+const vpRow = document.getElementById('vpRow');
+VIEWPORTS.forEach((v, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'vp-btn';
+  btn.innerHTML = `${v.name}<span>${v.label}</span>`;
+  btn.onclick = () => { state.vp = i; state.customW = v.w; document.getElementById('widthSlider').value = v.w; updateAll(); };
+  vpRow.appendChild(btn);
+});
+
+const zoomRow = document.getElementById('zoomRow');
+ZOOMS.forEach(z => {
+  const btn = document.createElement('button');
+  btn.className = 'zoom-btn';
+  btn.textContent = z + '%';
+  btn.onclick = () => { state.zoom = z; updateAll(); };
+  zoomRow.appendChild(btn);
+});
+
+document.getElementById('widthSlider').oninput = function() {
+  state.customW = +this.value;
+  state.vp = VIEWPORTS.findIndex(v => v.w === state.customW);
+  if (state.vp < 0) state.vp = -1;
+  updateAll();
+};
+
+// ── Update everything ──
+function updateAll() {
+  // Active states
+  document.querySelectorAll('.page-btn').forEach((b, i) => b.classList.toggle('active', i === state.page));
+  document.getElementById('teamsSection').style.display = (state.page === 3 || state.team !== null) ? '' : 'none';
+  document.querySelectorAll('.team-btn').forEach((b, i) => b.classList.toggle('active', i === state.team));
+  document.querySelectorAll('.vp-btn').forEach((b, i) => b.classList.toggle('active', i === state.vp));
+  document.querySelectorAll('.zoom-btn').forEach((b, i) => b.classList.toggle('active', ZOOMS[i] === state.zoom));
+
+  // Width slider
+  const w = state.vp >= 0 ? VIEWPORTS[state.vp].w : state.customW;
+  const h = state.vp >= 0 ? VIEWPORTS[state.vp].h : 900;
+  document.getElementById('widthSlider').value = w;
+  document.getElementById('widthVal').textContent = w + 'px';
+
+  // Iframe sizing
+  const container = document.getElementById('iframeContainer');
+  const preview = document.getElementById('preview');
+  const scale = state.zoom / 100;
+  const previewArea = document.querySelector('.preview-area');
+  const areaW = previewArea.clientWidth - 40;
+  const areaH = previewArea.clientHeight - 40;
+
+  // Fit within preview area
+  const fitScale = Math.min(areaW / w, areaH / h, scale);
+  const displayW = w * fitScale;
+  const displayH = h * fitScale;
+
+  container.style.width = displayW + 'px';
+  container.style.height = displayH + 'px';
+  preview.style.width = w + 'px';
+  preview.style.height = h + 'px';
+  preview.style.transform = `scale(${fitScale})`;
+  preview.style.transformOrigin = 'top left';
+
+  // Navigate
+  let path;
+  if (state.team !== null) {
+    path = '/teams/' + TEAMS[state.team].slug;
+  } else {
+    path = PAGES[state.page].path;
+  }
+  const target = 'http://localhost:3000' + path;
+  if (preview.src !== target && !preview.src.endsWith(path)) {
+    preview.src = target;
+  }
+
+  // Viewport label
+  const vpName = state.vp >= 0 ? VIEWPORTS[state.vp].name : 'Custom';
+  document.getElementById('vpLabel').textContent = `${w} x ${h} — ${vpName} — ${state.zoom}%`;
+
+  // Prompt
+  updatePrompt();
+}
+
+function updatePrompt() {
+  const parts = [];
+  const pageName = state.team !== null ? `Teams > ${TEAMS[state.team].name}` : PAGES[state.page].name;
+  parts.push(`Viewing **${pageName}** page`);
+
+  const w = state.vp >= 0 ? VIEWPORTS[state.vp].w : state.customW;
+  const vpName = state.vp >= 0 ? VIEWPORTS[state.vp].name.toLowerCase() : 'custom';
+  parts.push(`at ${w}px ${vpName} viewport`);
+
+  if (state.zoom !== 100) parts.push(`(${state.zoom}% zoom)`);
+
+  document.getElementById('promptText').textContent = parts.join(' ') + '.';
+}
+
+function copyPrompt() {
+  const text = document.getElementById('promptText').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+  });
+}
+
+// ── Keyboard shortcuts ──
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT') return;
+  const num = parseInt(e.key);
+  if (num >= 1 && num <= PAGES.length) { state.page = num - 1; state.team = null; updateAll(); return; }
+  if (e.key === 'ArrowRight') { state.page = (state.page + 1) % PAGES.length; state.team = null; updateAll(); }
+  if (e.key === 'ArrowLeft') { state.page = (state.page - 1 + PAGES.length) % PAGES.length; state.team = null; updateAll(); }
+  if (e.key === '=' || e.key === '+') { const i = ZOOMS.indexOf(state.zoom); if (i < ZOOMS.length - 1) { state.zoom = ZOOMS[i+1]; updateAll(); } }
+  if (e.key === '-') { const i = ZOOMS.indexOf(state.zoom); if (i > 0) { state.zoom = ZOOMS[i-1]; updateAll(); } }
+});
+
+// Init
+updateAll();
+</script>
+</body>
+</html>
