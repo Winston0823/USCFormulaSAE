@@ -9,7 +9,6 @@ import {
   Send,
   Instagram,
   Linkedin,
-  Twitter,
   MessageSquare,
   CheckCircle,
 } from "lucide-react";
@@ -90,7 +89,7 @@ export default function ContactPage() {
                     <h3 className="text-lg font-semibold text-white mb-1">Location</h3>
                     <p className="text-gray-400">
                       University of Southern California<br />
-                      3650 McClintock Ave<br />
+                      620 USC McCarthy Way<br />
                       Los Angeles, CA 90089
                     </p>
                   </div>
@@ -102,8 +101,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">Email</h3>
-                    <a href="mailto:fsae@usc.edu" className="text-gray-400 hover:text-[#e3b53d] transition-colors">
-                      fsae@usc.edu
+                    <a href="mailto:formulae@usc.edu" className="text-gray-400 hover:text-[#e3b53d] transition-colors">
+                      formulae@usc.edu
                     </a>
                   </div>
                 </div>
@@ -127,22 +126,20 @@ export default function ContactPage() {
                 <h3 className="text-lg font-semibold text-white mb-4">Follow Us</h3>
                 <div className="flex gap-4">
                   <a
-                    href="#"
+                    href="https://www.instagram.com/uscformulaelectric/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-12 h-12 rounded-xl bg-white/5 border border-[#e3b53d]/20 flex items-center justify-center text-gray-400 hover:text-[#e3b53d] hover:border-[#e3b53d]/50 transition-all"
                   >
                     <Instagram className="w-5 h-5" />
                   </a>
                   <a
-                    href="#"
+                    href="https://www.linkedin.com/company/sc-formula-electric"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-12 h-12 rounded-xl bg-white/5 border border-[#e3b53d]/20 flex items-center justify-center text-gray-400 hover:text-[#e3b53d] hover:border-[#e3b53d]/50 transition-all"
                   >
                     <Linkedin className="w-5 h-5" />
-                  </a>
-                  <a
-                    href="#"
-                    className="w-12 h-12 rounded-xl bg-white/5 border border-[#e3b53d]/20 flex items-center justify-center text-gray-400 hover:text-[#e3b53d] hover:border-[#e3b53d]/50 transition-all"
-                  >
-                    <Twitter className="w-5 h-5" />
                   </a>
                 </div>
               </div>
@@ -303,7 +300,7 @@ export default function ContactPage() {
               },
               {
                 q: "How can my company sponsor the team?",
-                a: "We'd love to discuss sponsorship opportunities! Please fill out the contact form above or email us directly at fsae@usc.edu.",
+                a: "We'd love to discuss sponsorship opportunities! Please fill out the contact form above or email us directly at formulae@usc.edu.",
               },
             ].map((faq, index) => (
               <motion.div

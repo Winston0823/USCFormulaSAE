@@ -32,9 +32,9 @@ export default function Footer() {
               Engineering excellence through motorsport innovation. Building the future of racing, one component at a time.
             </p>
             <div className="flex space-x-4">
-              <SocialLink href="#" icon={<Instagram className="w-5 h-5" />} label="Instagram" />
-              <SocialLink href="#" icon={<Linkedin className="w-5 h-5" />} label="LinkedIn" />
-              <SocialLink href="mailto:fsae@usc.edu" icon={<Mail className="w-5 h-5" />} label="Email" />
+              <SocialLink href="https://www.instagram.com/uscformulaelectric/" icon={<Instagram className="w-5 h-5" />} label="Instagram" />
+              <SocialLink href="https://www.linkedin.com/company/sc-formula-electric" icon={<Linkedin className="w-5 h-5" />} label="LinkedIn" />
+              <SocialLink href="mailto:formulae@usc.edu" icon={<Mail className="w-5 h-5" />} label="Email" />
             </div>
           </div>
 
@@ -68,11 +68,11 @@ export default function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start space-x-3 text-gray-400 text-sm">
                 <MapPin className="w-5 h-5 text-[#e3b53d] shrink-0 mt-0.5" />
-                <span>University of Southern California<br />Los Angeles, CA 90007</span>
+                <span>University of Southern California<br />620 USC McCarthy Way<br />Los Angeles, CA 90089</span>
               </li>
               <li className="flex items-center space-x-3 text-gray-400 text-sm">
                 <Mail className="w-5 h-5 text-[#e3b53d]" />
-                <a href="mailto:fsae@usc.edu" className="hover:text-white transition-colors">fsae@usc.edu</a>
+                <a href="mailto:formulae@usc.edu" className="hover:text-white transition-colors">formulae@usc.edu</a>
               </li>
             </ul>
           </div>

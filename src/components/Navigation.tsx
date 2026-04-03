@@ -170,6 +170,7 @@ const teams = [
 
 const navItems = [
   { name: "Home", href: "/" },
+  { name: "Events", href: "/events" },
   { name: "About", href: "/about" },
   { name: "Teams", href: "/#teams" },
   { name: "Sponsors", href: "/sponsorship" },

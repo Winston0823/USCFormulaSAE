@@ -26,7 +26,7 @@ const engineeringStats = [
   { label: "0-60 ACCELERATION", value: "4.2", unit: "SEC", icon: <Timer className="w-6 h-6" /> },
 ];
 
-const teamStat = { label: "Team Members", value: "50+", unit: "ENGINEERS", icon: <Users className="w-6 h-6" /> };
+const teamStat = { label: "Team Members", value: "70+", unit: "MEMBERS", icon: <Users className="w-6 h-6" /> };
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -397,7 +397,7 @@ export default function Home() {
               marginTop: "0.2em",
             }}
           >
-            EST. 2022
+            EST. 2020
           </p>
         </motion.div>
 
@@ -594,79 +594,112 @@ export default function Home() {
         {/* Engineers Section - separate sticky scroll zone */}
         <div ref={engineersRef} className="h-[140vh] relative">
           <div className="sticky top-0 h-screen overflow-hidden bg-black/80 backdrop-blur-sm">
-            <section className="absolute inset-0 flex items-center justify-center overflow-hidden">
+            <section
+              className="absolute inset-0 overflow-hidden"
+              style={{
+                maskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)",
+                WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)",
+              }}
+            >
               {/* Background effects */}
               <div className="absolute inset-0 circuit-pattern opacity-15" />
-              <div className="absolute top-1/4 right-0 w-[35vw] h-[35vw] max-w-[600px] max-h-[600px] bg-[#e3b53d]/5 rounded-full blur-[150px]" />
-              <div className="absolute bottom-0 left-1/4 w-[25vw] h-[25vw] bg-[#8b0000]/8 rounded-full blur-[100px]" />
 
-              {/* Content container */}
-              <div
-                className="relative w-full flex flex-col items-center justify-center px-4"
-                style={{ maxWidth: "min(90vw, 1000px)" }}
-              >
-                {/* Heading */}
-                <motion.div
-                  className="text-center"
+              {/* Right-side image with left fade */}
+              <div className="absolute inset-0">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/collab-on-car.jpg"
+                  alt="Team collaborating on the Formula SAE car"
+                  className="absolute top-0 right-0 h-full object-cover"
                   style={{
-                    opacity: engineersHeadingOpacity,
-                    y: engineersHeadingY,
-                    marginBottom: "clamp(1.5rem, 4vh, 3rem)",
+                    width: "clamp(50%, 65vw, 75%)",
+                    objectPosition: "center center",
                   }}
+                />
+                {/* Gradient fade on the left edge of the image */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: "linear-gradient(to right, rgba(0,0,0,1) 25%, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.4) 55%, transparent 70%)",
+                  }}
+                />
+                {/* Subtle top/bottom vignette for depth */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.6) 100%)",
+                  }}
+                />
+              </div>
+
+              {/* Content container — left-aligned */}
+              <div className="relative h-full flex items-center">
+                <div
+                  className="flex flex-col justify-center px-6 sm:px-10 lg:px-16"
+                  style={{ maxWidth: "clamp(320px, 50vw, 600px)" }}
                 >
-                  <h2
-                    className="font-bold text-white leading-tight"
-                    style={{ fontSize: "clamp(1.5rem, 4vw, 3.5rem)" }}
-                  >
-                    Built by <span className="text-[#e3b53d]">Students</span>
-                  </h2>
-                  <p
-                    className="text-gray-400 font-secondary mx-auto mt-3"
+                  {/* Heading */}
+                  <motion.div
                     style={{
-                      fontSize: "clamp(0.9rem, 1.5vw, 1.25rem)",
-                      maxWidth: "clamp(280px, 50vw, 600px)",
+                      opacity: engineersHeadingOpacity,
+                      y: engineersHeadingY,
+                      marginBottom: "clamp(1.5rem, 4vh, 3rem)",
                     }}
                   >
-                    A passionate team of engineers, designers, and innovators pushing the limits of electric motorsport
-                  </p>
-                </motion.div>
+                    <h2
+                      className="font-bold text-white leading-tight"
+                      style={{ fontSize: "clamp(1.5rem, 4vw, 3.5rem)" }}
+                    >
+                      Built by <span className="text-[#e3b53d]">Students</span>
+                    </h2>
+                    <p
+                      className="text-gray-400 font-secondary mt-3"
+                      style={{
+                        fontSize: "clamp(0.9rem, 1.5vw, 1.25rem)",
+                        maxWidth: "clamp(280px, 40vw, 500px)",
+                      }}
+                    >
+                      A passionate team of engineers, designers, and innovators pushing the limits of electric motorsport
+                    </p>
+                  </motion.div>
 
-                {/* Large number display */}
-                <motion.div
-                  className="relative flex flex-col items-center"
-                  style={{ opacity: engineersContentOpacity, y: engineersContentY }}
-                >
-                  {/* Number */}
-                  <span
-                    className="relative z-10 font-black text-[#e3b53d] tracking-tighter leading-none"
-                    style={{ fontSize: "clamp(5rem, 20vw, 14rem)" }}
+                  {/* Large number display */}
+                  <motion.div
+                    className="relative flex flex-col"
+                    style={{ opacity: engineersContentOpacity, y: engineersContentY }}
                   >
-                    <CountUp value={teamStat.value} active={engineersRevealed} />
-                  </span>
+                    {/* Number */}
+                    <span
+                      className="relative z-10 font-black text-[#e3b53d] tracking-tighter leading-none"
+                      style={{ fontSize: "clamp(4rem, 15vw, 10rem)" }}
+                    >
+                      <CountUp value={teamStat.value} active={engineersRevealed} />
+                    </span>
 
-                  {/* Label */}
-                  <span
-                    className="relative z-10 font-semibold text-white uppercase"
-                    style={{
-                      fontSize: "clamp(1rem, 2.5vw, 1.75rem)",
-                      letterSpacing: "0.25em",
-                      marginTop: "clamp(0.25rem, 1vh, 0.75rem)",
-                    }}
-                  >
-                    {teamStat.unit}
-                  </span>
+                    {/* Label */}
+                    <span
+                      className="relative z-10 font-semibold text-white uppercase"
+                      style={{
+                        fontSize: "clamp(1rem, 2.5vw, 1.75rem)",
+                        letterSpacing: "0.25em",
+                        marginTop: "clamp(0.25rem, 1vh, 0.75rem)",
+                      }}
+                    >
+                      {teamStat.unit}
+                    </span>
 
-                  {/* Subtitle */}
-                  <span
-                    className="relative z-10 text-gray-500 font-secondary text-center"
-                    style={{
-                      fontSize: "clamp(0.85rem, 1.4vw, 1.1rem)",
-                      marginTop: "clamp(0.75rem, 2vh, 1.5rem)",
-                    }}
-                  >
-                    across all divisions
-                  </span>
-                </motion.div>
+                    {/* Subtitle */}
+                    <span
+                      className="relative z-10 text-gray-500 font-secondary"
+                      style={{
+                        fontSize: "clamp(0.85rem, 1.4vw, 1.1rem)",
+                        marginTop: "clamp(0.75rem, 2vh, 1.5rem)",
+                      }}
+                    >
+                      across all divisions
+                    </span>
+                  </motion.div>
+                </div>
               </div>
             </section>
           </div>

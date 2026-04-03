@@ -86,10 +86,10 @@ const tiers = [
 ];
 
 const stats = [
-  { value: "50+", label: "Team Members", icon: <Users className="w-6 h-6" /> },
-  { value: "100K+", label: "Social Impressions", icon: <Eye className="w-6 h-6" /> },
+  { value: "70+", label: "Team Members", icon: <Users className="w-6 h-6" /> },
   { value: "8", label: "Specialized Teams", icon: <Zap className="w-6 h-6" /> },
-  { value: "20+", label: "Years of Excellence", icon: <Award className="w-6 h-6" /> },
+  { value: "2020", label: "Founded", icon: <Award className="w-6 h-6" /> },
+  { value: "2025", label: "Competition Year", icon: <Eye className="w-6 h-6" /> },
 ];
 
 const currentSponsors = [
@@ -228,7 +228,7 @@ export default function SponsorshipPage() {
                 icon: <Users className="w-10 h-10" />,
                 title: "Talent Pipeline",
                 description:
-                  "Direct access to top engineering talent from USC. Our alumni work at Tesla, SpaceX, Ford, Apple, and more.",
+                  "Direct access to top engineering talent from USC. Our members have interned at companies like SpaceX.",
                 color: "#ff3d00",
               },
               {

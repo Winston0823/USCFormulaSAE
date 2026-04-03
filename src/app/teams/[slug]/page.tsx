@@ -78,7 +78,7 @@ const teamsData: Record<string, TeamData> = {
     accentHue: "from-orange-500/20 via-transparent",
     tagline: "The Foundation of Speed",
     description:
-      "The Frame team designs and builds the structural backbone of our race car. We create a chassis that is lightweight yet incredibly rigid, providing optimal handling characteristics while ensuring driver safety. Our work involves extensive finite element analysis, material selection, and precision fabrication.",
+      "The Frame team is responsible for the design and manufacture of the vehicle frame — the structural backbone of our race car. We create a chassis that is lightweight yet incredibly rigid, providing optimal handling characteristics while ensuring driver safety through finite element analysis, material selection, and precision fabrication.",
     responsibilities: [
       "Chassis design and finite element analysis",
       "Steel tube frame fabrication and welding",
@@ -106,7 +106,7 @@ const teamsData: Record<string, TeamData> = {
     accentHue: "from-emerald-500/20 via-transparent",
     tagline: "Connecting Power to Performance",
     description:
-      "The Drivetrain team is responsible for all systems that transfer power from the motor to the wheels. We design and optimize gear ratios, chain systems, differentials, and axles to ensure efficient power delivery and reliability during competition events.",
+      "The Drivetrain team optimizes the transfer of power from the accumulator to the wheels. We design and optimize gear ratios, chain systems, differentials, and axles to ensure efficient power delivery and reliability during competition events.",
     responsibilities: [
       "Gear ratio optimization and selection",
       "Chain drive system design",
@@ -133,7 +133,7 @@ const teamsData: Record<string, TeamData> = {
     accentHue: "from-amber-500/20 via-transparent",
     tagline: "Engineering Pure Performance",
     description:
-      "The Powertrain team extracts maximum performance from our electric motor package. We handle motor selection, tuning, battery management systems, and cooling. Our goal is to deliver reliable power throughout competition while maximizing efficiency and performance.",
+      "The Powertrain team designs the accumulator, which entails safely packaging the batteries and other electrical systems. We handle motor selection, battery management systems, and cooling to deliver reliable power throughout competition while maximizing efficiency and performance.",
     responsibilities: [
       "Electric motor tuning and calibration",
       "Battery pack design and manufacturing",
@@ -189,7 +189,7 @@ const teamsData: Record<string, TeamData> = {
     accentHue: "from-violet-500/20 via-transparent",
     tagline: "The Driver-Machine Interface",
     description:
-      "The Ergonomics team creates the perfect connection between driver and machine. We design the cockpit layout, pedal box, steering system, seat, and all driver controls. Our focus is on maximizing driver comfort, visibility, and the ability to extract maximum performance from the car.",
+      "The Ergonomics team designs the driver pedal box, brake lines, dash, steering, seatbelt, head restraint, and seat. Our focus is on maximizing driver comfort, visibility, and the ability to extract maximum performance from the car.",
     responsibilities: [
       "Cockpit and dashboard design",
       "Pedal box design and adjustment",
@@ -244,7 +244,7 @@ const teamsData: Record<string, TeamData> = {
     accentHue: "from-[#e3b53d]/20 via-transparent",
     tagline: "Driving Success Beyond the Track",
     description:
-      "The Business team is the engine that keeps our organization running. We manage sponsorship relationships, marketing campaigns, team finances, event logistics, and recruitment. Our work ensures the team has the resources, visibility, and organizational structure needed to succeed.",
+      "The Business team manages operational logistics, finances, media outreach, and securing partnerships within the industry. Our work ensures the team has the resources, visibility, and organizational structure needed to succeed.",
     responsibilities: [
       "Sponsorship acquisition and management",
       "Marketing and social media management",

@@ -14,12 +14,10 @@ import {
 } from "lucide-react";
 
 const milestones = [
-  { year: "2003", event: "Team Founded at USC" },
-  { year: "2008", event: "First Competition Podium" },
-  { year: "2015", event: "Best Design Award" },
-  { year: "2019", event: "Top 10 National Ranking" },
-  { year: "2023", event: "New Electric Vehicle Division" },
-  { year: "2024", event: "Expanded to 50+ Members" },
+  { year: "2020", event: "Team Founded at USC" },
+  { year: "2022", event: "First Car Built" },
+  { year: "2024", event: "Car Unveiled at AME Awards" },
+  { year: "2025", event: "FSAE Electric Competition — Brooklyn, Michigan" },
 ];
 
 const values = [
@@ -46,12 +44,12 @@ const values = [
 ];
 
 const achievements = [
-  "Multiple Top 10 finishes in FSAE Competition",
-  "Award-winning aerodynamic package design",
-  "Industry partnerships with leading automotive companies",
-  "Alumni working at Tesla, SpaceX, Ford, and more",
-  "State-of-the-art workshop and facilities",
-  "Comprehensive training program for new members",
+  "First car built in 2022 — just two years after founding",
+  "Car unveiled at the AME Awards — a first in team history",
+  "Members have interned at SpaceX, including on the Falcon propulsion team",
+  "70+ members ranging from freshmen to graduate students",
+  "Open to all majors — not just engineering",
+  "Comprehensive hands-on training in EV design and manufacturing",
 ];
 
 export default function AboutPage() {
@@ -81,8 +79,9 @@ export default function AboutPage() {
               Engineering <span className="text-[#e3b53d]">Excellence</span>
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              USC Formula Electric is a student-run engineering team dedicated to designing,
-              building, and racing high-performance formula-style electric vehicles.
+              Founded in Spring 2020, USC Formula Electric designs, manufactures, and races
+              miniature electric F1 vehicles — training rising engineers in innovative thinking,
+              leadership, and electric vehicle design.
             </p>
           </motion.div>
         </div>
@@ -104,14 +103,16 @@ export default function AboutPage() {
                 Building the Future of <span className="text-[#e3b53d]">Motorsport</span>
               </h2>
               <p className="text-gray-400 text-lg leading-relaxed mb-6">
-                At USC Formula Electric, we believe in learning by doing. Our mission is to provide
-                students with hands-on engineering experience while competing at the highest
-                level of collegiate motorsport.
+                USC Formula Electric is committed to developing the next generation of innovators
+                through the complete design and construction of a high-performance electric race car
+                for the Formula SAE Electric competition.
               </p>
               <p className="text-gray-400 text-lg leading-relaxed mb-8">
-                Every year, we design and manufacture a complete formula-style electric race car from
-                scratch, pushing the boundaries of what&apos;s possible in automotive engineering
-                and preparing our members for successful careers in the industry.
+                We cultivate engineers specializing in electric vehicle design and technology through
+                hands-on projects and collaboration with industry experts, fostering an environment that
+                enhances technical proficiency and creative problem-solving. Members take ownership of
+                every aspect of the vehicle — from welding the chassis and developing software, to sourcing
+                critical components and presenting to industry judges.
               </p>
 
               <div className="space-y-3">
@@ -154,12 +155,12 @@ export default function AboutPage() {
 
               {/* Floating stat cards */}
               <div className="absolute -bottom-6 -left-6 p-4 rounded-xl bg-[#0a0a0a]/90 border border-[#e3b53d]/20 backdrop-blur-sm">
-                <div className="text-3xl font-bold text-[#e3b53d]">50+</div>
+                <div className="text-3xl font-bold text-[#e3b53d]">70+</div>
                 <div className="text-sm text-gray-400">Team Members</div>
               </div>
               <div className="absolute -top-6 -right-6 p-4 rounded-xl bg-[#0a0a0a]/90 border border-[#e3b53d]/20 backdrop-blur-sm">
-                <div className="text-3xl font-bold text-[#e3b53d]">20+</div>
-                <div className="text-sm text-gray-400">Years of Excellence</div>
+                <div className="text-3xl font-bold text-[#e3b53d]">2020</div>
+                <div className="text-sm text-gray-400">Founded</div>
               </div>
             </motion.div>
           </div>
