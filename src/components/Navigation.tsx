@@ -395,8 +395,10 @@ export default function Navigation() {
                             if (el) {
                               e.preventDefault();
                               const lenis = (window as Window & { __lenis?: { scrollTo: (target: HTMLElement, opts?: { offset?: number }) => void } }).__lenis;
+                              // Teams section needs extra offset to scroll past animation triggers
+                              const offset = id === "teams" ? window.innerHeight * 0.18 : -80;
                               if (lenis) {
-                                lenis.scrollTo(el, { offset: -80 });
+                                lenis.scrollTo(el, { offset });
                               } else {
                                 el.scrollIntoView({ behavior: "smooth" });
                               }
@@ -446,8 +448,9 @@ export default function Navigation() {
                         if (el) {
                           e.preventDefault();
                           const lenis = (window as Window & { __lenis?: { scrollTo: (target: HTMLElement, opts?: { offset?: number }) => void } }).__lenis;
+                          const offset = id === "teams" ? window.innerHeight * 0.18 : -80;
                           if (lenis) {
-                            lenis.scrollTo(el, { offset: -80 });
+                            lenis.scrollTo(el, { offset });
                           } else {
                             el.scrollIntoView({ behavior: "smooth" });
                           }

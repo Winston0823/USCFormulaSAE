@@ -437,7 +437,7 @@ export default function Home() {
 
         {/* Stats Section - sticky scroll zone */}
         <div ref={statsRef} className="h-[130vh] relative">
-          <div className="sticky top-0 h-screen overflow-hidden bg-black/80 backdrop-blur-sm">
+          <div className="sticky top-0 h-screen overflow-hidden bg-black/65 backdrop-blur-[4px]">
             <section className="absolute inset-0 flex items-center justify-center overflow-hidden">
               {/* Background effects */}
               <div className="absolute inset-0 circuit-pattern opacity-20" />
@@ -593,7 +593,7 @@ export default function Home() {
 
         {/* Engineers Section - separate sticky scroll zone */}
         <div ref={engineersRef} className="h-[140vh] relative">
-          <div className="sticky top-0 h-screen overflow-hidden bg-black/80 backdrop-blur-sm">
+          <div className="sticky top-0 h-screen overflow-hidden bg-black/65 backdrop-blur-[4px]">
             <section
               className="absolute inset-0 overflow-hidden"
               style={{
@@ -707,8 +707,8 @@ export default function Home() {
 
         {/* Teams Section - separate sticky scroll zone */}
         <div ref={teamsRef} className="h-[150vh] relative">
-          <div id="teams" className="absolute top-0 scroll-mt-20" />
-          <div className="sticky top-0 h-screen overflow-hidden bg-black/80 backdrop-blur-sm">
+          <div id="teams" className="absolute top-0" />
+          <div className="sticky top-0 h-screen overflow-hidden bg-black/65 backdrop-blur-[4px]">
             <div className="relative w-full h-[calc(100vh-5rem)] mt-20 flex flex-col justify-center">
               {/* Title area — fades in first */}
               <motion.div
