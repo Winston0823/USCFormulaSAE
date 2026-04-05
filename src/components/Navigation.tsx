@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence, useSpring, useTransform } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import FireIcon from "./FireIcon";
 
 // Liquid hover effect hook - inspired by landonorris.com
 // Uses snappy easing (quick response, smooth settle) + morphing blob shape
@@ -257,8 +258,9 @@ export default function Navigation() {
             </Link>
           </div>
 
-          {/* Join Us button and Menu - right */}
+          {/* Fire icon, Join Us button and Menu - right */}
           <div className="flex-1 flex justify-end items-center gap-4">
+            <FireIcon className="hidden lg:flex" size={40} />
             <Link
               href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
               target="_blank"
@@ -463,14 +465,17 @@ export default function Navigation() {
                   </Link>
                 </div>
               ))}
-              <Link
-                href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full text-center px-6 py-3 bg-[#e3b53d] rounded-full text-black font-semibold text-lg leading-none"
-              >
-                Join Now
-              </Link>
+              <div className="flex items-center justify-center gap-4">
+                <FireIcon size={36} />
+                <Link
+                  href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 text-center px-6 py-3 bg-[#e3b53d] rounded-full text-black font-semibold text-lg leading-none"
+                >
+                  Join Now
+                </Link>
+              </div>
             </div>
           </motion.div>
         )}
