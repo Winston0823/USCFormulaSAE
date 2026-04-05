@@ -175,6 +175,7 @@ const navItems = [
   { name: "About", href: "/about" },
   { name: "Teams", href: "/#teams" },
   { name: "Sponsors", href: "/sponsorship" },
+  { name: "Fundraiser", href: "/fundraiser" },
   { name: "Contact", href: "/contact" },
 ];
 
