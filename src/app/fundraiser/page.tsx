@@ -56,7 +56,7 @@ export default function FundraiserPage() {
           >
             <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-6">
               <Flame className="w-4 h-4 mr-2" />
-              USC IGNITE
+              FUNDRAISER
             </span>
             <h1
               className="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-6"
@@ -89,7 +89,7 @@ export default function FundraiserPage() {
               className="text-2xl sm:text-3xl text-[#e3b53d] mb-12"
               style={{ fontFamily: "'Ethnocentric', sans-serif" }}
             >
-              Dear USC Ignite,
+              Dear Potential Sponsor,
             </h2>
           </motion.div>
 
