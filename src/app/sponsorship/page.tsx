@@ -83,10 +83,10 @@ const tiers = [
 ];
 
 const stats = [
-  { value: "70+", label: "Team Members", icon: <Users className="w-6 h-6" /> },
+  { value: "50+", label: "Team Members", icon: <Users className="w-6 h-6" /> },
   { value: "8", label: "Specialized Teams", icon: <Zap className="w-6 h-6" /> },
-  { value: "2020", label: "Founded", icon: <Award className="w-6 h-6" /> },
-  { value: "2025", label: "Competition Year", icon: <Eye className="w-6 h-6" /> },
+  { value: "2022", label: "Founded", icon: <Award className="w-6 h-6" /> },
+  { value: "2026", label: "Competition Year", icon: <Eye className="w-6 h-6" /> },
 ];
 
 const benefits = [
@@ -111,14 +111,22 @@ const benefits = [
 ];
 
 const currentSponsors = [
-  { name: "Sponsor 1" },
-  { name: "Sponsor 2" },
-  { name: "Sponsor 3" },
-  { name: "Sponsor 4" },
-  { name: "Sponsor 5" },
-  { name: "Sponsor 6" },
-  { name: "Sponsor 7" },
-  { name: "Sponsor 8" },
+  { name: "Boeing", logo: "https://logo.clearbit.com/boeing.com" },
+  { name: "Northrop Grumman", logo: "https://logo.clearbit.com/northropgrumman.com" },
+  { name: "Chevron", logo: "https://logo.clearbit.com/chevron.com" },
+  { name: "Perficient", logo: "https://logo.clearbit.com/perficient.com" },
+  { name: "MK Metal Products" },
+  { name: "AirTech", logo: "https://logo.clearbit.com/airtechintl.com" },
+  { name: "Stratasys", logo: "https://logo.clearbit.com/stratasys.com" },
+  { name: "Siemens", logo: "https://logo.clearbit.com/siemens.com" },
+  { name: "Lockheed Martin", logo: "https://logo.clearbit.com/lockheedmartin.com" },
+  { name: "Epsilon3", logo: "https://logo.clearbit.com/epsilon3.io" },
+  { name: "CRD Manufacturing" },
+  { name: "Corsa Technic" },
+  { name: "University Tire & Auto" },
+  { name: "Schroth Racing", logo: "https://logo.clearbit.com/schroth.com" },
+  { name: "Pro Set Services" },
+  { name: "Tilton", logo: "https://logo.clearbit.com/tiltonracing.com" },
 ];
 
 export default function SponsorshipPage() {
@@ -260,38 +268,21 @@ export default function SponsorshipPage() {
               </div>
             </motion.div>
 
-            {/* RIGHT: Abstract graphic */}
+            {/* RIGHT: Team photo */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="w-full lg:w-1/2 relative h-[400px] lg:h-[600px] flex items-center justify-center"
+              className="w-full lg:w-1/2 relative h-[400px] lg:h-[600px]"
             >
-              {/* Ambient glow */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-[#8b0000]/15 rounded-full blur-[120px]" />
-              <div className="absolute top-1/3 left-1/3 w-[300px] h-[300px] bg-[#e3b53d]/10 rounded-full blur-[100px]" />
-
-              {/* Large logo wireframe */}
-              <div className="relative">
+              <div className="w-full h-full rounded-2xl overflow-hidden border border-[#e3b53d]/20">
                 <img
-                  src="/icons/icon_negative.svg"
-                  alt=""
-                  aria-hidden="true"
-                  className="w-64 h-64 lg:w-80 lg:h-80 object-contain opacity-15"
+                  src="/team-photo.jpg"
+                  alt="USC Formula SAE team"
+                  className="w-full h-full object-cover"
                 />
-                {/* Glow ring around logo */}
-                <div
-                  className="absolute inset-0 rounded-full"
-                  style={{
-                    boxShadow: "0 0 80px 20px rgba(227,181,61,0.08), 0 0 160px 60px rgba(139,0,0,0.06)",
-                  }}
-                />
+                <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent" />
               </div>
-
-              {/* Geometric accent lines */}
-              <div className="absolute top-1/4 right-0 w-32 h-px bg-gradient-to-l from-[#e3b53d]/30 to-transparent" />
-              <div className="absolute bottom-1/3 left-0 w-24 h-px bg-gradient-to-r from-[#8b0000]/30 to-transparent" />
-              <div className="absolute top-1/2 right-1/4 w-px h-20 bg-gradient-to-b from-[#e3b53d]/20 to-transparent" />
             </motion.div>
           </div>
       </section>
@@ -347,7 +338,7 @@ export default function SponsorshipPage() {
                 )}
 
                 <div
-                  className={`h-full p-6 bg-white/5 border transition-all duration-300 hover:border-white/30 ${
+                  className={`h-full p-6 bg-white/5 border transition-all duration-300 hover:border-white/30 flex flex-col ${
                     tier.featured ? "pt-12" : ""
                   }`}
                   style={{
@@ -367,7 +358,7 @@ export default function SponsorshipPage() {
                     {tier.price}
                   </p>
 
-                  <ul className="space-y-3 mb-8">
+                  <ul className="space-y-3 mb-8 flex-1">
                     {tier.benefits.map((benefit, i) => (
                       <li key={i} className="flex items-start gap-2">
                         <CheckCircle className="w-5 h-5 shrink-0 mt-0.5" style={{ color: tier.color }} />
@@ -441,7 +432,15 @@ export default function SponsorshipPage() {
                 key={i}
                 className="shrink-0 w-36 h-20 sm:w-48 sm:h-28 rounded-xl bg-white/5 border border-[#e3b53d]/10 flex items-center justify-center p-4 sm:p-6 hover:border-[#e3b53d]/30 transition-colors"
               >
-                <span className="text-gray-500 text-sm">{sponsor.name}</span>
+                {sponsor.logo ? (
+                  <img
+                    src={sponsor.logo}
+                    alt={sponsor.name}
+                    className="max-w-full max-h-full object-contain brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
+                  />
+                ) : (
+                  <span className="text-gray-400 text-xs font-semibold text-center leading-tight">{sponsor.name}</span>
+                )}
               </div>
             ))}
           </motion.div>
@@ -484,12 +483,6 @@ export default function SponsorshipPage() {
                 Contact Us
                 <ArrowRight className="w-6 h-6 ml-2" />
               </Link>
-              <a
-                href="#"
-                className="inline-flex items-center justify-center px-10 py-5 bg-white/5 border border-white/20 rounded-full text-white font-bold text-lg hover:bg-white/10 transition-all duration-300"
-              >
-                Download Prospectus
-              </a>
             </div>
           </motion.div>
         </div>

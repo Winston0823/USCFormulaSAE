@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 
 const milestones = [
-  { year: "2020", event: "Team Founded at USC" },
+  { year: "2022", event: "Team Founded at USC" },
   { year: "2022", event: "First Car Built" },
   { year: "2024", event: "Car Unveiled at AME Awards" },
   { year: "2025", event: "FSAE Electric Competition — Brooklyn, Michigan" },
@@ -44,10 +44,10 @@ const values = [
 ];
 
 const achievements = [
-  "First car built in 2022 — just two years after founding",
+  "First car built in 2022 — the same year the team was founded",
   "Car unveiled at the AME Awards — a first in team history",
   "Members have interned at SpaceX, including on the Falcon propulsion team",
-  "70+ members ranging from freshmen to graduate students",
+  "50+ members ranging from freshmen to graduate students",
   "Open to all majors — not just engineering",
   "Comprehensive hands-on training in EV design and manufacturing",
 ];
@@ -79,7 +79,7 @@ export default function AboutPage() {
               Engineering <span className="text-[#e3b53d]">Excellence</span>
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              Founded in Spring 2020, USC Formula Electric designs, manufactures, and races
+              Founded in 2022, USC Formula Electric designs, manufactures, and races
               miniature electric F1 vehicles — training rising engineers in innovative thinking,
               leadership, and electric vehicle design.
             </p>
@@ -138,28 +138,24 @@ export default function AboutPage() {
               viewport={{ once: true }}
               className="relative"
             >
-              {/* Image placeholder */}
-              <div className="aspect-[4/3] rounded-2xl bg-gradient-to-br from-[#0a0a0a] to-black border border-[#e3b53d]/20 overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-[#e3b53d]/20 flex items-center justify-center">
-                      <Trophy className="w-12 h-12 text-[#e3b53d]" />
-                    </div>
-                    <p className="text-gray-500 text-sm">Team Photo Placeholder</p>
-                  </div>
-                </div>
-
+              {/* Team photo */}
+              <div className="aspect-[4/3] rounded-2xl border border-[#e3b53d]/20 overflow-hidden relative">
+                <img
+                  src="/team-photo.jpg"
+                  alt="USC Formula SAE team"
+                  className="w-full h-full object-cover"
+                />
                 {/* Decorative overlay */}
                 <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black to-transparent" />
               </div>
 
               {/* Floating stat cards */}
               <div className="absolute -bottom-6 -left-6 p-4 rounded-xl bg-[#0a0a0a]/90 border border-[#e3b53d]/20 backdrop-blur-sm">
-                <div className="text-3xl font-bold text-[#e3b53d]">70+</div>
+                <div className="text-3xl font-bold text-[#e3b53d]">50+</div>
                 <div className="text-sm text-gray-400">Team Members</div>
               </div>
               <div className="absolute -top-6 -right-6 p-4 rounded-xl bg-[#0a0a0a]/90 border border-[#e3b53d]/20 backdrop-blur-sm">
-                <div className="text-3xl font-bold text-[#e3b53d]">2020</div>
+                <div className="text-3xl font-bold text-[#e3b53d]">2022</div>
                 <div className="text-sm text-gray-400">Founded</div>
               </div>
             </motion.div>

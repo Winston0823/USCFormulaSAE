@@ -23,10 +23,10 @@ const PixelRevealOverlay = dynamic(() => import("@/components/PixelRevealOverlay
 
 const engineeringStats = [
   { label: "TOP SPEED TARGET", value: "40", unit: "MPH", icon: <Gauge className="w-6 h-6" /> },
-  { label: "0-60 ACCELERATION", value: "4.2", unit: "SEC", icon: <Timer className="w-6 h-6" /> },
+  { label: "0-40 ACCELERATION", value: "2.8", unit: "SEC", icon: <Timer className="w-6 h-6" /> },
 ];
 
-const teamStat = { label: "Team Members", value: "70+", unit: "MEMBERS", icon: <Users className="w-6 h-6" /> };
+const teamStat = { label: "Team Members", value: "50+", unit: "MEMBERS", icon: <Users className="w-6 h-6" /> };
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -255,7 +255,7 @@ export default function Home() {
                 className="block uppercase tracking-widest text-white/40 mb-1"
                 style={{ fontFamily: "var(--font-inter-tight), sans-serif", fontSize: "clamp(8px, 0.65vw, 12px)" }}
               >
-                0–60 mph
+                0–40 mph
               </span>
               <span
                 className="block text-lg sm:text-xl md:text-2xl font-bold text-[#e3b53d]"
@@ -397,7 +397,7 @@ export default function Home() {
               marginTop: "0.2em",
             }}
           >
-            EST. 2020
+            EST. 2022
           </p>
         </motion.div>
 
