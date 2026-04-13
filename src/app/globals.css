@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+  will-change: transform;
+}
+
 @font-face {
   font-family: 'Ethnocentric';
   src: url('/fonts/Ethnocentric-Regular.otf') format('opentype');

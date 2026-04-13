@@ -111,22 +111,20 @@ const benefits = [
 ];
 
 const currentSponsors = [
-  { name: "Boeing", logo: "https://logo.clearbit.com/boeing.com" },
-  { name: "Northrop Grumman", logo: "https://logo.clearbit.com/northropgrumman.com" },
-  { name: "Chevron", logo: "https://logo.clearbit.com/chevron.com" },
-  { name: "Perficient", logo: "https://logo.clearbit.com/perficient.com" },
-  { name: "MK Metal Products" },
-  { name: "AirTech", logo: "https://logo.clearbit.com/airtechintl.com" },
-  { name: "Stratasys", logo: "https://logo.clearbit.com/stratasys.com" },
-  { name: "Siemens", logo: "https://logo.clearbit.com/siemens.com" },
-  { name: "Lockheed Martin", logo: "https://logo.clearbit.com/lockheedmartin.com" },
-  { name: "Epsilon3", logo: "https://logo.clearbit.com/epsilon3.io" },
-  { name: "CRD Manufacturing" },
-  { name: "Corsa Technic" },
-  { name: "University Tire & Auto" },
-  { name: "Schroth Racing", logo: "https://logo.clearbit.com/schroth.com" },
-  { name: "Pro Set Services" },
-  { name: "Tilton", logo: "https://logo.clearbit.com/tiltonracing.com" },
+  { name: "Schroth Racing", logo: "/sponsors/schroth_t.png" },
+  { name: "Chevron", logo: "/sponsors/chevron_t.png" },
+  { name: "Northrop Grumman", logo: "/sponsors/northrop_t.png" },
+  { name: "ENEPAQ", logo: "/sponsors/enepaq_t.png" },
+  { name: "Ansys", logo: "/sponsors/autotech2_t.png" },
+  { name: "Lockheed Martin", logo: "/sponsors/lockheed_t.png" },
+  { name: "Stratasys", logo: "/sponsors/stratasys_t.png" },
+  { name: "Boeing", logo: "/sponsors/boeing_t.png" },
+  { name: "Celsius", logo: "/sponsors/celsius_t.png" },
+  { name: "AirTech", logo: "/sponsors/airtech_t.png" },
+  { name: "Corsa Technic", logo: "/sponsors/corsa_t.png" },
+  { name: "Cascadia Motion", logo: "/sponsors/cascadia_t.png" },
+  { name: "CRD Manufacturing", logo: "/sponsors/crd_t.png", filter: "brightness(0) invert(1)" },
+  { name: "Autotech" },
 ];
 
 export default function SponsorshipPage() {
@@ -422,28 +420,29 @@ export default function SponsorshipPage() {
           <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0a0a0f] to-transparent z-10" />
           <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0a0a0f] to-transparent z-10" />
 
-          <motion.div
-            className="flex gap-6 will-change-transform"
-            animate={{ x: ["0%", "-50%"] }}
-            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          >
-            {[...currentSponsors, ...currentSponsors].map((sponsor, i) => (
-              <div
-                key={i}
-                className="shrink-0 w-36 h-20 sm:w-48 sm:h-28 rounded-xl bg-white/5 border border-[#e3b53d]/10 flex items-center justify-center p-4 sm:p-6 hover:border-[#e3b53d]/30 transition-colors"
-              >
-                {sponsor.logo ? (
-                  <img
-                    src={sponsor.logo}
-                    alt={sponsor.name}
-                    className="max-w-full max-h-full object-contain brightness-0 invert opacity-70 hover:opacity-100 transition-opacity"
-                  />
-                ) : (
-                  <span className="text-gray-400 text-xs font-semibold text-center leading-tight">{sponsor.name}</span>
-                )}
+          <div className="flex marquee-track">
+            {[0, 1].map((setIdx) => (
+              <div key={setIdx} className="flex gap-6 pr-6 shrink-0">
+                {currentSponsors.map((sponsor, i) => (
+                  <div
+                    key={i}
+                    className="shrink-0 w-36 h-20 sm:w-48 sm:h-28 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center p-4 sm:p-6"
+                  >
+                    {sponsor.logo ? (
+                      <img
+                        src={sponsor.logo}
+                        alt={sponsor.name}
+                        className="max-w-full max-h-full object-contain opacity-70 hover:opacity-100 transition-opacity"
+                        style={sponsor.filter ? { filter: sponsor.filter } : undefined}
+                      />
+                    ) : (
+                      <span className="text-white/80 font-black tracking-[0.2em] uppercase text-center" style={{ fontSize: "clamp(12px, 1.4vw, 20px)", fontFamily: "var(--font-inter-tight), sans-serif" }}>{sponsor.name}</span>
+                    )}
+                  </div>
+                ))}
               </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
