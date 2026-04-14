@@ -334,28 +334,29 @@ export default function FundraiserPage() {
         </div>
       </section>
 
-      {/* ═══ TEAM PHOTO PLACEHOLDER ═══ */}
+      {/* ═══ TEAM VIDEO ═══ */}
       <section className="relative py-16">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            onViewportEnter={() => {
+              const vid = document.getElementById("ignite-video") as HTMLVideoElement | null;
+              vid?.play();
+            }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="relative aspect-video rounded-2xl overflow-hidden border border-[#e3b53d]/20 bg-white/5"
+            className="relative aspect-video rounded-2xl overflow-hidden border border-[#e3b53d]/20 bg-black"
           >
-            {/* Placeholder content */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <div className="w-16 h-16 rounded-full bg-[#e3b53d]/10 flex items-center justify-center mb-4">
-                <Users className="w-8 h-8 text-[#e3b53d]/50" />
-              </div>
-              <p
-                className="text-white/30 text-lg"
-                style={{ fontFamily: "var(--font-rajdhani), sans-serif" }}
-              >
-                Team photo coming soon
-              </p>
-            </div>
+            <video
+              id="ignite-video"
+              className="w-full h-full object-cover"
+              controls
+              playsInline
+              muted
+            >
+              <source src="/fe-ignite.mp4" type="video/mp4" />
+            </video>
           </motion.div>
           <motion.p
             initial={{ opacity: 0 }}
@@ -365,7 +366,7 @@ export default function FundraiserPage() {
             className="text-center text-white/30 text-sm mt-4 tracking-widest uppercase"
             style={{ fontFamily: "var(--font-rajdhani), sans-serif" }}
           >
-            Our team, ready to compete
+            Thank you for your support!
           </motion.p>
         </div>
       </section>
