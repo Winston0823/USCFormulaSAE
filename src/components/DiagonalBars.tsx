@@ -11,6 +11,7 @@ interface Team {
   slug: string;
   desc: string;
   gradient: string;
+  image?: string;
 }
 
 const teams: Team[] = [
@@ -21,6 +22,7 @@ const teams: Team[] = [
     slug: "aerodynamics",
     desc: "Optimizing airflow for maximum downforce and minimal drag through CFD analysis and wind tunnel testing.",
     gradient: "linear-gradient(135deg, #1a1a2e, #16213e, #0f3460, #1a1a2e, #16213e)",
+    image: "/aerodynamics.jpg",
   },
   {
     id: "frame",
@@ -29,6 +31,7 @@ const teams: Team[] = [
     slug: "frame",
     desc: "Designing the structural backbone with carbon fiber and steel, optimized through FEA for rigidity and safety.",
     gradient: "linear-gradient(135deg, #2d1b00, #4a2c0a, #6b3a0a, #2d1b00, #4a2c0a)",
+    image: "/frame.jpg",
   },
   {
     id: "drivetrain",
@@ -37,6 +40,7 @@ const teams: Team[] = [
     slug: "drivetrain",
     desc: "Engineering power transfer from motor to wheels with custom gearboxes and differential systems.",
     gradient: "linear-gradient(135deg, #0a2e0a, #1a3a1a, #0d4d0d, #0a2e0a, #1a3a1a)",
+    image: "/drivetrain.jpg",
   },
   {
     id: "powertrain",
@@ -45,6 +49,7 @@ const teams: Team[] = [
     slug: "powertrain",
     desc: "High-voltage battery systems, motor controllers, and thermal management for peak performance.",
     gradient: "linear-gradient(135deg, #2e1a2e, #3a1a3a, #4d0d4d, #2e1a2e, #3a1a3a)",
+    image: "/powertrain.jpg",
   },
   {
     id: "dynamics",
@@ -61,6 +66,7 @@ const teams: Team[] = [
     slug: "ergonomics",
     desc: "Creating the perfect driver-machine interface with optimized cockpit design and controls.",
     gradient: "linear-gradient(135deg, #2e2e0a, #3a3a0d, #4d4d0a, #2e2e0a, #3a3a0d)",
+    image: "/ergonomics.jpg",
   },
   {
     id: "systems",
@@ -69,6 +75,7 @@ const teams: Team[] = [
     slug: "systems",
     desc: "Embedded firmware, telemetry, and data acquisition running at 1kHz for real-time control.",
     gradient: "linear-gradient(135deg, #0a2e2e, #0d3a3a, #0a4d4d, #0a2e2e, #0d3a3a)",
+    image: "/systems.jpg",
   },
   {
     id: "business",
@@ -77,6 +84,7 @@ const teams: Team[] = [
     slug: "business",
     desc: "Sponsorship, project management, and operations — the backbone keeping the team running.",
     gradient: "linear-gradient(135deg, #1e0a0a, #2e1515, #3a0d0d, #1e0a0a, #2e1515)",
+    image: "/business-group.jpg",
   },
 ];
 
@@ -198,14 +206,51 @@ export default function DiagonalBars() {
           href={`/teams/${team.slug}`}
           className={styles.barItem}
           data-team={team.id}
+          data-has-image={team.image ? "true" : undefined}
           onMouseEnter={startGeometryAnimation}
+          onMouseMove={(e) => {
+            if (!team.image) return;
+            const rect = e.currentTarget.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            e.currentTarget.style.setProperty("--tilt-x", `${-y * 10}deg`);
+            e.currentTarget.style.setProperty("--tilt-y", `${x * 10}deg`);
+            e.currentTarget.style.setProperty("--tilt-tx", `${x * 12}px`);
+            e.currentTarget.style.setProperty("--tilt-ty", `${y * 12}px`);
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.setProperty("--tilt-x", "0deg");
+            e.currentTarget.style.setProperty("--tilt-y", "0deg");
+            e.currentTarget.style.setProperty("--tilt-tx", "0px");
+            e.currentTarget.style.setProperty("--tilt-ty", "0px");
+          }}
         >
           {/* Clipped background shape */}
           <div className={styles.barShape}>
             <div className={styles.barVideo}>
+              {team.image && (
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: "-8%",
+                    backgroundImage: `url(${team.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center 25%",
+                    transform:
+                      "perspective(700px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translate3d(var(--tilt-tx, 0px), var(--tilt-ty, 0px), 0)",
+                    transformStyle: "preserve-3d",
+                    transition: "transform 0.25s ease-out",
+                    willChange: "transform",
+                  }}
+                />
+              )}
               <div
                 className={styles.videoPlaceholder}
-                style={{ background: team.gradient, backgroundSize: "300% 300%" }}
+                style={{
+                  background: team.gradient,
+                  backgroundSize: "300% 300%",
+                  opacity: team.image ? 0.6 : 1,
+                }}
               />
               <div className={styles.barVideoOverlay} />
             </div>

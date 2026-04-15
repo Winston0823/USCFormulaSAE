@@ -134,7 +134,7 @@ export default function ContactPage() {
                     <Instagram className="w-5 h-5" />
                   </a>
                   <a
-                    href="https://www.linkedin.com/company/sc-formula-electric"
+                    href="https://www.linkedin.com/company/usc-electric-racing"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-12 h-12 rounded-xl bg-white/5 border border-[#e3b53d]/20 flex items-center justify-center text-gray-400 hover:text-[#e3b53d] hover:border-[#e3b53d]/50 transition-all"

@@ -33,7 +33,7 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4">
               <SocialLink href="https://www.instagram.com/uscformulaelectric/" icon={<Instagram className="w-5 h-5" />} label="Instagram" />
-              <SocialLink href="https://www.linkedin.com/company/sc-formula-electric" icon={<Linkedin className="w-5 h-5" />} label="LinkedIn" />
+              <SocialLink href="https://www.linkedin.com/company/usc-electric-racing" icon={<Linkedin className="w-5 h-5" />} label="LinkedIn" />
               <SocialLink href="mailto:formulae@usc.edu" icon={<Mail className="w-5 h-5" />} label="Email" />
             </div>
           </div>

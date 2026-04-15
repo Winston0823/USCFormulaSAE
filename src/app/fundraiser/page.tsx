@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import {
-  Flame,
   MapPin,
   Calendar,
   Users,
@@ -54,10 +53,6 @@ export default function FundraiserPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-6">
-              <Flame className="w-4 h-4 mr-2" />
-              FUNDRAISER
-            </span>
             <h1
               className="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-6"
               style={{ fontFamily: "'Ethnocentric', sans-serif" }}
