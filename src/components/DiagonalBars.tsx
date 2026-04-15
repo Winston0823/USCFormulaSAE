@@ -58,6 +58,7 @@ const teams: Team[] = [
     slug: "vehicle-dynamics",
     desc: "Suspension geometry and damper tuning optimized for autocross cornering performance.",
     gradient: "linear-gradient(135deg, #0a1e2e, #0d2a3a, #0a3a4d, #0a1e2e, #0d2a3a)",
+    image: "/vehicle-dynamics.jpg",
   },
   {
     id: "ergonomics",
