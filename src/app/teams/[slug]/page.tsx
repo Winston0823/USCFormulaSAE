@@ -78,7 +78,7 @@ const teamsData: Record<string, TeamData> = {
     accentHue: "from-orange-500/20 via-transparent",
     tagline: "The Foundation of Speed",
     description:
-      "The Frame team is responsible for the design and manufacture of the vehicle frame — the structural backbone of our race car. We create a chassis that is lightweight yet incredibly rigid, providing optimal handling characteristics while ensuring driver safety through finite element analysis, material selection, and precision fabrication.",
+      "The Frame team is responsible for the design and manufacture of the vehicle frame, the structural backbone of our race car. We create a chassis that is lightweight yet incredibly rigid, providing optimal handling characteristics while ensuring driver safety through finite element analysis, material selection, and precision fabrication.",
     responsibilities: [
       "Chassis design and finite element analysis",
       "Steel tube frame fabrication and welding",

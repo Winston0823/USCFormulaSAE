@@ -83,7 +83,7 @@ const teams: Team[] = [
     idx: "08",
     name: "BUSINESS",
     slug: "business",
-    desc: "Sponsorship, project management, and operations — the backbone keeping the team running.",
+    desc: "Sponsorship, project management, and operations. The backbone keeping the team running.",
     gradient: "linear-gradient(135deg, #1e0a0a, #2e1515, #3a0d0d, #1e0a0a, #2e1515)",
     image: "/business-group.jpg",
   },

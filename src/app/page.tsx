@@ -255,7 +255,7 @@ export default function Home() {
                 className="block uppercase tracking-widest text-white/40 mb-1"
                 style={{ fontFamily: "var(--font-inter-tight), sans-serif", fontSize: "clamp(8px, 0.65vw, 12px)" }}
               >
-                0–40 mph
+                0 to 40 mph
               </span>
               <span
                 className="block text-lg sm:text-xl md:text-2xl font-bold text-[#e3b53d]"

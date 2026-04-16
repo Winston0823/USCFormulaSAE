@@ -22,12 +22,30 @@ interface EventData {
 
 const events: EventData[] = [
   {
+    title: "Fall Kickoff & Recruitment",
+    date: "September 2024",
+    location: "USC Campus, Los Angeles",
+    tag: "RECRUITMENT",
+    description:
+      "We welcome new members of all majors and experience levels. Kickoff includes team introductions, subteam overviews, and hands-on demos to get everyone excited for the build season ahead.",
+    images: ["/placeholder-event-8.jpg", "/placeholder-event-9.jpg"],
+  },
+  {
+    title: "Spring Build Season",
+    date: "January to May 2025",
+    location: "USC Workshop",
+    tag: "BUILD",
+    description:
+      "Our most intensive period. All eight subteams converge in the workshop to fabricate, assemble, and test every component of the car before competition season.",
+    images: ["/collab-on-car.jpg", "/frame.jpg", "/powertrain.jpg", "/drivetrain.jpg"],
+  },
+  {
     title: "FSAE Electric Michigan 2025",
     date: "June 2025",
     location: "Brooklyn, Michigan",
     tag: "COMPETITION",
     description:
-      "Our team competes in the Formula SAE Electric competition — designing, manufacturing, and testing a fully functioning electric race car against top university teams from around the world.",
+      "Our team competes in the Formula SAE Electric competition, designing, manufacturing, and testing a fully functioning electric race car against top university teams from around the world.",
     images: ["/competition-2025-1.jpg", "/competition-2025-2.jpg", "/competition-2025-3.jpg", "/competition-2025-4.jpg", "/competition-2025-5.jpg"],
   },
   {
@@ -36,26 +54,8 @@ const events: EventData[] = [
     location: "USC Campus, Los Angeles",
     tag: "MILESTONE",
     description:
-      "A historic milestone — the first time in team history we unveiled our car at the AME Awards ceremony, showcasing months of engineering work to faculty, sponsors, and fellow students.",
+      "A historic milestone. The first time in team history we unveiled our car at the AME Awards ceremony, showcasing months of engineering work to faculty, sponsors, and fellow students.",
     images: ["/placeholder-event-4.jpg", "/placeholder-event-5.jpg"],
-  },
-  {
-    title: "Spring Build Season",
-    date: "January – May 2025",
-    location: "USC Workshop",
-    tag: "BUILD",
-    description:
-      "Our most intensive period — all eight subteams converge in the workshop to fabricate, assemble, and test every component of the car before competition season.",
-    images: ["/placeholder-event-6.jpg", "/placeholder-event-7.jpg"],
-  },
-  {
-    title: "Fall Kickoff & Recruitment",
-    date: "September 2024",
-    location: "USC Campus, Los Angeles",
-    tag: "RECRUITMENT",
-    description:
-      "We welcome new members of all majors and experience levels. Kickoff includes team introductions, subteam overviews, and hands-on demos to get everyone excited for the build season ahead.",
-    images: ["/placeholder-event-8.jpg", "/placeholder-event-9.jpg"],
   },
 ];
 
@@ -121,6 +121,15 @@ export default function EventsPage() {
     setImageIndex((prev) => (prev - 1 + activeEvent.images.length) % activeEvent.images.length);
   }, [activeEvent.images.length]);
 
+  // Auto-scroll images every 3 seconds
+  useEffect(() => {
+    if (activeEvent.images.length <= 1) return;
+    const timer = setInterval(() => {
+      setImageIndex((prev) => (prev + 1) % activeEvent.images.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [activeIndex, activeEvent.images.length]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowLeft") goPrev();
@@ -151,7 +160,7 @@ export default function EventsPage() {
             Our <span className="text-[#e3b53d]">Events</span>
           </h1>
           <p className="text-gray-500 text-base sm:text-lg mt-4 max-w-xl font-secondary">
-            From build season to race day — follow the journey.
+            From build season to race day. Follow the journey.
           </p>
         </motion.div>
       </div>
@@ -257,10 +266,12 @@ export default function EventsPage() {
                       />
                     )}
 
-                    {/* Placeholder icon */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <CalendarDays className={`transition-all duration-500 ${isActive ? "w-20 h-20 text-[#e3b53d]/15" : "w-10 h-10 text-[#e3b53d]/20"}`} />
-                    </div>
+                    {/* Placeholder icon — only shown when no real images */}
+                    {evt.images.every(img => img.startsWith("/placeholder")) && (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <CalendarDays className={`transition-all duration-500 ${isActive ? "w-20 h-20 text-[#e3b53d]/15" : "w-10 h-10 text-[#e3b53d]/20"}`} />
+                      </div>
+                    )}
 
                     {/* ── Side panel content ── */}
                     <AnimatePresence mode="wait">

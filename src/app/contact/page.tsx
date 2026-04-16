@@ -24,9 +24,9 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formState);
     setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
+    setFormState({ name: "", email: "", subject: "", message: "" });
+    setTimeout(() => setIsSubmitted(false), 4000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -88,8 +88,8 @@ export default function ContactPage() {
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">Location</h3>
                     <p className="text-gray-400">
-                      University of Southern California<br />
-                      620 USC McCarthy Way<br />
+                      USC Viterbi Baum Family Makerspace<br />
+                      910 Bloom Walk<br />
                       Los Angeles, CA 90089
                     </p>
                   </div>
@@ -144,18 +144,19 @@ export default function ContactPage() {
                 </div>
               </div>
 
-              {/* Map placeholder */}
+              {/* Google Maps */}
               <div className="mt-12">
-                <div className="aspect-[16/9] rounded-2xl bg-gradient-to-br from-[#0a0a0a] to-black border border-[#e3b53d]/20 overflow-hidden relative">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#e3b53d]/20 flex items-center justify-center">
-                        <MapPin className="w-8 h-8 text-[#e3b53d]" />
-                      </div>
-                      <p className="text-gray-500 text-sm">Map Placeholder</p>
-                      <p className="text-gray-600 text-xs mt-1">USC Campus Location</p>
-                    </div>
-                  </div>
+                <div className="aspect-[16/9] rounded-2xl border border-[#e3b53d]/20 overflow-hidden">
+                  <iframe
+                    src="https://maps.google.com/maps?q=910+Bloom+Walk,+Los+Angeles,+CA+90089&z=18&output=embed"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="USC Viterbi Baum Family Makerspace"
+                  />
                 </div>
               </div>
             </motion.div>
@@ -300,7 +301,7 @@ export default function ContactPage() {
               },
               {
                 q: "How can my company sponsor the team?",
-                a: "We'd love to discuss sponsorship opportunities! Please fill out the contact form above or email us directly at formulae@usc.edu.",
+                a: "We'd love to discuss sponsorship opportunities! Email us directly at formulae@usc.edu.",
               },
             ].map((faq, index) => (
               <motion.div

@@ -17,7 +17,7 @@ const milestones = [
   { year: "2022", event: "Team Founded at USC" },
   { year: "2022", event: "First Car Built" },
   { year: "2024", event: "Car Unveiled at AME Awards" },
-  { year: "2025", event: "FSAE Electric Competition — Brooklyn, Michigan" },
+  { year: "2025", event: "FSAE Electric Competition, Brooklyn, Michigan" },
 ];
 
 const values = [
@@ -44,11 +44,11 @@ const values = [
 ];
 
 const achievements = [
-  "First car built in 2022 — the same year the team was founded",
-  "Car unveiled at the AME Awards — a first in team history",
+  "First car built in 2022, the same year the team was founded",
+  "Car unveiled at the AME Awards, a first in team history",
   "Members have interned at SpaceX, including on the Falcon propulsion team",
   "50+ members ranging from freshmen to graduate students",
-  "Open to all majors — not just engineering",
+  "Open to all majors, not just engineering",
   "Comprehensive hands-on training in EV design and manufacturing",
 ];
 
@@ -80,7 +80,7 @@ export default function AboutPage() {
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
               Founded in 2022, USC Formula Electric designs, manufactures, and races
-              miniature electric F1 vehicles — training rising engineers in innovative thinking,
+              miniature electric F1 vehicles, training rising engineers in innovative thinking,
               leadership, and electric vehicle design.
             </p>
           </motion.div>
@@ -111,7 +111,7 @@ export default function AboutPage() {
                 We cultivate engineers specializing in electric vehicle design and technology through
                 hands-on projects and collaboration with industry experts, fostering an environment that
                 enhances technical proficiency and creative problem-solving. Members take ownership of
-                every aspect of the vehicle — from welding the chassis and developing software, to sourcing
+                every aspect of the vehicle, from welding the chassis and developing software, to sourcing
                 critical components and presenting to industry judges.
               </p>
 
