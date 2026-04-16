@@ -28,7 +28,7 @@ const events: EventData[] = [
     tag: "COMPETITION",
     description:
       "Our team competes in the Formula SAE Electric competition — designing, manufacturing, and testing a fully functioning electric race car against top university teams from around the world.",
-    images: ["/placeholder-event-1.jpg", "/placeholder-event-2.jpg", "/placeholder-event-3.jpg"],
+    images: ["/competition-2025-1.jpg", "/competition-2025-2.jpg", "/competition-2025-3.jpg", "/competition-2025-4.jpg", "/competition-2025-5.jpg"],
   },
   {
     title: "AME Awards Car Unveiling",
