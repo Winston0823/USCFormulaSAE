@@ -263,7 +263,7 @@ export default function Navigation() {
           <div className="flex-1 flex justify-end items-center gap-4">
             <FireIcon className="hidden lg:flex" size={40} />
             <Link
-              href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
+              href="https://docs.google.com/forms/d/e/1FAIpQLScz1sdeI-fGvj-IhghyPXXLrBP1jk_dhaq9NP0hriJ1DS57uw/viewform"
               target="_blank"
               rel="noopener noreferrer"
               className="group/btn hidden lg:flex items-center justify-center px-7 py-3.5 rounded-lg text-black font-semibold text-base tracking-widest leading-none transition-all duration-300 relative overflow-hidden hover:scale-105 hover:text-[#e3b53d] border border-[#e3b53d] hover:border-[#e3b53d] uppercase"
@@ -469,7 +469,7 @@ export default function Navigation() {
               <div className="flex items-center justify-center gap-4">
                 <FireIcon size={36} />
                 <Link
-                  href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
+                  href="https://docs.google.com/forms/d/e/1FAIpQLScz1sdeI-fGvj-IhghyPXXLrBP1jk_dhaq9NP0hriJ1DS57uw/viewform"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 text-center px-6 py-3 bg-[#e3b53d] rounded-full text-black font-semibold text-lg leading-none"

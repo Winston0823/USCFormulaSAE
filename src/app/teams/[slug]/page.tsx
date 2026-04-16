@@ -36,11 +36,10 @@ interface TeamData {
   tagline: string;
   description: string;
   responsibilities: string[];
-  leads: TeamMember[];
-  members: TeamMember[];
+  lead: TeamMember;
   skills: string[];
   tools: string[];
-  accentHue: string; // subtle per-team color variation
+  accentHue: string;
 }
 
 const teamsData: Record<string, TeamData> = {
@@ -59,16 +58,7 @@ const teamsData: Record<string, TeamData> = {
       "Carbon fiber composite layups",
       "Aerodynamic data analysis and optimization",
     ],
-    leads: [
-      { name: "Team Lead Placeholder", role: "Aerodynamics Lead", major: "Aerospace Engineering", year: "Senior" },
-      { name: "Deputy Lead Placeholder", role: "CFD Lead", major: "Mechanical Engineering", year: "Junior" },
-    ],
-    members: [
-      { name: "Member 1", role: "CFD Analyst", major: "Aerospace Engineering", year: "Junior" },
-      { name: "Member 2", role: "Composites Specialist", major: "Materials Science", year: "Senior" },
-      { name: "Member 3", role: "Design Engineer", major: "Mechanical Engineering", year: "Sophomore" },
-      { name: "Member 4", role: "Testing Lead", major: "Aerospace Engineering", year: "Junior" },
-    ],
+    lead: { name: "Team Lead Placeholder", role: "Aerodynamics Lead", major: "Aerospace Engineering", year: "Senior" },
     skills: ["CAD Modeling", "CFD Analysis", "Composite Manufacturing", "Data Analysis"],
     tools: ["STAR-CCM+", "SolidWorks", "ANSYS", "MATLAB"],
   },
@@ -87,16 +77,7 @@ const teamsData: Record<string, TeamData> = {
       "Roll hoop and safety structure development",
       "Weight optimization strategies",
     ],
-    leads: [
-      { name: "Team Lead Placeholder", role: "Frame Lead", major: "Mechanical Engineering", year: "Senior" },
-      { name: "Deputy Lead Placeholder", role: "Fabrication Lead", major: "Mechanical Engineering", year: "Senior" },
-    ],
-    members: [
-      { name: "Member 1", role: "FEA Analyst", major: "Mechanical Engineering", year: "Junior" },
-      { name: "Member 2", role: "Welder", major: "Manufacturing Engineering", year: "Senior" },
-      { name: "Member 3", role: "Design Engineer", major: "Mechanical Engineering", year: "Sophomore" },
-      { name: "Member 4", role: "Safety Systems", major: "Mechanical Engineering", year: "Junior" },
-    ],
+    lead: { name: "Team Lead Placeholder", role: "Frame Lead", major: "Mechanical Engineering", year: "Senior" },
     skills: ["Welding", "FEA Analysis", "CAD Design", "Metal Fabrication"],
     tools: ["SolidWorks", "ANSYS", "TIG Welder", "Tube Notcher"],
   },
@@ -115,15 +96,7 @@ const teamsData: Record<string, TeamData> = {
       "Sprocket design and manufacturing",
       "Drivetrain efficiency testing",
     ],
-    leads: [
-      { name: "Team Lead Placeholder", role: "Drivetrain Lead", major: "Mechanical Engineering", year: "Senior" },
-      { name: "Deputy Lead Placeholder", role: "Transmission Lead", major: "Mechanical Engineering", year: "Junior" },
-    ],
-    members: [
-      { name: "Member 1", role: "Gear Designer", major: "Mechanical Engineering", year: "Junior" },
-      { name: "Member 2", role: "Manufacturing", major: "Industrial Engineering", year: "Senior" },
-      { name: "Member 3", role: "Testing Engineer", major: "Mechanical Engineering", year: "Sophomore" },
-    ],
+    lead: { name: "Team Lead Placeholder", role: "Drivetrain Lead", major: "Mechanical Engineering", year: "Senior" },
     skills: ["Gear Design", "CNC Machining", "Assembly", "Testing"],
     tools: ["SolidWorks", "KISSsoft", "CNC Mill", "Dyno"],
   },
@@ -142,16 +115,7 @@ const teamsData: Record<string, TeamData> = {
       "High voltage system integration",
       "Dynamometer testing and data analysis",
     ],
-    leads: [
-      { name: "Team Lead Placeholder", role: "Powertrain Lead", major: "Electrical Engineering", year: "Senior" },
-      { name: "Deputy Lead Placeholder", role: "Battery Lead", major: "Mechanical Engineering", year: "Senior" },
-    ],
-    members: [
-      { name: "Member 1", role: "Motor Controls", major: "Electrical Engineering", year: "Junior" },
-      { name: "Member 2", role: "Battery Design", major: "Mechanical Engineering", year: "Junior" },
-      { name: "Member 3", role: "Cooling Systems", major: "Mechanical Engineering", year: "Sophomore" },
-      { name: "Member 4", role: "HV Systems", major: "Electrical Engineering", year: "Senior" },
-    ],
+    lead: { name: "Team Lead Placeholder", role: "Powertrain Lead", major: "Electrical Engineering", year: "Senior" },
     skills: ["Motor Controls", "Battery Design", "Thermal Management", "Data Analysis"],
     tools: ["MATLAB/Simulink", "SolidWorks", "Dynamometer", "Thermal Imaging"],
   },
@@ -170,16 +134,7 @@ const teamsData: Record<string, TeamData> = {
       "Data acquisition and lap analysis",
       "Setup optimization for different events",
     ],
-    leads: [
-      { name: "Team Lead Placeholder", role: "Vehicle Dynamics Lead", major: "Mechanical Engineering", year: "Senior" },
-      { name: "Deputy Lead Placeholder", role: "Suspension Lead", major: "Mechanical Engineering", year: "Junior" },
-    ],
-    members: [
-      { name: "Member 1", role: "Damper Tuning", major: "Mechanical Engineering", year: "Junior" },
-      { name: "Member 2", role: "Data Engineer", major: "Computer Science", year: "Senior" },
-      { name: "Member 3", role: "Tire Specialist", major: "Mechanical Engineering", year: "Sophomore" },
-      { name: "Member 4", role: "Kinematics", major: "Mechanical Engineering", year: "Junior" },
-    ],
+    lead: { name: "Team Lead Placeholder", role: "Vehicle Dynamics Lead", major: "Mechanical Engineering", year: "Senior" },
     skills: ["Kinematics", "Data Analysis", "Damper Tuning", "Vehicle Simulation"],
     tools: ["OptimumG", "MATLAB", "SolidWorks", "MoTeC i2"],
   },
@@ -198,15 +153,7 @@ const teamsData: Record<string, TeamData> = {
       "Safety harness and headrest",
       "Driver controls and switch layout",
     ],
-    leads: [
-      { name: "Team Lead Placeholder", role: "Ergonomics Lead", major: "Mechanical Engineering", year: "Senior" },
-      { name: "Deputy Lead Placeholder", role: "Cockpit Lead", major: "Industrial Design", year: "Junior" },
-    ],
-    members: [
-      { name: "Member 1", role: "Pedal Design", major: "Mechanical Engineering", year: "Junior" },
-      { name: "Member 2", role: "Steering Systems", major: "Mechanical Engineering", year: "Senior" },
-      { name: "Member 3", role: "Seat Design", major: "Industrial Design", year: "Sophomore" },
-    ],
+    lead: { name: "Team Lead Placeholder", role: "Ergonomics Lead", major: "Mechanical Engineering", year: "Senior" },
     skills: ["Human Factors", "CAD Design", "Ergonomic Analysis", "Prototyping"],
     tools: ["SolidWorks", "3D Printing", "Foam Molding", "Anthropometric Data"],
   },
@@ -225,16 +172,7 @@ const teamsData: Record<string, TeamData> = {
       "Data acquisition system development",
       "Dashboard and driver display design",
     ],
-    leads: [
-      { name: "Team Lead Placeholder", role: "Systems Lead", major: "Electrical Engineering", year: "Senior" },
-      { name: "Deputy Lead Placeholder", role: "ECU Lead", major: "Computer Engineering", year: "Senior" },
-    ],
-    members: [
-      { name: "Member 1", role: "Wiring Design", major: "Electrical Engineering", year: "Junior" },
-      { name: "Member 2", role: "PCB Designer", major: "Electrical Engineering", year: "Junior" },
-      { name: "Member 3", role: "Embedded Systems", major: "Computer Engineering", year: "Sophomore" },
-      { name: "Member 4", role: "Data Systems", major: "Computer Science", year: "Senior" },
-    ],
+    lead: { name: "Team Lead Placeholder", role: "Systems Lead", major: "Electrical Engineering", year: "Senior" },
     skills: ["Circuit Design", "Embedded Programming", "Wiring", "Data Systems"],
     tools: ["Altium Designer", "MoTeC", "Python", "Soldering Station"],
   },
@@ -253,16 +191,7 @@ const teamsData: Record<string, TeamData> = {
       "Recruitment and member relations",
       "Business presentation preparation",
     ],
-    leads: [
-      { name: "Team Lead Placeholder", role: "Business Lead", major: "Business Administration", year: "Senior" },
-      { name: "Deputy Lead Placeholder", role: "Marketing Lead", major: "Marketing", year: "Junior" },
-    ],
-    members: [
-      { name: "Member 1", role: "Sponsorship", major: "Business Administration", year: "Junior" },
-      { name: "Member 2", role: "Social Media", major: "Communications", year: "Sophomore" },
-      { name: "Member 3", role: "Finance", major: "Finance", year: "Senior" },
-      { name: "Member 4", role: "Logistics", major: "Operations Management", year: "Junior" },
-    ],
+    lead: { name: "Team Lead Placeholder", role: "Business Lead", major: "Business Administration", year: "Senior" },
     skills: ["Communication", "Marketing", "Financial Planning", "Project Management"],
     tools: ["Excel", "Adobe Creative Suite", "Canva", "LinkedIn"],
   },
@@ -375,7 +304,7 @@ export default function TeamPage() {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="mt-6"
           >
-            <h1 className="text-[clamp(3rem,10vw,8rem)] font-black text-white leading-[0.9] tracking-tight">
+            <h1 className="text-[clamp(2rem,7vw,8rem)] font-black text-white leading-[0.9] tracking-tight">
               {team.name}
             </h1>
           </motion.div>
@@ -534,77 +463,42 @@ export default function TeamPage() {
             </h2>
           </motion.div>
 
-          {/* Leads — Featured cards */}
-          <div className="grid md:grid-cols-2 gap-5 mb-12">
-            {team.leads.map((lead, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.12 }}
-                className="relative p-7 rounded-2xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/[0.08] hover:border-[#e3b53d]/30 transition-all duration-300 group overflow-hidden"
-              >
-                {/* Subtle gold accent line */}
-                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-[#e3b53d]/50 via-[#e3b53d]/10 to-transparent" />
-
-                <div className="flex items-start gap-5">
-                  <div className="w-14 h-14 rounded-full bg-[#e3b53d]/10 border border-[#e3b53d]/20 flex items-center justify-center shrink-0 group-hover:bg-[#e3b53d]/15 transition-colors">
-                    <User className="w-6 h-6 text-[#e3b53d]" />
-                  </div>
-
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <h3 className="text-xl font-bold text-white leading-tight">{lead.name}</h3>
-                        <p className="text-[#e3b53d] text-sm font-secondary font-semibold mt-1 uppercase tracking-wider">
-                          {lead.role}
-                        </p>
-                      </div>
-                      <div className="flex gap-1.5 shrink-0">
-                        <button className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-500 hover:text-[#e3b53d] hover:border-[#e3b53d]/30 transition-all cursor-pointer">
-                          <Mail className="w-3.5 h-3.5" />
-                        </button>
-                        <button className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-500 hover:text-[#e3b53d] hover:border-[#e3b53d]/30 transition-all cursor-pointer">
-                          <Linkedin className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </div>
-                    <p className="text-gray-500 text-sm mt-2.5 font-secondary">
-                      {lead.major} &middot; {lead.year}
+          {/* Team Lead */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative p-7 rounded-2xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/[0.08] hover:border-[#e3b53d]/30 transition-all duration-300 group overflow-hidden max-w-md"
+          >
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-[#e3b53d]/50 via-[#e3b53d]/10 to-transparent" />
+            <div className="flex items-start gap-5">
+              <div className="w-14 h-14 rounded-full bg-[#e3b53d]/10 border border-[#e3b53d]/20 flex items-center justify-center shrink-0 group-hover:bg-[#e3b53d]/15 transition-colors">
+                <User className="w-6 h-6 text-[#e3b53d]" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h3 className="text-xl font-bold text-white leading-tight">{team.lead.name}</h3>
+                    <p className="text-[#e3b53d] text-sm font-secondary font-semibold mt-1 uppercase tracking-wider">
+                      {team.lead.role}
                     </p>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Members — Clean minimal grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            {team.members.map((member, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.06 }}
-                className="p-5 rounded-xl bg-white/[0.02] border border-white/[0.05] hover:border-white/[0.12] hover:bg-white/[0.04] transition-all duration-300 group"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-9 h-9 rounded-full bg-white/[0.06] flex items-center justify-center group-hover:bg-[#e3b53d]/10 transition-colors">
-                    <User className="w-4 h-4 text-gray-500 group-hover:text-[#e3b53d] transition-colors" />
-                  </div>
-                  <div className="min-w-0">
-                    <h4 className="font-semibold text-white text-sm leading-tight truncate">{member.name}</h4>
-                    <p className="text-[#e3b53d]/70 text-xs font-secondary">{member.role}</p>
+                  <div className="flex gap-1.5 shrink-0">
+                    <button className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-500 hover:text-[#e3b53d] hover:border-[#e3b53d]/30 transition-all cursor-pointer">
+                      <Mail className="w-3.5 h-3.5" />
+                    </button>
+                    <button className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-gray-500 hover:text-[#e3b53d] hover:border-[#e3b53d]/30 transition-all cursor-pointer">
+                      <Linkedin className="w-3.5 h-3.5" />
+                    </button>
                   </div>
                 </div>
-                <p className="text-gray-600 text-xs font-secondary">
-                  {member.major} &middot; {member.year}
+                <p className="text-gray-500 text-sm mt-2.5 font-secondary">
+                  {team.lead.major} &middot; {team.lead.year}
                 </p>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            </div>
+          </motion.div>
+
         </div>
       </section>
 
@@ -629,7 +523,7 @@ export default function TeamPage() {
               Ready to contribute to one of the most exciting engineering projects on campus?
             </p>
             <Link
-              href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
+              href="https://docs.google.com/forms/d/e/1FAIpQLScz1sdeI-fGvj-IhghyPXXLrBP1jk_dhaq9NP0hriJ1DS57uw/viewform"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 px-10 py-4 bg-[#e3b53d] rounded-full text-black font-bold text-lg leading-none hover:bg-[#d4a832] hover:shadow-[0_0_40px_rgba(227,181,61,0.25)] transition-all duration-300 neon-button cursor-pointer"

@@ -58,7 +58,7 @@ export default function Footer() {
               <FooterLink href="/teams/frame">Frame</FooterLink>
               <FooterLink href="/teams/drivetrain">Drivetrain</FooterLink>
               <FooterLink href="/teams/powertrain">Powertrain</FooterLink>
-              <FooterLink href="/teams/vehicle-dynamics">Vehicle Dynamics</FooterLink>
+              <FooterLink href="/teams/business">Business</FooterLink>
             </ul>
           </div>
 
@@ -84,7 +84,7 @@ export default function Footer() {
             &copy; {currentYear} USC Formula Electric. All rights reserved.
           </p>
           <Link
-            href="https://linktr.ee/scformulae24?fbclid=PAZXh0bgNhZW0CMTEAAaZL2QuvE6aLgnkuHAJWX5ACZBdP9GljMqVHRwkn4ii-aqm5UlbukIsNEtA_aem_gxNdBUzqxvWkYFSW-nVahQ"
+            href="https://docs.google.com/forms/d/e/1FAIpQLScz1sdeI-fGvj-IhghyPXXLrBP1jk_dhaq9NP0hriJ1DS57uw/viewform"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center space-x-2 text-[#e3b53d] hover:text-[#c4ae5a] transition-colors text-sm font-medium"
