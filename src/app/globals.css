@@ -45,6 +45,7 @@
   --font-secondary: var(--font-rajdhani), sans-serif;
   --font-headline: var(--font-inter-tight), sans-serif;
   --font-data: var(--font-jetbrains), monospace;
+  --font-hand: var(--font-caveat), cursive;
 }
 
 h4, h5, h6 {
