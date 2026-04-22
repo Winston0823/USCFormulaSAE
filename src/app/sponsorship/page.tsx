@@ -12,7 +12,6 @@ import {
   Users,
   Briefcase,
   Eye,
-  Rocket,
   Zap,
 } from "lucide-react";
 
@@ -178,10 +177,6 @@ export default function SponsorshipPage() {
               className="w-full lg:w-1/2 flex items-center px-6 sm:px-8 lg:pl-16 lg:pr-12 py-12 lg:py-0 text-center lg:text-left"
             >
               <div>
-                <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-6">
-                  <Rocket className="w-4 h-4 mr-2" />
-                  SPONSORSHIP
-                </span>
                 <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-6">
                   Fuel Our{" "}
                   <span className="text-[#e3b53d]">Mission</span>
@@ -224,10 +219,6 @@ export default function SponsorshipPage() {
               viewport={{ once: true }}
               className="w-full lg:w-1/2 lg:pr-12"
             >
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
-                <Rocket className="w-4 h-4 mr-2" />
-                WHY SPONSOR US
-              </span>
               <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
                 Invest in Tomorrow&apos;s{" "}
                 <span className="text-[#e3b53d]">Engineers</span>
@@ -306,9 +297,6 @@ export default function SponsorshipPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
-              PARTNERSHIP LEVELS
-            </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
               Sponsorship <span className="text-[#e3b53d]">Tiers</span>
             </h2>

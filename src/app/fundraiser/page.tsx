@@ -66,6 +66,128 @@ export default function FundraiserPage() {
             >
               An appeal to fuel USC Formula Electric&apos;s journey to FSAE 2026
             </p>
+            <div className="mt-12 flex justify-center">
+              <motion.a
+                href="https://giveto.usc.edu/Donation"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Ignite Us — donate to USC Formula SAE"
+                className="group relative inline-block px-10 sm:px-14 py-2.5"
+                initial={false}
+                animate="rest"
+                whileHover="flip"
+              >
+                {/*
+                  Crawl animation model:
+                  Each bracket is a single SVG path that traces a FULL trajectory —
+                  left tail + horizontal + right tail. Only a windowed slice of the path
+                  is visible at any moment (via stroke-dasharray). Animating
+                  stroke-dashoffset slides that window along the path, so the line
+                  literally crawls from one bracket shape into the other without any
+                  fading or cross-dissolves.
+
+                  Visible window = 78% of path. Gap = 22%.
+                  TOP rest=0 (visible [0,78] → TL bracket) → flip=-22 (visible [22,100] → TR bracket).
+                  BOTTOM rest=-22 (visible [22,100] → BR) → flip=0 (visible [0,78] → BL).
+                  Top crawls rightward, bottom crawls leftward — symmetric motion.
+                */}
+                <svg
+                  aria-hidden
+                  className="pointer-events-none absolute top-0 left-0 w-full overflow-visible"
+                  style={{ height: "12px" }}
+                  viewBox="0 0 100 12"
+                  preserveAspectRatio="none"
+                  fill="none"
+                >
+                  <motion.path
+                    d="M 0 12 L 0 3 Q 0 0 3 0 L 97 0 Q 100 0 100 3 L 100 12"
+                    pathLength={100}
+                    stroke="#ffffff"
+                    strokeWidth={1}
+                    strokeDasharray="78 22"
+                    vectorEffect="non-scaling-stroke"
+                    variants={{
+                      rest: { strokeDashoffset: 0 },
+                      flip: { strokeDashoffset: -22 },
+                    }}
+                    transition={{ duration: 0.75, ease: [0.65, 0, 0.35, 1] }}
+                  />
+                </svg>
+
+                <svg
+                  aria-hidden
+                  className="pointer-events-none absolute bottom-0 left-0 w-full overflow-visible"
+                  style={{ height: "12px" }}
+                  viewBox="0 0 100 12"
+                  preserveAspectRatio="none"
+                  fill="none"
+                >
+                  <motion.path
+                    d="M 0 0 L 0 9 Q 0 12 3 12 L 97 12 Q 100 12 100 9 L 100 0"
+                    pathLength={100}
+                    stroke="#ffffff"
+                    strokeWidth={1}
+                    strokeDasharray="78 22"
+                    vectorEffect="non-scaling-stroke"
+                    variants={{
+                      rest: { strokeDashoffset: -22 },
+                      flip: { strokeDashoffset: 0 },
+                    }}
+                    transition={{ duration: 0.75, ease: [0.65, 0, 0.35, 1] }}
+                  />
+                </svg>
+
+                {/* Cube-flip label — outer clips the leaking bottom face */}
+                <span
+                  className="relative block h-10 overflow-hidden"
+                  style={{ perspective: "800px" }}
+                >
+                  {/* Invisible sizer to give the container natural width */}
+                  <span
+                    className="invisible block text-2xl sm:text-3xl font-semibold uppercase select-none"
+                    style={{
+                      fontFamily: "var(--font-rajdhani), sans-serif",
+                      letterSpacing: "0.25em",
+                      lineHeight: "2.5rem",
+                    }}
+                    aria-hidden="true"
+                  >
+                    Ignite Us
+                  </span>
+
+                  {/* 3D rotator */}
+                  <span
+                    className="absolute inset-0 transition-transform duration-[600ms] ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:[transform:rotateX(90deg)]"
+                    style={{ transformStyle: "preserve-3d" }}
+                  >
+                    {/* Front face */}
+                    <span
+                      className="absolute inset-0 flex items-center justify-center text-2xl sm:text-3xl font-semibold text-white uppercase"
+                      style={{
+                        fontFamily: "var(--font-rajdhani), sans-serif",
+                        letterSpacing: "0.25em",
+                        transform: "translateZ(1.25rem)",
+                        backfaceVisibility: "hidden",
+                      }}
+                    >
+                      Ignite Us
+                    </span>
+                    {/* Bottom face (rotates up into view) */}
+                    <span
+                      className="absolute inset-0 flex items-center justify-center text-2xl sm:text-3xl font-semibold text-white uppercase"
+                      style={{
+                        fontFamily: "var(--font-rajdhani), sans-serif",
+                        letterSpacing: "0.25em",
+                        transform: "rotateX(-90deg) translateZ(1.25rem)",
+                        backfaceVisibility: "hidden",
+                      }}
+                    >
+                      Ignite Us
+                    </span>
+                  </span>
+                </span>
+              </motion.a>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -335,10 +457,6 @@ export default function FundraiserPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            onViewportEnter={() => {
-              const vid = document.getElementById("ignite-video") as HTMLVideoElement | null;
-              vid?.play();
-            }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="relative aspect-video rounded-2xl overflow-hidden border border-[#e3b53d]/20 bg-black"
@@ -348,7 +466,7 @@ export default function FundraiserPage() {
               className="w-full h-full object-cover"
               controls
               playsInline
-              muted
+              preload="metadata"
             >
               <source src="/fe-ignite.mp4" type="video/mp4" />
             </video>
