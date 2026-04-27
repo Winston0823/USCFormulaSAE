@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import {
   MapPin,
@@ -67,126 +68,22 @@ export default function FundraiserPage() {
               An appeal to fuel USC Formula Electric&apos;s journey to FSAE 2026
             </p>
             <div className="mt-12 flex justify-center">
-              <motion.a
+              <a
                 href="https://giveto.usc.edu/Donation"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Ignite Us — donate to USC Formula SAE"
-                className="group relative inline-block px-10 sm:px-14 py-2.5"
-                initial={false}
-                animate="rest"
-                whileHover="flip"
+                className="inline-flex items-center gap-3 px-10 sm:px-12 py-4 sm:py-5 rounded-xl text-black font-bold text-lg sm:text-xl uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-[0_18px_50px_-12px_rgba(227,181,61,0.7)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e3b53d] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                style={{
+                  background: "linear-gradient(90deg, #e3b53d, #daa520)",
+                  fontFamily: "var(--font-rajdhani), sans-serif",
+                  letterSpacing: "0.22em",
+                  boxShadow: "0 10px 32px -10px rgba(227, 181, 61, 0.5)",
+                }}
               >
-                {/*
-                  Crawl animation model:
-                  Each bracket is a single SVG path that traces a FULL trajectory —
-                  left tail + horizontal + right tail. Only a windowed slice of the path
-                  is visible at any moment (via stroke-dasharray). Animating
-                  stroke-dashoffset slides that window along the path, so the line
-                  literally crawls from one bracket shape into the other without any
-                  fading or cross-dissolves.
-
-                  Visible window = 78% of path. Gap = 22%.
-                  TOP rest=0 (visible [0,78] → TL bracket) → flip=-22 (visible [22,100] → TR bracket).
-                  BOTTOM rest=-22 (visible [22,100] → BR) → flip=0 (visible [0,78] → BL).
-                  Top crawls rightward, bottom crawls leftward — symmetric motion.
-                */}
-                <svg
-                  aria-hidden
-                  className="pointer-events-none absolute top-0 left-0 w-full overflow-visible"
-                  style={{ height: "12px" }}
-                  viewBox="0 0 100 12"
-                  preserveAspectRatio="none"
-                  fill="none"
-                >
-                  <motion.path
-                    d="M 0 12 L 0 3 Q 0 0 3 0 L 97 0 Q 100 0 100 3 L 100 12"
-                    pathLength={100}
-                    stroke="#ffffff"
-                    strokeWidth={1}
-                    strokeDasharray="78 22"
-                    vectorEffect="non-scaling-stroke"
-                    variants={{
-                      rest: { strokeDashoffset: 0 },
-                      flip: { strokeDashoffset: -22 },
-                    }}
-                    transition={{ duration: 0.75, ease: [0.65, 0, 0.35, 1] }}
-                  />
-                </svg>
-
-                <svg
-                  aria-hidden
-                  className="pointer-events-none absolute bottom-0 left-0 w-full overflow-visible"
-                  style={{ height: "12px" }}
-                  viewBox="0 0 100 12"
-                  preserveAspectRatio="none"
-                  fill="none"
-                >
-                  <motion.path
-                    d="M 0 0 L 0 9 Q 0 12 3 12 L 97 12 Q 100 12 100 9 L 100 0"
-                    pathLength={100}
-                    stroke="#ffffff"
-                    strokeWidth={1}
-                    strokeDasharray="78 22"
-                    vectorEffect="non-scaling-stroke"
-                    variants={{
-                      rest: { strokeDashoffset: -22 },
-                      flip: { strokeDashoffset: 0 },
-                    }}
-                    transition={{ duration: 0.75, ease: [0.65, 0, 0.35, 1] }}
-                  />
-                </svg>
-
-                {/* Cube-flip label — outer clips the leaking bottom face */}
-                <span
-                  className="relative block h-10 overflow-hidden"
-                  style={{ perspective: "800px" }}
-                >
-                  {/* Invisible sizer to give the container natural width */}
-                  <span
-                    className="invisible block text-2xl sm:text-3xl font-semibold uppercase select-none"
-                    style={{
-                      fontFamily: "var(--font-rajdhani), sans-serif",
-                      letterSpacing: "0.25em",
-                      lineHeight: "2.5rem",
-                    }}
-                    aria-hidden="true"
-                  >
-                    Ignite Us
-                  </span>
-
-                  {/* 3D rotator */}
-                  <span
-                    className="absolute inset-0 transition-transform duration-[600ms] ease-[cubic-bezier(0.65,0,0.35,1)] group-hover:[transform:rotateX(90deg)]"
-                    style={{ transformStyle: "preserve-3d" }}
-                  >
-                    {/* Front face */}
-                    <span
-                      className="absolute inset-0 flex items-center justify-center text-2xl sm:text-3xl font-semibold text-white uppercase"
-                      style={{
-                        fontFamily: "var(--font-rajdhani), sans-serif",
-                        letterSpacing: "0.25em",
-                        transform: "translateZ(1.25rem)",
-                        backfaceVisibility: "hidden",
-                      }}
-                    >
-                      Ignite Us
-                    </span>
-                    {/* Bottom face (rotates up into view) */}
-                    <span
-                      className="absolute inset-0 flex items-center justify-center text-2xl sm:text-3xl font-semibold text-white uppercase"
-                      style={{
-                        fontFamily: "var(--font-rajdhani), sans-serif",
-                        letterSpacing: "0.25em",
-                        transform: "rotateX(-90deg) translateZ(1.25rem)",
-                        backfaceVisibility: "hidden",
-                      }}
-                    >
-                      Ignite Us
-                    </span>
-                  </span>
-                </span>
-              </motion.a>
+                Ignite Us
+                <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />
+              </a>
             </div>
           </motion.div>
         </div>
@@ -248,6 +145,29 @@ export default function FundraiserPage() {
             across the country.
           </motion.p>
 
+          {/* Image break — the team */}
+          <motion.figure
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="my-14 relative aspect-[16/9] rounded-xl overflow-hidden border border-[#e3b53d]/20"
+          >
+            <Image
+              src="/team-photo.jpg"
+              alt="USC Formula Electric team"
+              fill
+              sizes="(max-width: 768px) 100vw, 768px"
+              className="object-cover"
+            />
+            <figcaption
+              className="absolute bottom-0 left-0 right-0 px-4 py-3 bg-gradient-to-t from-black/80 to-transparent text-white/80 text-sm tracking-widest uppercase"
+              style={{ fontFamily: "var(--font-rajdhani), sans-serif" }}
+            >
+              The team behind the car.
+            </figcaption>
+          </motion.figure>
+
           {/* Pull Quote 1 */}
           <motion.blockquote
             initial={{ opacity: 0, x: -20 }}
@@ -307,6 +227,34 @@ export default function FundraiserPage() {
             speaking, and deepens industry knowledge in ways a classroom setting
             can&apos;t replicate.
           </motion.p>
+
+          {/* Image break — competition duo */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="my-14 grid grid-cols-2 gap-3 sm:gap-4"
+          >
+            <div className="relative aspect-square rounded-xl overflow-hidden border border-[#e3b53d]/20">
+              <Image
+                src="/competition-2025-1.jpg"
+                alt="Scrutineering at FSAE competition"
+                fill
+                sizes="(max-width: 768px) 50vw, 400px"
+                className="object-cover"
+              />
+            </div>
+            <div className="relative aspect-square rounded-xl overflow-hidden border border-[#e3b53d]/20">
+              <Image
+                src="/competition-2025-3.jpg"
+                alt="On the track at FSAE competition"
+                fill
+                sizes="(max-width: 768px) 50vw, 400px"
+                className="object-cover"
+              />
+            </div>
+          </motion.div>
 
           {/* Pull Quote 2: Spirit of Comp */}
           <motion.blockquote
@@ -466,9 +414,23 @@ export default function FundraiserPage() {
               className="w-full h-full object-cover"
               controls
               playsInline
+              muted
               preload="metadata"
+              poster="/competition-2025-4.jpg"
             >
               <source src="/fe-ignite.mp4" type="video/mp4" />
+              <p className="p-6 text-white/70 text-center">
+                Your browser can&apos;t play this video. You can{" "}
+                <a
+                  href="/fe-ignite.mp4"
+                  className="text-[#e3b53d] underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  download it here
+                </a>
+                .
+              </p>
             </video>
           </motion.div>
           <motion.p
@@ -481,6 +443,59 @@ export default function FundraiserPage() {
           >
             Thank you for your support!
           </motion.p>
+        </div>
+      </section>
+
+      {/* ═══ GALLERY ═══ */}
+      <section className="relative py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-10"
+          >
+            <h2
+              className="text-2xl sm:text-3xl font-bold text-white mb-3"
+              style={{ fontFamily: "'Ethnocentric', sans-serif" }}
+            >
+              On the <span className="text-[#e3b53d]">Track</span>
+            </h2>
+            <p
+              className="text-white/50 text-sm tracking-widest uppercase"
+              style={{ fontFamily: "var(--font-rajdhani), sans-serif" }}
+            >
+              Scenes from FSAE 2025
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+            {[
+              "/competition-2025-1.jpg",
+              "/competition-2025-2.jpg",
+              "/competition-2025-3.jpg",
+              "/competition-2025-4.jpg",
+              "/competition-2025-5.jpg",
+            ].map((src, i) => (
+              <motion.div
+                key={src}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.05 }}
+                className="relative aspect-square rounded-lg overflow-hidden border border-[#e3b53d]/15 hover:border-[#e3b53d]/50 transition-colors"
+              >
+                <Image
+                  src={src}
+                  alt={`FSAE 2025 moment ${i + 1}`}
+                  fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                  className="object-cover transition-transform duration-500 hover:scale-105"
+                />
+              </motion.div>
+            ))}
+          </div>
         </div>
       </section>
 

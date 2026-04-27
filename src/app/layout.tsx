@@ -6,6 +6,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import SmoothScroll from "@/components/SmoothScroll";
 import LoadingWrapper from "@/components/LoadingWrapper";
+import StickyDonateButton from "@/components/StickyDonateButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -74,6 +75,8 @@ export default function RootLayout({
               </div>
             </SmoothScroll>
           </LoadingWrapper>
+          {/* Sticky donate CTA — also outside LoadingWrapper so position:fixed isn't broken by the parent transform */}
+          <StickyDonateButton />
         </ClientOnly>
       </body>
     </html>
