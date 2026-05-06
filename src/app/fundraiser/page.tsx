@@ -67,24 +67,6 @@ export default function FundraiserPage() {
             >
               An appeal to fuel USC Formula Electric&apos;s journey to FSAE 2026
             </p>
-            <div className="mt-12 flex justify-center">
-              <a
-                href="https://giveto.usc.edu/Donation"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Ignite Us — donate to USC Formula SAE"
-                className="inline-flex items-center gap-3 px-10 sm:px-12 py-4 sm:py-5 rounded-xl text-black font-bold text-lg sm:text-xl uppercase tracking-widest transition-all duration-300 hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-[0_18px_50px_-12px_rgba(227,181,61,0.7)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e3b53d] focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-                style={{
-                  background: "linear-gradient(90deg, #e3b53d, #daa520)",
-                  fontFamily: "var(--font-rajdhani), sans-serif",
-                  letterSpacing: "0.22em",
-                  boxShadow: "0 10px 32px -10px rgba(227, 181, 61, 0.5)",
-                }}
-              >
-                Ignite Us
-                <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6" aria-hidden="true" />
-              </a>
-            </div>
           </motion.div>
         </div>
       </section>
@@ -496,6 +478,224 @@ export default function FundraiserPage() {
               </motion.div>
             ))}
           </div>
+
+          {/* Ignite Us CTA — car transforms into holographic on hover */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-16 group relative"
+          >
+            <a
+              href="https://giveto.usc.edu/Donation"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Ignite Us — donate to USC Formula SAE"
+              className="ignite-card relative block overflow-hidden rounded-3xl border border-white/10 transition-all duration-700 hover:border-[#e3b53d]/60 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e3b53d] focus-visible:ring-offset-4 focus-visible:ring-offset-black"
+              style={{
+                background: "#050505",
+                boxShadow:
+                  "0 20px 60px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset",
+              }}
+            >
+              {/* Default — regular race car */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/HeroPageBackgroundSVG.svg"
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover scale-105 transition-all duration-[1200ms] ease-out group-hover:opacity-0 group-hover:scale-110"
+              />
+
+              {/* Hover — holographic race car (crossfades in) */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/HeroPageBackgroundHolographicVFXSVG.svg"
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover opacity-0 scale-110 transition-all duration-[1200ms] ease-out group-hover:opacity-100 group-hover:scale-[1.15]"
+                style={{ filter: "saturate(1.15) contrast(1.05)" }}
+              />
+
+              {/* Holographic-only effects — fade in on hover */}
+              <div
+                className="absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100 pointer-events-none"
+                aria-hidden="true"
+              >
+                {/* Neon glow ring */}
+                <div
+                  className="absolute"
+                  style={{
+                    left: "50%",
+                    top: "55%",
+                    transform: "translate(-50%, -50%)",
+                    width: "70%",
+                    height: "60%",
+                    borderRadius: "50%",
+                    background:
+                      "radial-gradient(ellipse, rgba(227, 181, 61, 0.4) 0%, rgba(139, 0, 0, 0.2) 45%, transparent 75%)",
+                    filter: "blur(40px)",
+                  }}
+                />
+                {/* Cyber grid */}
+                <div className="absolute inset-0 cyber-grid opacity-25" />
+                {/* Scanlines */}
+                <div className="absolute inset-0 scanlines opacity-15" />
+                {/* Diagonal sweep */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(115deg, transparent 30%, rgba(227,181,61,0.18) 50%, transparent 70%)",
+                    animation: "ignite-sweep 2.4s ease-in-out infinite",
+                  }}
+                />
+              </div>
+
+              {/* Vignette */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                aria-hidden="true"
+                style={{
+                  background:
+                    "radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.3) 60%, rgba(0,0,0,0.8) 100%)",
+                }}
+              />
+
+              {/* Bottom legibility gradient */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                aria-hidden="true"
+                style={{
+                  background:
+                    "linear-gradient(180deg, transparent 30%, rgba(0,0,0,0.55) 75%, rgba(0,0,0,0.9) 100%)",
+                }}
+              />
+
+              {/* Corner brackets */}
+              <span
+                className="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-white/30 rounded-tl-lg pointer-events-none transition-all duration-500 group-hover:w-8 group-hover:h-8 group-hover:border-[#e3b53d]"
+                aria-hidden="true"
+              />
+              <span
+                className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-white/30 rounded-tr-lg pointer-events-none transition-all duration-500 group-hover:w-8 group-hover:h-8 group-hover:border-[#e3b53d]"
+                aria-hidden="true"
+              />
+              <span
+                className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-white/30 rounded-bl-lg pointer-events-none transition-all duration-500 group-hover:w-8 group-hover:h-8 group-hover:border-[#e3b53d]"
+                aria-hidden="true"
+              />
+              <span
+                className="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-white/30 rounded-br-lg pointer-events-none transition-all duration-500 group-hover:w-8 group-hover:h-8 group-hover:border-[#e3b53d]"
+                aria-hidden="true"
+              />
+
+              {/* Content */}
+              <div className="relative flex flex-col items-center justify-end text-center px-6 sm:px-10 py-14 sm:py-20 lg:py-24 min-h-[420px] sm:min-h-[460px] lg:min-h-[520px]">
+                {/* Eyebrow */}
+                <div className="flex items-center gap-3 mb-5">
+                  <span className="h-px w-8 bg-white/40 transition-colors duration-500 group-hover:bg-[#e3b53d]/70" aria-hidden="true" />
+                  <span
+                    className="text-white/80 text-xs sm:text-sm uppercase transition-colors duration-500 group-hover:text-[#e3b53d]"
+                    style={{
+                      fontFamily: "var(--font-rajdhani), sans-serif",
+                      letterSpacing: "0.4em",
+                    }}
+                  >
+                    Fuel The Fight
+                  </span>
+                  <span className="h-px w-8 bg-white/40 transition-colors duration-500 group-hover:bg-[#e3b53d]/70" aria-hidden="true" />
+                </div>
+
+                {/* Headline */}
+                <h3
+                  className="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-3 leading-tight"
+                  style={{ fontFamily: "'Ethnocentric', sans-serif" }}
+                >
+                  Power Us To{" "}
+                  <span className="text-[#e3b53d]">FSAE 2026</span>
+                </h3>
+
+                {/* Subline */}
+                <p
+                  className="text-white/65 text-base sm:text-lg max-w-md mb-9"
+                  style={{ fontFamily: "var(--font-rajdhani), sans-serif" }}
+                >
+                  Every dollar puts us closer to the starting line in Brooklyn, MI.
+                </p>
+
+                {/* Liquid Glass button */}
+                <span
+                  className="liquid-glass relative inline-flex items-center gap-3 px-10 sm:px-12 py-4 sm:py-5 rounded-full text-white font-semibold text-lg sm:text-xl uppercase overflow-hidden transition-all duration-500 group-hover:scale-[1.04] group-hover:-translate-y-0.5"
+                  style={{
+                    fontFamily: "var(--font-rajdhani), sans-serif",
+                    letterSpacing: "0.24em",
+                  }}
+                >
+                  {/* Glass body */}
+                  <span
+                    className="absolute inset-0 rounded-full"
+                    aria-hidden="true"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.06) 100%)",
+                      backdropFilter: "blur(24px) saturate(180%)",
+                      WebkitBackdropFilter: "blur(24px) saturate(180%)",
+                      boxShadow:
+                        "inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -1px 0 rgba(255,255,255,0.08), 0 8px 32px rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.4)",
+                    }}
+                  />
+                  {/* Outer ring */}
+                  <span
+                    className="absolute inset-0 rounded-full ring-1 ring-inset ring-white/25 transition-colors duration-500 group-hover:ring-[#e3b53d]/50"
+                    aria-hidden="true"
+                  />
+                  {/* Top specular highlight */}
+                  <span
+                    className="absolute top-0 left-[10%] right-[10%] h-1/2 rounded-full pointer-events-none"
+                    aria-hidden="true"
+                    style={{
+                      background:
+                        "linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 80%)",
+                      filter: "blur(2px)",
+                    }}
+                  />
+                  {/* Bottom warm reflection */}
+                  <span
+                    className="absolute bottom-0 left-1/4 right-1/4 h-1/3 rounded-full pointer-events-none opacity-60 transition-opacity duration-500 group-hover:opacity-100"
+                    aria-hidden="true"
+                    style={{
+                      background:
+                        "radial-gradient(ellipse at center, rgba(227,181,61,0.35) 0%, transparent 70%)",
+                      filter: "blur(8px)",
+                    }}
+                  />
+                  {/* Sheen sweep on hover */}
+                  <span
+                    className="absolute inset-0 rounded-full overflow-hidden pointer-events-none opacity-0 group-hover:opacity-100"
+                    aria-hidden="true"
+                  >
+                    <span
+                      className="absolute top-0 left-0 h-full w-1/4"
+                      style={{
+                        background:
+                          "linear-gradient(110deg, transparent, rgba(255,255,255,0.55), transparent)",
+                        animation: "ignite-button-sweep 2.2s ease-in-out infinite",
+                      }}
+                    />
+                  </span>
+
+                  {/* Label */}
+                  <span className="relative z-10">Ignite Us</span>
+                  <ArrowRight
+                    className="relative z-10 w-5 h-5 sm:w-6 sm:h-6 text-[#e3b53d] transition-transform duration-300 group-hover:translate-x-1"
+                    aria-hidden="true"
+                  />
+                </span>
+              </div>
+            </a>
+          </motion.div>
         </div>
       </section>
 

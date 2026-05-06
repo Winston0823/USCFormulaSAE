@@ -292,6 +292,18 @@ body {
   20%, 100% { transform: translateX(150%); }
 }
 
+/* Ignite CTA sweep highlight */
+@keyframes ignite-sweep {
+  0% { transform: translateX(-30%); }
+  100% { transform: translateX(130%); }
+}
+
+/* Liquid glass button sheen — must clear the full pill width */
+@keyframes ignite-button-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
 .speed-lines::before {
   content: '';
   position: absolute;
