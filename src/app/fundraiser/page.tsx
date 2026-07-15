@@ -502,7 +502,7 @@ export default function FundraiserPage() {
               {/* Default — regular race car */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/HeroPageBackgroundSVG.svg"
+                src="/HeroPageBackground.webp"
                 alt=""
                 aria-hidden="true"
                 className="absolute inset-0 w-full h-full object-cover scale-105 transition-all duration-[1200ms] ease-out group-hover:opacity-0 group-hover:scale-110"
@@ -511,7 +511,7 @@ export default function FundraiserPage() {
               {/* Hover — holographic race car (crossfades in) */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/HeroPageBackgroundHolographicVFXSVG.svg"
+                src="/HeroPageBackgroundHolographicVFX.webp"
                 alt=""
                 aria-hidden="true"
                 className="absolute inset-0 w-full h-full object-cover opacity-0 scale-110 transition-all duration-[1200ms] ease-out group-hover:opacity-100 group-hover:scale-[1.15]"

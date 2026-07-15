@@ -3,18 +3,18 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-import { motion, useScroll, useTransform, useMotionValueEvent, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import {
   Gauge,
   Users,
   ArrowRight,
   ChevronDown,
   Timer,
-  Target,
 } from "lucide-react";
+import Image from "next/image";
 import CountUp from "@/components/CountUp";
-import TrackVideoScroll from "@/components/TrackVideoScroll";
 import DiagonalBars from "@/components/DiagonalBars";
+import EventsCarousel from "@/components/EventsCarousel";
 import { useLoadingSignal } from "@/components/LoadingContext";
 
 const PixelRevealOverlay = dynamic(() => import("@/components/PixelRevealOverlay"), {
@@ -28,13 +28,11 @@ const engineeringStats = [
 
 const teamStat = { label: "Team Members", value: "50+", unit: "MEMBERS", icon: <Users className="w-6 h-6" /> };
 
+const sectionEase = [0.25, 0.46, 0.45, 0.94] as const;
+
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);
   const heroSectionRef = useRef<HTMLElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
-  const engineersRef = useRef<HTMLDivElement>(null);
-  const teamsRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
 
   const { signalReady } = useLoadingSignal();
 
@@ -63,24 +61,6 @@ export default function Home() {
   const { scrollYProgress: heroProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
-  });
-
-  // Stats section scroll tracking
-  const { scrollYProgress: statsProgress } = useScroll({
-    target: statsRef,
-    offset: ["start start", "end end"],
-  });
-
-  // Engineers section scroll tracking
-  const { scrollYProgress: engineersProgress } = useScroll({
-    target: engineersRef,
-    offset: ["start start", "end end"],
-  });
-
-  // Teams section scroll tracking
-  const { scrollYProgress: teamsProgress } = useScroll({
-    target: teamsRef,
-    offset: ["start start", "end end"],
   });
 
   // Hero parallax effects — use vh for screen-size independence
@@ -123,53 +103,9 @@ export default function Home() {
     fgShiftY.set(0);
   };
 
-  // Heading text fade in (stats section) — smooth entrance
-  const headingOpacity = useTransform(statsProgress, [0.08, 0.22], [0, 1]);
-  const headingY = useTransform(statsProgress, [0.08, 0.22], ["4vh", "0vh"]);
-
-  // Horizontal accent line sweep — follows heading
-  const lineWidth = useTransform(statsProgress, [0.18, 0.32], ["0%", "100%"]);
-  const lineOpacity = useTransform(statsProgress, [0.18, 0.26], [0, 1]);
-
-  // Stat columns — staggered fade-in with clear separation (2 engineering stats)
-  const stat0Y = useTransform(statsProgress, [0.24, 0.42], ["6vh", "0vh"]);
-  const stat0Opacity = useTransform(statsProgress, [0.24, 0.42], [0, 1]);
-
-  const stat1Y = useTransform(statsProgress, [0.34, 0.52], ["6vh", "0vh"]);
-  const stat1Opacity = useTransform(statsProgress, [0.34, 0.52], [0, 1]);
-
-  const statAnimations = [
-    { y: stat0Y, opacity: stat0Opacity },
-    { y: stat1Y, opacity: stat1Opacity },
-  ];
-
-  // Engineers section — heading and content animations (smooth entrance)
-  const engineersHeadingOpacity = useTransform(engineersProgress, [0.08, 0.25], [0, 1]);
-  const engineersHeadingY = useTransform(engineersProgress, [0.08, 0.25], ["5vh", "0vh"]);
-  const engineersContentOpacity = useTransform(engineersProgress, [0.20, 0.42], [0, 1]);
-  const engineersContentY = useTransform(engineersProgress, [0.20, 0.42], ["8vh", "0vh"]);
-
-  // Teams section — heading fades in first
-  const teamsHeadingOpacity = useTransform(teamsProgress, [0.05, 0.18], [0, 1]);
-  const teamsHeadingY = useTransform(teamsProgress, [0.05, 0.18], ["6vh", "0vh"]);
-
-  // Teams bars fade in after heading
-  const teamsBarsOpacity = useTransform(teamsProgress, [0.18, 0.35], [0, 1]);
-  const teamsBarsY = useTransform(teamsProgress, [0.18, 0.35], ["8vh", "0vh"]);
-
-  // Count-up triggers — fire when each stat becomes visible via scroll
+  // Count-up triggers — fire when each stat scrolls into view
   const [statRevealed, setStatRevealed] = useState([false, false]);
   const [engineersRevealed, setEngineersRevealed] = useState(false);
-
-  useMotionValueEvent(stat0Opacity, "change", (v) => {
-    if (v > 0.5 && !statRevealed[0]) setStatRevealed((prev) => [true, prev[1]]);
-  });
-  useMotionValueEvent(stat1Opacity, "change", (v) => {
-    if (v > 0.5 && !statRevealed[1]) setStatRevealed((prev) => [prev[0], true]);
-  });
-  useMotionValueEvent(engineersContentOpacity, "change", (v) => {
-    if (v > 0.5 && !engineersRevealed) setEngineersRevealed(true);
-  });
 
   return (
     <div className="relative">
@@ -199,7 +135,7 @@ export default function Home() {
           {/* LAYER 1 — BACKGROUND: Holographic wireframe car (revealed through pixel mask) */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/HeroPageBackgroundHolographicVFXSVG.svg"
+            src="/HeroPageBackgroundHolographicVFX.webp"
             alt=""
             className="absolute inset-0 w-full h-full object-cover"
             style={{ zIndex: 0, willChange: "transform" }}
@@ -331,7 +267,7 @@ export default function Home() {
               willChange: "transform",
             }}
           >
-            <PixelRevealOverlay foregroundSrc="/HeroPageBackgroundSVG.svg" onImageLoad={handleForegroundLoad} />
+            <PixelRevealOverlay foregroundSrc="/HeroPageBackground.webp" onImageLoad={handleForegroundLoad} />
           </motion.div>
         </motion.div>
 
@@ -420,7 +356,7 @@ export default function Home() {
       </section>
 
       {/* Content Container - scrolls over the hero with drop shadow */}
-      <div ref={contentRef} className="relative" style={{ zIndex: 10 }}>
+      <div className="relative" style={{ zIndex: 10 }}>
         {/* Fade-to-black overlay — smoothly covers the Hero as content scrolls up */}
         <div
           className="absolute inset-x-0 -top-[50vh] h-[50vh] pointer-events-none"
@@ -429,312 +365,347 @@ export default function Home() {
           }}
         />
 
-        {/* Solid black transition zone — fully hides the Hero before Stats begins */}
+        {/* Solid black transition zone — fully hides the Hero before content begins */}
         <div className="h-[4vh] bg-black" />
 
-        {/* Track Video sticky background — wraps stats + teams */}
-        <TrackVideoScroll>
+        {/* Events Section — first thing revealed below the hero */}
+        <section className="relative bg-black py-20 sm:py-24">
+          <div className="max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.7, ease: sectionEase }}
+              className="flex flex-wrap items-end justify-between gap-6 mb-10 sm:mb-14"
+            >
+              <div>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-8 h-px bg-[#e3b53d]" />
+                  <span className="text-[#e3b53d] text-xs font-secondary uppercase tracking-[0.25em] font-semibold">
+                    Follow the journey
+                  </span>
+                </div>
+                <h2 className="font-bold text-white leading-[0.95]" style={{ fontSize: "clamp(1.5rem, 4vw, 3rem)" }}>
+                  Our <span className="text-[#e3b53d]">Events</span>
+                </h2>
+              </div>
+              <Link
+                href="/events"
+                className="group inline-flex items-center gap-2 text-sm font-secondary font-semibold text-[#e3b53d] hover:text-[#ffe566] transition-colors"
+              >
+                View all events
+                <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </motion.div>
+            <EventsCarousel />
+          </div>
+        </section>
 
-        {/* Stats Section - sticky scroll zone */}
-        <div ref={statsRef} className="h-[130vh] relative">
-          <div className="sticky top-0 h-screen overflow-hidden bg-black/65 backdrop-blur-[4px]">
-            <section className="absolute inset-0 flex items-center justify-center overflow-hidden">
-              {/* Background effects */}
-              <div className="absolute inset-0 circuit-pattern opacity-20" />
-              <div className="absolute top-0 left-0 w-[30vw] h-[30vw] max-w-[500px] max-h-[500px] bg-[#8b0000]/10 rounded-full blur-[120px]" />
-              <div className="absolute bottom-0 right-1/4 w-[25vw] h-[25vw] bg-[#e3b53d]/8 rounded-full blur-[100px]" />
+        {/* Stats Section */}
+        <section className="relative bg-black min-h-screen flex items-center justify-center overflow-hidden">
+          {/* Background effects */}
+          <div className="absolute inset-0 circuit-pattern opacity-20" />
+          <div className="absolute top-0 left-0 w-[30vw] h-[30vw] max-w-[500px] max-h-[500px] bg-[#8b0000]/10 rounded-full blur-[120px]" />
+          <div className="absolute bottom-0 right-1/4 w-[25vw] h-[25vw] bg-[#e3b53d]/8 rounded-full blur-[100px]" />
 
-              {/* Fluid container - scales with viewport, constrained by min/max */}
-              <div
-                className="relative w-full flex flex-col items-center justify-center"
+          {/* Fluid container - scales with viewport, constrained by min/max */}
+          <div
+            className="relative w-full flex flex-col items-center justify-center"
+            style={{
+              height: "clamp(400px, 75vh, 800px)",
+              maxWidth: "min(90vw, 1200px)",
+              padding: "clamp(1rem, 3vw, 2.5rem)",
+            }}
+          >
+
+            {/* Heading — centered, fluid typography */}
+            <motion.div
+              className="text-center"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.7, ease: sectionEase }}
+              style={{ marginBottom: "clamp(1rem, 3vh, 2.5rem)" }}
+            >
+              <h2
+                className="font-bold text-white leading-[0.95]"
                 style={{
-                  height: "clamp(400px, 75vh, 800px)",
-                  maxWidth: "min(90vw, 1200px)",
-                  padding: "clamp(1rem, 3vw, 2.5rem)",
+                  fontSize: "clamp(1.25rem, 3.8vw, 3rem)",
+                  marginBottom: "clamp(0.5rem, 1.5vh, 1rem)",
                 }}
               >
-
-                {/* Heading — centered, fluid typography */}
-                <motion.div
-                  className="text-center"
-                  style={{
-                    opacity: headingOpacity,
-                    y: headingY,
-                    marginBottom: "clamp(1rem, 3vh, 2.5rem)",
-                  }}
-                >
-                  <h2
-                    className="font-bold text-white leading-[0.95]"
-                    style={{
-                      fontSize: "clamp(1.25rem, 3.8vw, 3rem)",
-                      marginBottom: "clamp(0.5rem, 1.5vh, 1rem)",
-                    }}
-                  >
-                    Engineering the future,{" "}
-                    <span className="text-[#e3b53d] italic">one lap at a time.</span>
-                  </h2>
-                  <p
-                    className="text-gray-400 font-secondary mx-auto"
-                    style={{
-                      fontSize: "clamp(0.875rem, 1.4vw, 1.125rem)",
-                      maxWidth: "clamp(280px, 40vw, 520px)",
-                    }}
-                  >
-                    Our engineering targets push the boundaries of what&apos;s possible in Formula SAE competition
-                  </p>
-                </motion.div>
-
-                {/* Horizontal accent line — laser pulse effect */}
-                <motion.div
-                  className="laser-line"
-                  style={{
-                    height: "2px",
-                    width: lineWidth,
-                    opacity: lineOpacity,
-                    marginBottom: "clamp(1.5rem, 4vh, 3.5rem)",
-                    background: "linear-gradient(90deg, transparent, #e3b53d, #e3b53d, transparent)",
-                    borderRadius: "1px",
-                  }}
-                />
-
-                {/* Stats row — 2 columns for engineering targets */}
-                <div
-                  className="grid grid-cols-1 sm:grid-cols-2 w-full gap-6 sm:gap-0"
-                  style={{ maxWidth: "min(95%, 900px)" }}
-                >
-                  {engineeringStats.map((stat, i) => (
-                    <motion.div
-                      key={stat.label}
-                      className="group relative flex flex-col items-center text-center"
-                      style={{
-                        y: statAnimations[i].y,
-                        opacity: statAnimations[i].opacity,
-                        padding: "clamp(1.5rem, 4vh, 4rem) clamp(1.5rem, 4vw, 3rem)",
-                      }}
-                    >
-                      {/* Vertical gold divider between columns — hidden on mobile */}
-                      {i > 0 && (
-                        <div
-                          className="absolute left-0 top-[10%] h-[80%] w-px hidden sm:block"
-                          style={{
-                            background: "linear-gradient(180deg, transparent, rgba(227,181,61,0.3) 30%, rgba(227,181,61,0.3) 70%, transparent)",
-                          }}
-                        />
-                      )}
-
-                      {/* Header label with line accents */}
-                      <div
-                        className="relative z-10 flex items-center"
-                        style={{
-                          gap: "clamp(0.75rem, 2vw, 1.5rem)",
-                          marginBottom: "clamp(1rem, 3vh, 2rem)",
-                        }}
-                      >
-                        <span
-                          className="h-px"
-                          style={{
-                            width: "clamp(2rem, 5vw, 4rem)",
-                            background: "linear-gradient(90deg, transparent, rgba(227,181,61,0.6))",
-                          }}
-                        />
-                        <span
-                          className="font-secondary text-gray-300 uppercase tracking-[0.2em]"
-                          style={{
-                            fontSize: "clamp(0.85rem, 1.6vw, 1.25rem)",
-                            fontWeight: 600,
-                          }}
-                        >
-                          {stat.label}
-                        </span>
-                        <span
-                          className="h-px"
-                          style={{
-                            width: "clamp(2rem, 5vw, 4rem)",
-                            background: "linear-gradient(90deg, rgba(227,181,61,0.6), transparent)",
-                          }}
-                        />
-                      </div>
-
-                      {/* Number — MASSIVE, fluid scaling */}
-                      <span
-                        className="relative z-10 font-black text-white tracking-tighter leading-none transition-colors duration-700 group-hover:text-[#e3b53d]"
-                        style={{ fontSize: "clamp(3.5rem, 12vw, 9rem)" }}
-                      >
-                        <CountUp value={stat.value} active={statRevealed[i]} />
-                      </span>
-
-                      {/* Unit — fluid, more prominent */}
-                      <span
-                        className="relative z-10 font-bold text-[#e3b53d] uppercase"
-                        style={{
-                          fontSize: "clamp(1rem, 2vw, 1.75rem)",
-                          letterSpacing: "0.2em",
-                          marginTop: "clamp(0.25rem, 1vh, 0.75rem)",
-                        }}
-                      >
-                        {stat.unit}
-                      </span>
-
-                      {/* Hover glow — radial gold aura behind the number */}
-                      <div
-                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl"
-                        style={{
-                          background: "radial-gradient(ellipse at center 50%, rgba(227,181,61,0.1) 0%, transparent 60%)",
-                        }}
-                      />
-                    </motion.div>
-                  ))}
-                </div>
-
-              </div>
-            </section>
-          </div>
-        </div>
-
-        {/* Engineers Section - separate sticky scroll zone */}
-        <div ref={engineersRef} className="h-[140vh] relative">
-          <div className="sticky top-0 h-screen overflow-hidden bg-black/65 backdrop-blur-[4px]">
-            <section
-              className="absolute inset-0 overflow-hidden"
-              style={{
-                maskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)",
-                WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)",
-              }}
-            >
-              {/* Background effects */}
-              <div className="absolute inset-0 circuit-pattern opacity-15" />
-
-              {/* Right-side image with left fade */}
-              <div className="absolute inset-0">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src="/collab-on-car.jpg"
-                  alt="Team collaborating on the Formula SAE car"
-                  className="absolute top-0 right-0 h-full object-cover"
-                  style={{
-                    width: "clamp(50%, 65vw, 75%)",
-                    objectPosition: "center center",
-                  }}
-                />
-                {/* Gradient fade on the left edge of the image */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background: "linear-gradient(to right, rgba(0,0,0,1) 25%, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.4) 55%, transparent 70%)",
-                  }}
-                />
-                {/* Subtle top/bottom vignette for depth */}
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.6) 100%)",
-                  }}
-                />
-              </div>
-
-              {/* Content container — left-aligned */}
-              <div className="relative h-full flex items-center">
-                <div
-                  className="flex flex-col justify-center px-6 sm:px-10 lg:px-16"
-                  style={{ maxWidth: "clamp(320px, 50vw, 600px)" }}
-                >
-                  {/* Heading */}
-                  <motion.div
-                    style={{
-                      opacity: engineersHeadingOpacity,
-                      y: engineersHeadingY,
-                      marginBottom: "clamp(1.5rem, 4vh, 3rem)",
-                    }}
-                  >
-                    <h2
-                      className="font-bold text-white leading-tight"
-                      style={{ fontSize: "clamp(1.5rem, 4vw, 3.5rem)" }}
-                    >
-                      Built by <span className="text-[#e3b53d]">Students</span>
-                    </h2>
-                    <p
-                      className="text-gray-400 font-secondary mt-3"
-                      style={{
-                        fontSize: "clamp(0.9rem, 1.5vw, 1.25rem)",
-                        maxWidth: "clamp(280px, 40vw, 500px)",
-                      }}
-                    >
-                      A passionate team of engineers, designers, and innovators pushing the limits of electric motorsport
-                    </p>
-                  </motion.div>
-
-                  {/* Large number display */}
-                  <motion.div
-                    className="relative flex flex-col"
-                    style={{ opacity: engineersContentOpacity, y: engineersContentY }}
-                  >
-                    {/* Number */}
-                    <span
-                      className="relative z-10 font-black text-[#e3b53d] tracking-tighter leading-none"
-                      style={{ fontSize: "clamp(4rem, 15vw, 10rem)" }}
-                    >
-                      <CountUp value={teamStat.value} active={engineersRevealed} />
-                    </span>
-
-                    {/* Label */}
-                    <span
-                      className="relative z-10 font-semibold text-white uppercase"
-                      style={{
-                        fontSize: "clamp(1rem, 2.5vw, 1.75rem)",
-                        letterSpacing: "0.25em",
-                        marginTop: "clamp(0.25rem, 1vh, 0.75rem)",
-                      }}
-                    >
-                      {teamStat.unit}
-                    </span>
-
-                    {/* Subtitle */}
-                    <span
-                      className="relative z-10 text-gray-500 font-secondary"
-                      style={{
-                        fontSize: "clamp(0.85rem, 1.4vw, 1.1rem)",
-                        marginTop: "clamp(0.75rem, 2vh, 1.5rem)",
-                      }}
-                    >
-                      across all divisions
-                    </span>
-                  </motion.div>
-                </div>
-              </div>
-            </section>
-          </div>
-        </div>
-
-        {/* Teams Section - separate sticky scroll zone */}
-        <div ref={teamsRef} className="h-[150vh] relative">
-          <div id="teams" className="absolute top-0" />
-          <div className="sticky top-0 h-screen overflow-hidden bg-black/65 backdrop-blur-[4px]">
-            <div className="relative w-full h-[calc(100vh-5rem)] mt-20 flex flex-col justify-center">
-              {/* Title area — fades in first */}
-              <motion.div
-                className="text-center px-4 mb-6"
-                style={{ opacity: teamsHeadingOpacity, y: teamsHeadingY }}
+                Engineering the future,{" "}
+                <span className="text-[#e3b53d] italic">one lap at a time.</span>
+              </h2>
+              <p
+                className="text-gray-400 font-secondary mx-auto"
+                style={{
+                  fontSize: "clamp(0.875rem, 1.4vw, 1.125rem)",
+                  maxWidth: "clamp(280px, 40vw, 520px)",
+                }}
               >
-                <h2 className="font-bold text-white mb-3" style={{ fontSize: "clamp(1.25rem, 3.8vw, 3rem)" }}>
-                  Specialized <span className="text-[#e3b53d]">Divisions</span>
+                Our engineering targets push the boundaries of what&apos;s possible in Formula SAE competition
+              </p>
+            </motion.div>
+
+            {/* Horizontal accent line — laser pulse effect */}
+            <motion.div
+              className="laser-line"
+              initial={{ width: "0%", opacity: 0 }}
+              whileInView={{ width: "100%", opacity: 1 }}
+              viewport={{ once: true, amount: "some" }}
+              transition={{ duration: 0.8, delay: 0.2, ease: sectionEase }}
+              style={{
+                height: "2px",
+                marginBottom: "clamp(1.5rem, 4vh, 3.5rem)",
+                background: "linear-gradient(90deg, transparent, #e3b53d, #e3b53d, transparent)",
+                borderRadius: "1px",
+              }}
+            />
+
+            {/* Stats row — 2 columns for engineering targets */}
+            <div
+              className="grid grid-cols-1 sm:grid-cols-2 w-full gap-6 sm:gap-0"
+              style={{ maxWidth: "min(95%, 900px)" }}
+            >
+              {engineeringStats.map((stat, i) => (
+                <motion.div
+                  key={stat.label}
+                  className="group relative flex flex-col items-center text-center"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.5 }}
+                  transition={{ duration: 0.6, delay: 0.25 + i * 0.15, ease: sectionEase }}
+                  onViewportEnter={() =>
+                    setStatRevealed((prev) => (i === 0 ? [true, prev[1]] : [prev[0], true]))
+                  }
+                  style={{ padding: "clamp(1.5rem, 4vh, 4rem) clamp(1.5rem, 4vw, 3rem)" }}
+                >
+                  {/* Vertical gold divider between columns — hidden on mobile */}
+                  {i > 0 && (
+                    <div
+                      className="absolute left-0 top-[10%] h-[80%] w-px hidden sm:block"
+                      style={{
+                        background: "linear-gradient(180deg, transparent, rgba(227,181,61,0.3) 30%, rgba(227,181,61,0.3) 70%, transparent)",
+                      }}
+                    />
+                  )}
+
+                  {/* Header label with line accents */}
+                  <div
+                    className="relative z-10 flex items-center"
+                    style={{
+                      gap: "clamp(0.75rem, 2vw, 1.5rem)",
+                      marginBottom: "clamp(1rem, 3vh, 2rem)",
+                    }}
+                  >
+                    <span
+                      className="h-px"
+                      style={{
+                        width: "clamp(2rem, 5vw, 4rem)",
+                        background: "linear-gradient(90deg, transparent, rgba(227,181,61,0.6))",
+                      }}
+                    />
+                    <span
+                      className="font-secondary text-gray-300 uppercase tracking-[0.2em]"
+                      style={{
+                        fontSize: "clamp(0.85rem, 1.6vw, 1.25rem)",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {stat.label}
+                    </span>
+                    <span
+                      className="h-px"
+                      style={{
+                        width: "clamp(2rem, 5vw, 4rem)",
+                        background: "linear-gradient(90deg, rgba(227,181,61,0.6), transparent)",
+                      }}
+                    />
+                  </div>
+
+                  {/* Number — MASSIVE, fluid scaling */}
+                  <span
+                    className="relative z-10 font-black text-white tracking-tighter leading-none transition-colors duration-700 group-hover:text-[#e3b53d]"
+                    style={{ fontSize: "clamp(3.5rem, 12vw, 9rem)" }}
+                  >
+                    <CountUp value={stat.value} active={statRevealed[i]} />
+                  </span>
+
+                  {/* Unit — fluid, more prominent */}
+                  <span
+                    className="relative z-10 font-bold text-[#e3b53d] uppercase"
+                    style={{
+                      fontSize: "clamp(1rem, 2vw, 1.75rem)",
+                      letterSpacing: "0.2em",
+                      marginTop: "clamp(0.25rem, 1vh, 0.75rem)",
+                    }}
+                  >
+                    {stat.unit}
+                  </span>
+
+                  {/* Hover glow — radial gold aura behind the number */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl"
+                    style={{
+                      background: "radial-gradient(ellipse at center 50%, rgba(227,181,61,0.1) 0%, transparent 60%)",
+                    }}
+                  />
+                </motion.div>
+              ))}
+            </div>
+
+          </div>
+        </section>
+
+        {/* Engineers Section */}
+        <section
+          className="relative bg-black min-h-screen overflow-hidden"
+          style={{
+            maskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%)",
+          }}
+        >
+          {/* Background effects */}
+          <div className="absolute inset-0 circuit-pattern opacity-15" />
+
+          {/* Right-side image with left fade */}
+          <div className="absolute inset-0">
+            <div
+              className="absolute top-0 right-0 h-full"
+              style={{ width: "clamp(50%, 65vw, 75%)" }}
+            >
+              <Image
+                src="/collab-on-car.jpg"
+                alt="Team collaborating on the Formula SAE car"
+                fill
+                sizes="75vw"
+                className="object-cover"
+                style={{ objectPosition: "center center" }}
+              />
+            </div>
+            {/* Gradient fade on the left edge of the image */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background: "linear-gradient(to right, rgba(0,0,0,1) 25%, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.4) 55%, transparent 70%)",
+              }}
+            />
+            {/* Subtle top/bottom vignette for depth */}
+            <div
+              className="absolute inset-0"
+              style={{
+                background: "linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.6) 100%)",
+              }}
+            />
+          </div>
+
+          {/* Content container — left-aligned */}
+          <div className="relative min-h-screen flex items-center">
+            <div
+              className="flex flex-col justify-center px-6 sm:px-10 lg:px-16"
+              style={{ maxWidth: "clamp(320px, 50vw, 600px)" }}
+            >
+              {/* Heading */}
+              <motion.div
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.7, ease: sectionEase }}
+                style={{ marginBottom: "clamp(1.5rem, 4vh, 3rem)" }}
+              >
+                <h2
+                  className="font-bold text-white leading-tight"
+                  style={{ fontSize: "clamp(1.5rem, 4vw, 3.5rem)" }}
+                >
+                  Built by <span className="text-[#e3b53d]">Students</span>
                 </h2>
-                <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
-                  No matter your major, there&apos;s a team that sharpens your skills and puts them on the track
+                <p
+                  className="text-gray-400 font-secondary mt-3"
+                  style={{
+                    fontSize: "clamp(0.9rem, 1.5vw, 1.25rem)",
+                    maxWidth: "clamp(280px, 40vw, 500px)",
+                  }}
+                >
+                  A passionate team of engineers, designers, and innovators pushing the limits of electric motorsport
                 </p>
               </motion.div>
 
-              {/* Bars area — fades in after heading */}
+              {/* Large number display */}
               <motion.div
-                className="w-full flex items-center justify-center"
-                style={{ opacity: teamsBarsOpacity, y: teamsBarsY }}
+                className="relative flex flex-col"
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.5 }}
+                transition={{ duration: 0.7, delay: 0.15, ease: sectionEase }}
+                onViewportEnter={() => setEngineersRevealed(true)}
               >
-                <DiagonalBars />
+                {/* Number */}
+                <span
+                  className="relative z-10 font-black text-[#e3b53d] tracking-tighter leading-none"
+                  style={{ fontSize: "clamp(4rem, 15vw, 10rem)" }}
+                >
+                  <CountUp value={teamStat.value} active={engineersRevealed} />
+                </span>
+
+                {/* Label */}
+                <span
+                  className="relative z-10 font-semibold text-white uppercase"
+                  style={{
+                    fontSize: "clamp(1rem, 2.5vw, 1.75rem)",
+                    letterSpacing: "0.25em",
+                    marginTop: "clamp(0.25rem, 1vh, 0.75rem)",
+                  }}
+                >
+                  {teamStat.unit}
+                </span>
+
+                {/* Subtitle */}
+                <span
+                  className="relative z-10 text-gray-500 font-secondary"
+                  style={{
+                    fontSize: "clamp(0.85rem, 1.4vw, 1.1rem)",
+                    marginTop: "clamp(0.75rem, 2vh, 1.5rem)",
+                  }}
+                >
+                  across all divisions
+                </span>
               </motion.div>
             </div>
           </div>
-        </div>
+        </section>
 
-        </TrackVideoScroll>
+        {/* Teams Section */}
+        <section id="teams" className="relative bg-black overflow-hidden scroll-mt-20">
+          <div className="relative w-full min-h-[calc(100vh-5rem)] py-16 flex flex-col justify-center">
+            {/* Title area — fades in first */}
+            <motion.div
+              className="text-center px-4 mb-6"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.7, ease: sectionEase }}
+            >
+              <h2 className="font-bold text-white mb-3" style={{ fontSize: "clamp(1.25rem, 3.8vw, 3rem)" }}>
+                Specialized <span className="text-[#e3b53d]">Divisions</span>
+              </h2>
+              <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
+                No matter your major, there&apos;s a team that sharpens your skills and puts them on the track
+              </p>
+            </motion.div>
+
+            {/* Bars area — fades in after heading */}
+            <motion.div
+              className="w-full flex items-center justify-center"
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.7, delay: 0.15, ease: sectionEase }}
+            >
+              <DiagonalBars />
+            </motion.div>
+          </div>
+        </section>
 
         {/* Sponsorship CTA Section */}
         <section className="relative py-24 overflow-hidden bg-black">

@@ -787,8 +787,7 @@ export default function TeamPage() {
   const team = teamsData[slug];
 
   useEffect(() => {
-    const lenis = (window as Window & { __lenis?: { scrollTo: (t: number) => void } }).__lenis;
-    if (lenis) lenis.scrollTo(0); else window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, [slug]);
 
   if (!team) {

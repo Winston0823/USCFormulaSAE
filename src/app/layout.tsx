@@ -4,7 +4,6 @@ import "./globals.css";
 import ClientOnly from "@/components/ClientOnly";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
-import SmoothScroll from "@/components/SmoothScroll";
 import LoadingWrapper from "@/components/LoadingWrapper";
 import StickyDonateButton from "@/components/StickyDonateButton";
 
@@ -66,14 +65,12 @@ export default function RootLayout({
           {/* Navigation MUST be outside LoadingWrapper to avoid transform breaking position:fixed */}
           <Navigation />
           <LoadingWrapper>
-            <SmoothScroll>
-              <main>
-                {children}
-              </main>
-              <div className="relative" style={{ zIndex: 10 }}>
-                <Footer />
-              </div>
-            </SmoothScroll>
+            <main>
+              {children}
+            </main>
+            <div className="relative" style={{ zIndex: 10 }}>
+              <Footer />
+            </div>
           </LoadingWrapper>
           {/* Sticky donate CTA — also outside LoadingWrapper so position:fixed isn't broken by the parent transform */}
           <StickyDonateButton />
