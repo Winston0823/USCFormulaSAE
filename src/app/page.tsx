@@ -355,8 +355,10 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* Content Container - scrolls over the hero with drop shadow */}
-      <div className="relative" style={{ zIndex: 10 }}>
+      {/* Content Container - scrolls over the hero with drop shadow.
+          Must be opaque: the fixed hero sits behind it, and any transparency
+          inside a section (e.g. mask-image fades) would let the hero bleed through. */}
+      <div className="relative bg-black" style={{ zIndex: 10 }}>
         {/* Fade-to-black overlay — smoothly covers the Hero as content scrolls up */}
         <div
           className="absolute inset-x-0 -top-[50vh] h-[50vh] pointer-events-none"
