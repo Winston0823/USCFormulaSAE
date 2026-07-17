@@ -4,5 +4,5 @@
 export const featureFlags = {
   // Show the "Join Us" CTA (desktop + mobile nav).
   // Turn back on when recruitment opens.
-  showJoinUsButton: false,
+  showJoinUsButton: true,
 } as const;
