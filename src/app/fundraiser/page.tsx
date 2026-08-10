@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import CTAButton from "@/components/CTAButton";
 import {
   MapPin,
   Calendar,
@@ -726,30 +726,14 @@ export default function FundraiserPage() {
               possible.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/about"
-                className="inline-flex items-center justify-center px-8 py-4 rounded-lg text-black font-semibold text-base tracking-wider transition-all duration-300 hover:scale-105 uppercase"
-                style={{
-                  background: "linear-gradient(90deg, #e3b53d, #daa520)",
-                  fontFamily: "var(--font-rajdhani), sans-serif",
-                  letterSpacing: "0.15em",
-                  boxShadow: "0 0 20px rgba(227, 181, 61, 0.3)",
-                }}
-              >
+              <CTAButton href="/about">
                 About Us
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Link>
-              <Link
-                href="/sponsorship"
-                className="inline-flex items-center justify-center px-8 py-4 rounded-lg text-[#e3b53d] font-semibold text-base tracking-wider border border-[#e3b53d]/40 hover:border-[#e3b53d] hover:bg-[#e3b53d]/10 transition-all duration-300 hover:scale-105 uppercase"
-                style={{
-                  fontFamily: "var(--font-rajdhani), sans-serif",
-                  letterSpacing: "0.15em",
-                }}
-              >
+                <ArrowRight className="w-5 h-5" />
+              </CTAButton>
+              <CTAButton href="/sponsorship" variant="secondary">
                 Our Sponsors
-                <ArrowRight className="w-5 h-5 ml-2" />
-              </Link>
+                <ArrowRight className="w-5 h-5" />
+              </CTAButton>
             </div>
           </motion.div>
         </div>

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { motion, AnimatePresence, useSpring, useTransform } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import FireIcon from "./FireIcon";
+import CTAButton from "./CTAButton";
 import { featureFlags } from "@/lib/featureFlags";
 
 // Liquid hover effect hook - inspired by landonorris.com
@@ -264,36 +265,13 @@ export default function Navigation() {
           <div className="flex-1 flex justify-end items-center gap-4">
             <FireIcon className="hidden lg:flex" size={40} />
             {featureFlags.showJoinUsButton && (
-              <Link
+              <CTAButton
                 href="https://docs.google.com/forms/d/e/1FAIpQLScz1sdeI-fGvj-IhghyPXXLrBP1jk_dhaq9NP0hriJ1DS57uw/viewform"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group/btn hidden lg:flex items-center justify-center px-7 py-3.5 rounded-lg text-black font-semibold text-base tracking-widest leading-none transition-all duration-300 relative overflow-hidden hover:scale-105 hover:text-[#e3b53d] border border-[#e3b53d] hover:border-[#e3b53d] uppercase"
-                style={{
-                  background: "linear-gradient(90deg, #e3b53d, #daa520)",
-                  backdropFilter: "blur(12px)",
-                  WebkitBackdropFilter: "blur(12px)",
-                  fontFamily: "var(--font-rajdhani), sans-serif",
-                  letterSpacing: "0.25em",
-                  boxShadow: "0 0 15px rgba(227, 181, 61, 0.3)",
-                  transition: "all 0.3s ease, box-shadow 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = "0 0 20px rgba(227, 181, 61, 0.4), 0 0 40px rgba(227, 181, 61, 0.2)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = "0 0 15px rgba(227, 181, 61, 0.3)";
-                }}
+                size="sm"
+                className="hidden lg:inline-flex"
               >
-                {/* Black fill on hover */}
-                <span
-                  className="absolute inset-0 pointer-events-none transition-transform duration-500 ease-out origin-left scale-x-0 group-hover/btn:scale-x-100"
-                  style={{
-                    background: "rgba(0, 0, 0, 0.9)",
-                  }}
-                />
-                <span className="relative z-10">Join Us</span>
-              </Link>
+                Join Us
+              </CTAButton>
             )}
 
             {/* Menu icon button - desktop */}
@@ -461,14 +439,13 @@ export default function Navigation() {
               <div className="flex items-center justify-center gap-4">
                 <FireIcon size={36} />
                 {featureFlags.showJoinUsButton && (
-                  <Link
+                  <CTAButton
                     href="https://docs.google.com/forms/d/e/1FAIpQLScz1sdeI-fGvj-IhghyPXXLrBP1jk_dhaq9NP0hriJ1DS57uw/viewform"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 text-center px-6 py-3 bg-[#e3b53d] rounded-full text-black font-semibold text-lg leading-none"
+                    size="sm"
+                    className="flex-1"
                   >
-                    Join Now
-                  </Link>
+                    Join Us
+                  </CTAButton>
                 )}
               </div>
             </div>

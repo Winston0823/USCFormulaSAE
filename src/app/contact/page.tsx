@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
+import CTAButton from "@/components/CTAButton";
 import {
   Mail,
   MapPin,
@@ -256,13 +257,10 @@ export default function ContactPage() {
                       />
                     </div>
 
-                    <button
-                      type="submit"
-                      className="w-full flex items-center justify-center px-8 py-4 bg-[#e3b53d] rounded-xl text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-lg hover:shadow-[#e3b53d]/30 transition-all duration-300 neon-button"
-                    >
+                    <CTAButton type="submit" className="w-full">
                       Send Message
-                      <Send className="w-5 h-5 ml-2" />
-                    </button>
+                      <Send className="w-5 h-5" />
+                    </CTAButton>
                   </form>
                 )}
               </div>

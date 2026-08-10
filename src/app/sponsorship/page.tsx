@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+import CTAButton from "@/components/CTAButton";
 import {
   Diamond,
   Award,
@@ -463,13 +464,10 @@ export default function SponsorshipPage() {
               Let&apos;s discuss how we can create a mutually beneficial partnership that drives innovation and develops future talent.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center px-10 py-5 bg-[#e3b53d] rounded-full text-black font-bold text-lg hover:bg-[#d4a634] hover:shadow-2xl hover:shadow-[#e3b53d]/30 transition-all duration-300"
-              >
+              <CTAButton href="/contact" size="lg">
                 Contact Us
-                <ArrowRight className="w-6 h-6 ml-2" />
-              </Link>
+                <ArrowRight className="w-5 h-5" />
+              </CTAButton>
             </div>
           </motion.div>
         </div>

@@ -28,10 +28,9 @@ export default function StickyDonateButton() {
       }}
     >
       <span
-        className="flex items-center gap-2 px-6 py-3.5 sm:px-7 sm:py-4 rounded-full text-black font-bold uppercase tracking-widest text-sm sm:text-base shadow-[0_10px_40px_-10px_rgba(227,181,61,0.6)] border border-[#e3b53d] transition-transform duration-300 group-hover:scale-105 group-hover:shadow-[0_12px_48px_-8px_rgba(227,181,61,0.8)]"
+        className="flex items-center gap-2 px-6 py-3.5 sm:px-7 sm:py-4 rounded-full text-[#e3b53d] font-bold uppercase text-sm sm:text-base border border-[#e3b53d] bg-black/40 backdrop-blur-md shadow-[0_10px_40px_-10px_rgba(227,181,61,0.4)] transition-all duration-300 group-hover:scale-[1.03] group-hover:bg-[#e3b53d]/10 group-hover:shadow-[0_0_24px_rgba(227,181,61,0.35)]"
         style={{
-          background: "linear-gradient(90deg, #e3b53d, #daa520)",
-          letterSpacing: "0.18em",
+          letterSpacing: "0.2em",
         }}
       >
         <svg

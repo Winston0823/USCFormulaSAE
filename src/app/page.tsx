@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import CountUp from "@/components/CountUp";
+import CTAButton from "@/components/CTAButton";
 import DiagonalBars from "@/components/DiagonalBars";
 import EventsCarousel from "@/components/EventsCarousel";
 import { useLoadingSignal } from "@/components/LoadingContext";
@@ -728,22 +729,18 @@ export default function Home() {
                 Partner with USC Formula Electric and help shape the next generation of automotive engineers
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Link
-                  href="/sponsorship"
-                  className="inline-flex items-center px-10 py-5 bg-[#e3b53d] rounded-full text-black font-bold text-lg hover:bg-[#c4ae5a] hover:shadow-2xl hover:shadow-[#e3b53d]/30 transition-all duration-300 neon-button"
-                >
+                <CTAButton href="/sponsorship" size="lg">
                   Become a Sponsor
-                  <ArrowRight className="w-6 h-6 ml-2" />
-                </Link>
-                <a
+                  <ArrowRight className="w-5 h-5" />
+                </CTAButton>
+                <CTAButton
                   href="https://giveto.usc.edu/Donation"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center px-10 py-5 rounded-full text-[#e3b53d] font-bold text-lg border-2 border-[#e3b53d] hover:bg-[#e3b53d]/10 hover:shadow-2xl hover:shadow-[#e3b53d]/20 transition-all duration-300"
+                  variant="secondary"
+                  size="lg"
                 >
                   Donate Now
-                  <ArrowRight className="w-6 h-6 ml-2" />
-                </a>
+                  <ArrowRight className="w-5 h-5" />
+                </CTAButton>
               </div>
             </motion.div>
           </div>
