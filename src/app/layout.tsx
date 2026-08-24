@@ -72,7 +72,7 @@ export default function RootLayout({
               <Footer />
             </div>
           </LoadingWrapper>
-          {/* Sticky donate CTA — also outside LoadingWrapper so position:fixed isn't broken by the parent transform */}
+          {/* Sticky donate CTA  -  also outside LoadingWrapper so position:fixed isn't broken by the parent transform */}
           <StickyDonateButton />
         </ClientOnly>
       </body>

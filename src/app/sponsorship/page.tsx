@@ -130,7 +130,7 @@ const currentSponsors = [
 export default function SponsorshipPage() {
   return (
     <div className="min-h-screen bg-[#0a0a0f]">
-      {/* Hero Section — Image LEFT, Text RIGHT */}
+      {/* Hero Section  -  Image LEFT, Text RIGHT */}
       <section className="relative pt-24 lg:pt-0 overflow-hidden h-screen">
           {/* Full-bleed background image starting from left edge */}
           <div className="absolute inset-0">
@@ -149,7 +149,7 @@ export default function SponsorshipPage() {
               }}
             />
 
-            {/* Fade to dark downward — mobile */}
+            {/* Fade to dark downward  -  mobile */}
             <div
               className="absolute inset-0 lg:hidden"
               style={{
@@ -210,7 +210,7 @@ export default function SponsorshipPage() {
           </div>
       </section>
 
-      {/* Why Sponsor Section — Text LEFT, Abstract/Graphic RIGHT */}
+      {/* Why Sponsor Section  -  Text LEFT, Abstract/Graphic RIGHT */}
       <section className="py-24 relative overflow-hidden">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-0 px-6 sm:px-8 lg:px-12">
             {/* LEFT: Text + Benefit Cards */}
@@ -229,7 +229,7 @@ export default function SponsorshipPage() {
                 experience in electric vehicle design, manufacturing, and competition.
               </p>
 
-              {/* Benefit cards — stacked vertically */}
+              {/* Benefit cards  -  stacked vertically */}
               <div className="space-y-4">
                 {benefits.map((item, index) => (
                   <motion.div
@@ -381,7 +381,7 @@ export default function SponsorshipPage() {
         </div>
       </section>
 
-      {/* Current Sponsors — Marquee Scroll */}
+      {/* Current Sponsors  -  Marquee Scroll */}
       <section className="py-24 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
           <motion.div

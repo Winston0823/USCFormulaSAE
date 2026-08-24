@@ -17,7 +17,7 @@ const milestones = [
   { year: "2022", event: "Team Founded at USC" },
   { year: "2022", event: "First Car Built" },
   { year: "2024", event: "Car Unveiled at AME Awards" },
-  { year: "2025", event: "FSAE Electric Competition, Brooklyn, Michigan" },
+  { year: "2026", event: "37th Overall  -  FSAE Electric, Michigan International Speedway" },
 ];
 
 const values = [
@@ -44,12 +44,12 @@ const values = [
 ];
 
 const achievements = [
-  "First car built in 2022, the same year the team was founded",
-  "Car unveiled at the AME Awards, a first in team history",
+  "First fully driving, competition-ready vehicle in team history",
+  "Passed all mechanical and electrical technical inspections at FSAE Michigan 2026",
+  "Competed against 118 university teams from around the world",
   "Members have interned at SpaceX, including on the Falcon propulsion team",
   "50+ members ranging from freshmen to graduate students",
   "Open to all majors, not just engineering",
-  "Comprehensive hands-on training in EV design and manufacturing",
 ];
 
 export default function AboutPage() {
@@ -163,9 +163,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="py-24 bg-gradient-to-b from-black to-[#0a0a0a]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Competition Results Section */}
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 cyber-grid opacity-10" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-[#e3b53d]/5 rounded-full blur-[120px]" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -173,31 +176,58 @@ export default function AboutPage() {
             className="text-center mb-16"
           >
             <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
-              OUR VALUES
+              <Trophy className="w-4 h-4 mr-2" />
+              2026 COMPETITION RESULTS
             </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-white">
-              What Drives <span className="text-[#e3b53d]">Us</span>
+              Michigan International <span className="text-[#e3b53d]">Speedway</span>
             </h2>
+            <p className="text-gray-400 mt-4 max-w-2xl mx-auto">
+              Competing against 118 university teams from around the world  -  our first fully competition-ready vehicle.
+            </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
+          {/* Ranked results grid */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+            {[
+              { place: "37th", label: "Overall", sub: "out of 88 scored teams" },
+              { place: "19th", label: "Skidpad", sub: "best time: 5.276s" },
+              { place: "25th", label: "Autocross", sub: "best time: 52.830s" },
+              { place: "28th", label: "Acceleration", sub: "best time: 6.031s" },
+            ].map((stat, index) => (
               <motion.div
-                key={value.title}
-                initial={{ opacity: 0, y: 30 }}
+                key={stat.label}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="text-center p-8 rounded-2xl bg-white/5 border border-[#e3b53d]/20 hover:border-[#e3b53d]/50 transition-all duration-300"
+                transition={{ delay: index * 0.08 }}
+                className="p-6 rounded-2xl bg-white/5 border border-[#e3b53d]/20 hover:border-[#e3b53d]/40 transition-colors text-center"
               >
-                <div className="w-16 h-16 mx-auto mb-6 rounded-xl bg-gradient-to-br from-[#e3b53d]/20 to-transparent border border-[#e3b53d]/30 flex items-center justify-center text-[#e3b53d]">
-                  {value.icon}
-                </div>
-                <h3 className="text-xl font-bold text-white mb-3">{value.title}</h3>
-                <p className="text-gray-400">{value.description}</p>
+                <div className="text-4xl sm:text-5xl font-black text-[#e3b53d] mb-1">{stat.place}</div>
+                <div className="text-white font-semibold text-lg mb-1">{stat.label}</div>
+                <div className="text-gray-500 text-xs tracking-wide">{stat.sub}</div>
               </motion.div>
             ))}
           </div>
+
+          {/* Qualitative highlights */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-2xl mx-auto p-6 rounded-2xl bg-white/3 border border-white/8 space-y-3"
+          >
+            {[
+              "First fully driving, competition-ready vehicle in team history",
+              "Passed all mechanical and electrical technical inspections",
+              "Competed against 118 university teams from around the world",
+            ].map((item) => (
+              <div key={item} className="flex items-start gap-3">
+                <CheckCircle className="w-4 h-4 text-[#e3b53d] shrink-0 mt-0.5" />
+                <span className="text-gray-300 text-sm">{item}</span>
+              </div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -251,6 +281,44 @@ export default function AboutPage() {
                 </motion.div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Values Section */}
+      <section className="py-24 bg-gradient-to-b from-black to-[#0a0a0a]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
+              OUR VALUES
+            </span>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white">
+              What Drives <span className="text-[#e3b53d]">Us</span>
+            </h2>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((value, index) => (
+              <motion.div
+                key={value.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="text-center p-8 rounded-2xl bg-white/5 border border-[#e3b53d]/20 hover:border-[#e3b53d]/50 transition-all duration-300"
+              >
+                <div className="w-16 h-16 mx-auto mb-6 rounded-xl bg-gradient-to-br from-[#e3b53d]/20 to-transparent border border-[#e3b53d]/30 flex items-center justify-center text-[#e3b53d]">
+                  {value.icon}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">{value.title}</h3>
+                <p className="text-gray-400">{value.description}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>

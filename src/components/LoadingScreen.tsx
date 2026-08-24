@@ -280,7 +280,7 @@ export default function LoadingScreen({ onReady, heroReady = false }: LoadingScr
     }
   }, [heroReady, progress]);
 
-  // Dismiss loader when heroReady and animation complete — don't gate on spring value
+  // Dismiss loader when heroReady and animation complete  -  don't gate on spring value
   useEffect(() => {
     if (heroReady && animationComplete) {
       const timer = setTimeout(() => {

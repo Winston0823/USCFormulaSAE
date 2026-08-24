@@ -127,7 +127,7 @@ export default function FundraiserPage() {
             across the country.
           </motion.p>
 
-          {/* Image break — the team */}
+          {/* Image break  -  the team */}
           <motion.figure
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -210,7 +210,7 @@ export default function FundraiserPage() {
             can&apos;t replicate.
           </motion.p>
 
-          {/* Image break — competition duo */}
+          {/* Image break  -  competition duo */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -479,7 +479,7 @@ export default function FundraiserPage() {
             ))}
           </div>
 
-          {/* Ignite Us CTA — car transforms into holographic on hover */}
+          {/* Ignite Us CTA  -  car transforms into holographic on hover */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -491,7 +491,7 @@ export default function FundraiserPage() {
               href="https://giveto.usc.edu/Donation"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Ignite Us — donate to USC Formula SAE"
+              aria-label="Ignite Us  -  donate to USC Formula SAE"
               className="ignite-card relative block overflow-hidden rounded-3xl border border-white/10 transition-all duration-700 hover:border-[#e3b53d]/60 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#e3b53d] focus-visible:ring-offset-4 focus-visible:ring-offset-black"
               style={{
                 background: "#050505",
@@ -499,7 +499,7 @@ export default function FundraiserPage() {
                   "0 20px 60px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset",
               }}
             >
-              {/* Default — regular race car */}
+              {/* Default  -  regular race car */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/HeroPageBackground.webp"
@@ -508,7 +508,7 @@ export default function FundraiserPage() {
                 className="absolute inset-0 w-full h-full object-cover scale-105 transition-all duration-[1200ms] ease-out group-hover:opacity-0 group-hover:scale-110"
               />
 
-              {/* Hover — holographic race car (crossfades in) */}
+              {/* Hover  -  holographic race car (crossfades in) */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/HeroPageBackgroundHolographicVFX.webp"
@@ -518,7 +518,7 @@ export default function FundraiserPage() {
                 style={{ filter: "saturate(1.15) contrast(1.05)" }}
               />
 
-              {/* Holographic-only effects — fade in on hover */}
+              {/* Holographic-only effects  -  fade in on hover */}
               <div
                 className="absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100 pointer-events-none"
                 aria-hidden="true"

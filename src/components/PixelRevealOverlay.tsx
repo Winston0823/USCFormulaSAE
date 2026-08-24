@@ -141,7 +141,7 @@ export default function PixelRevealOverlay({ foregroundSrc, onMaskUpdate, onImag
         ctx.drawImage(img, sx, sy, sw, sh, 0, 0, w, h);
       }
 
-      // Dark gradient overlay — covers full hero, fades from left to right
+      // Dark gradient overlay  -  covers full hero, fades from left to right
       {
         const grad = ctx.createLinearGradient(0, 0, w, 0);
         grad.addColorStop(0, "rgba(0, 0, 0, 0.7)");
@@ -151,7 +151,7 @@ export default function PixelRevealOverlay({ foregroundSrc, onMaskUpdate, onImag
         ctx.fillRect(0, 0, w, h);
       }
 
-      // Positioning statement text — drawn on canvas so pixel mask erases it too
+      // Positioning statement text  -  drawn on canvas so pixel mask erases it too
       {
         ctx.textAlign = "left";
         ctx.textBaseline = "top";
@@ -174,12 +174,12 @@ export default function PixelRevealOverlay({ foregroundSrc, onMaskUpdate, onImag
         ctx.fillStyle = "#ffffff";
         ctx.fillText("", baseX, textY);
 
-        // Line 2 — larger
+        // Line 2  -  larger
         const fontSize2 = Math.max(22, Math.round(72 * scale));
         ctx.font = `800 ${fontSize2}px "Rajdhani", sans-serif`;
         ctx.fillText("", baseX, textY + fontSize1 * 1.2);
 
-        // Established year — gold with its own glow
+        // Established year  -  gold with its own glow
         ctx.shadowColor = "rgba(227, 181, 61, 0.4)";
         ctx.shadowBlur = 12 * scale;
         ctx.shadowOffsetY = 0;
@@ -250,7 +250,7 @@ export default function PixelRevealOverlay({ foregroundSrc, onMaskUpdate, onImag
       }
 
       if (pulses.length > 0) {
-        // Build edge pixel set — pixels that have at least one missing neighbor
+        // Build edge pixel set  -  pixels that have at least one missing neighbor
         const edgePixels: { px: number; py: number }[] = [];
         for (const [key, alpha] of pixelAlpha) {
           if (alpha < MIN_ALPHA) continue;

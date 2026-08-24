@@ -13,7 +13,7 @@ export default function StickyDonateButton() {
     setMounted(true);
   }, []);
 
-  // The fundraiser page already has a giant "Ignite Us" CTA — the pill would be redundant there.
+  // The fundraiser page already has a giant "Ignite Us" CTA  -  the pill would be redundant there.
   if (!mounted || pathname === "/fundraiser") return null;
 
   return (

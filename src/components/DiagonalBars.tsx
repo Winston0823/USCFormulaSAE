@@ -47,7 +47,7 @@ const teams: Team[] = [
     idx: "04",
     name: "POWERTRAIN",
     slug: "powertrain",
-    desc: "Motors, inverters, and drive control — turning stored energy into track performance.",
+    desc: "Motors, inverters, and drive control  -  turning stored energy into track performance.",
     gradient: "linear-gradient(135deg, #2e1a2e, #3a1a3a, #4d0d4d, #2e1a2e, #3a1a3a)",
     image: "/frame.jpg",
   },
@@ -92,7 +92,7 @@ const teams: Team[] = [
     idx: "09",
     name: "COMMUNICATIONS",
     slug: "communications",
-    // TODO(asset): no dedicated comms image yet — temporarily shares /systems.jpg with Electrical.
+    // TODO(asset): no dedicated comms image yet  -  temporarily shares /systems.jpg with Electrical.
     desc: "Telemetry, CAN bus, and data acquisition running at 1kHz for real-time feedback.",
     gradient: "linear-gradient(135deg, #0a2e1e, #0d3a2a, #0a4d3a, #0a2e1e, #0d3a2a)",
     image: "/systems.jpg",

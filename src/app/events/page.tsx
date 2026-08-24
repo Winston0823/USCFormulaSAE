@@ -12,7 +12,7 @@ export default function EventsPage() {
 
   return (
     <div className="min-h-screen bg-black">
-      {/* Header — editorial, asymmetric */}
+      {/* Header  -  editorial, asymmetric */}
       <div className="pt-36 pb-6 sm:pt-40 sm:pb-10 max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

@@ -38,7 +38,7 @@ export default function LoadingWrapper({ children }: LoadingWrapperProps) {
       {/* Loading Screen sits on top and fades out when done */}
       <LoadingScreen onReady={() => {}} heroReady={heroReady} />
 
-      {/* Home page rendered underneath from the start — revealed when loading screen fades out */}
+      {/* Home page rendered underneath from the start  -  revealed when loading screen fades out */}
       <LoadingContext.Provider value={{ signalReady }}>
         {startPreload ? children : null}
       </LoadingContext.Provider>

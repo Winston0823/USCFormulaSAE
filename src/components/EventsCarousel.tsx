@@ -110,7 +110,7 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
     setImageIndex((prev) => (prev - 1 + activeEvent.images.length) % activeEvent.images.length);
   }, [activeEvent.images.length]);
 
-  // Auto-scroll images every 3 seconds — paused while interacting, off under reduced motion
+  // Auto-scroll images every 3 seconds  -  paused while interacting, off under reduced motion
   useEffect(() => {
     if (activeEvent.images.length <= 1 || galleryPaused || reducedMotion) return;
     const timer = setInterval(() => {
@@ -167,7 +167,7 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
           </button>
         </div>
 
-        {/* Mobile active card — swipeable */}
+        {/* Mobile active card  -  swipeable */}
         <AnimatePresence mode="wait" custom={direction}>
           <motion.div
             key={activeIndex}
@@ -282,7 +282,7 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
                   />
                 )}
 
-                {/* Placeholder — shown when the event has no photos yet; label hidden behind side-panel content */}
+                {/* Placeholder  -  shown when the event has no photos yet; label hidden behind side-panel content */}
                 {evt.images.length === 0 && <PlaceholderCard compact={!isActive} showLabel={isActive} />}
 
                 {/* ── Side panel content ── */}
@@ -353,7 +353,7 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
                           </>
                         )}
 
-                        {/* Gallery arrows — hover-revealed on fine pointers, always visible on touch */}
+                        {/* Gallery arrows  -  hover-revealed on fine pointers, always visible on touch */}
                         {activeEvent.images.length > 1 && (
                           <>
                             <button
@@ -377,7 +377,7 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
                           </>
                         )}
 
-                        {/* Dots — positioned above title */}
+                        {/* Dots  -  positioned above title */}
                         {activeEvent.images.length > 1 && (
                           <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
                             {activeEvent.images.map((_, i) => (
@@ -439,7 +439,7 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
         </div>
       </LayoutGroup>
 
-      {/* Event index — horizontal pills */}
+      {/* Event index  -  horizontal pills */}
       <div className="flex justify-center gap-2 mt-10">
         {events.map((evt, i) => (
           <button

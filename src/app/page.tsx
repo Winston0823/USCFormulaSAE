@@ -64,12 +64,12 @@ export default function Home() {
     offset: ["start start", "end start"],
   });
 
-  // Hero parallax effects — use vh for screen-size independence
+  // Hero parallax effects  -  use vh for screen-size independence
   const heroY = useTransform(heroProgress, [0, 1], ["0vh", "-15vh"]);
   const foregroundOpacity = useTransform(heroProgress, [0, 0.8], [1, 0]);
   const scrollIndicatorOpacity = useTransform(heroProgress, [0, 0.3], [1, 0]);
 
-  // 3D parallax tilt — high-damping springs for smooth settle
+  // 3D parallax tilt  -  high-damping springs for smooth settle
   const tiltSpring = { stiffness: 150, damping: 30, mass: 0.5 };
   const bgTiltX = useSpring(0, tiltSpring); // background rotateX (±1°)
   const bgTiltY = useSpring(0, tiltSpring); // background rotateY (±1°)
@@ -104,7 +104,7 @@ export default function Home() {
     fgShiftY.set(0);
   };
 
-  // Count-up triggers — fire when each stat scrolls into view
+  // Count-up triggers  -  fire when each stat scrolls into view
   const [statRevealed, setStatRevealed] = useState([false, false]);
   const [engineersRevealed, setEngineersRevealed] = useState(false);
 
@@ -133,7 +133,7 @@ export default function Home() {
             scale: 1.08,
           }}
         >
-          {/* LAYER 1 — BACKGROUND: Holographic wireframe car (revealed through pixel mask) */}
+          {/* LAYER 1  -  BACKGROUND: Holographic wireframe car (revealed through pixel mask) */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/HeroPageBackgroundHolographicVFX.webp"
@@ -165,9 +165,9 @@ export default function Home() {
           {/* Scanlines effect */}
           <div className="absolute inset-0 scanlines opacity-20" style={{ zIndex: 3 }} />
 
-          {/* REVEALED CONTENT — visible when foreground canvas is erased */}
+          {/* REVEALED CONTENT  -  visible when foreground canvas is erased */}
           <div className="absolute inset-0 pointer-events-none" style={{ zIndex: 4 }}>
-            {/* Revealed text — appears when mask erases foreground */}
+            {/* Revealed text  -  appears when mask erases foreground */}
             <p
               className="absolute text-white/90 uppercase whitespace-nowrap text-right"
               style={{
@@ -257,7 +257,7 @@ export default function Home() {
             </div>
           </div>
 
-          {/* LAYER 2 — FOREGROUND: Realistic car photo drawn on canvas, fades to reveal holographic */}
+          {/* LAYER 2  -  FOREGROUND: Realistic car photo drawn on canvas, fades to reveal holographic */}
           <motion.div
             className="absolute inset-0"
             style={{
@@ -272,7 +272,7 @@ export default function Home() {
           </motion.div>
         </motion.div>
 
-        {/* Vignette — hides tilt edge offsets */}
+        {/* Vignette  -  hides tilt edge offsets */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -281,7 +281,7 @@ export default function Home() {
           }}
         />
 
-        {/* Hero text — above vignette, reacts to tilt */}
+        {/* Hero text  -  above vignette, reacts to tilt */}
         <motion.div
           className="absolute pointer-events-none"
           style={{
@@ -360,7 +360,7 @@ export default function Home() {
           Must be opaque: the fixed hero sits behind it, and any transparency
           inside a section (e.g. mask-image fades) would let the hero bleed through. */}
       <div className="relative bg-black" style={{ zIndex: 10 }}>
-        {/* Fade-to-black overlay — smoothly covers the Hero as content scrolls up */}
+        {/* Fade-to-black overlay  -  smoothly covers the Hero as content scrolls up */}
         <div
           className="absolute inset-x-0 -top-[50vh] h-[50vh] pointer-events-none"
           style={{
@@ -368,10 +368,10 @@ export default function Home() {
           }}
         />
 
-        {/* Solid black transition zone — fully hides the Hero before content begins */}
+        {/* Solid black transition zone  -  fully hides the Hero before content begins */}
         <div className="h-[4vh] bg-black" />
 
-        {/* Events Section — first thing revealed below the hero */}
+        {/* Events Section  -  first thing revealed below the hero */}
         <section className="relative bg-black py-20 sm:py-24">
           <div className="max-w-[1600px] mx-auto px-6 sm:px-10 lg:px-16">
             <motion.div
@@ -421,7 +421,7 @@ export default function Home() {
             }}
           >
 
-            {/* Heading — centered, fluid typography */}
+            {/* Heading  -  centered, fluid typography */}
             <motion.div
               className="text-center"
               initial={{ opacity: 0, y: 40 }}
@@ -451,7 +451,7 @@ export default function Home() {
               </p>
             </motion.div>
 
-            {/* Horizontal accent line — laser pulse effect */}
+            {/* Horizontal accent line  -  laser pulse effect */}
             <motion.div
               className="laser-line"
               initial={{ width: "0%", opacity: 0 }}
@@ -466,7 +466,7 @@ export default function Home() {
               }}
             />
 
-            {/* Stats row — 2 columns for engineering targets */}
+            {/* Stats row  -  2 columns for engineering targets */}
             <div
               className="grid grid-cols-1 sm:grid-cols-2 w-full gap-6 sm:gap-0"
               style={{ maxWidth: "min(95%, 900px)" }}
@@ -484,7 +484,7 @@ export default function Home() {
                   }
                   style={{ padding: "clamp(1.5rem, 4vh, 4rem) clamp(1.5rem, 4vw, 3rem)" }}
                 >
-                  {/* Vertical gold divider between columns — hidden on mobile */}
+                  {/* Vertical gold divider between columns  -  hidden on mobile */}
                   {i > 0 && (
                     <div
                       className="absolute left-0 top-[10%] h-[80%] w-px hidden sm:block"
@@ -527,7 +527,7 @@ export default function Home() {
                     />
                   </div>
 
-                  {/* Number — MASSIVE, fluid scaling */}
+                  {/* Number  -  MASSIVE, fluid scaling */}
                   <span
                     className="relative z-10 font-black text-white tracking-tighter leading-none transition-colors duration-700 group-hover:text-[#e3b53d]"
                     style={{ fontSize: "clamp(3.5rem, 12vw, 9rem)" }}
@@ -535,7 +535,7 @@ export default function Home() {
                     <CountUp value={stat.value} active={statRevealed[i]} />
                   </span>
 
-                  {/* Unit — fluid, more prominent */}
+                  {/* Unit  -  fluid, more prominent */}
                   <span
                     className="relative z-10 font-bold text-[#e3b53d] uppercase"
                     style={{
@@ -547,7 +547,7 @@ export default function Home() {
                     {stat.unit}
                   </span>
 
-                  {/* Hover glow — radial gold aura behind the number */}
+                  {/* Hover glow  -  radial gold aura behind the number */}
                   <div
                     className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl"
                     style={{
@@ -603,7 +603,7 @@ export default function Home() {
             />
           </div>
 
-          {/* Content container — left-aligned */}
+          {/* Content container  -  left-aligned */}
           <div className="relative min-h-screen flex items-center">
             <div
               className="flex flex-col justify-center px-6 sm:px-10 lg:px-16"
@@ -681,7 +681,7 @@ export default function Home() {
         {/* Teams Section */}
         <section id="teams" className="relative bg-black overflow-hidden scroll-mt-20">
           <div className="relative w-full min-h-[calc(100vh-5rem)] py-16 flex flex-col justify-center">
-            {/* Title area — fades in first */}
+            {/* Title area  -  fades in first */}
             <motion.div
               className="text-center px-4 mb-6"
               initial={{ opacity: 0, y: 40 }}
@@ -697,7 +697,7 @@ export default function Home() {
               </p>
             </motion.div>
 
-            {/* Bars area — fades in after heading */}
+            {/* Bars area  -  fades in after heading */}
             <motion.div
               className="w-full flex items-center justify-center"
               initial={{ opacity: 0, y: 50 }}

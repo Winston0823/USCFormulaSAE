@@ -2,20 +2,15 @@
 
 import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import { ArrowRight, X } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 /* ─── Types ─────────────────────────────────────────── */
-interface BubbleMember {
+interface TeamMember {
   name: string;
-  handle: string;
   role: string;
   isLead?: boolean;
-  img: string;
-  quote: string;
-  bio: string;
-  meta: [string, string][];
 }
 
 interface WwdCard {
@@ -42,7 +37,7 @@ interface TeamData {
   wwdCards: WwdCard[];
   skills: string[];
   tools: ToolRow[];
-  members: BubbleMember[];
+  members: TeamMember[];
   ctaHeading: string;
   ctaBody: string;
 }
@@ -57,12 +52,12 @@ const teamsData: Record<string, TeamData> = {
     lead: "Wings, undertrays, diffusers, a lot of carbon dust. We're the team that turns invisible airflow into measurable lap time.",
     sub: "Half our time is behind a computer running CFD, the other half is in the shop with a vacuum bag and a lot of patience. Both halves are great.",
     collageImgs: ["/aerodynamics.jpg", "/collab-on-car.jpg", "/competition-2025-1.jpg"],
-    collageCaptions: ["wing v3 — finally", "layup night, 2am", "competition '25"],
+    collageCaptions: ["wing v3  -  finally", "layup night, 2am", "competition '25"],
     wwdCards: [
       { icon: "≈", title: "CFD simulations", desc: "We run pressure fields and streamline plots until the car makes sense on-screen.", tag: "01" },
       { icon: "◐", title: "Wind tunnel tests", desc: "Scale models, pitot tubes, tuft strings. Confirming the sim wasn't lying.", tag: "02" },
       { icon: "✦", title: "Wing packages", desc: "Front & rear wings, from airfoil selection to a cured, bonded, on-car assembly.", tag: "03" },
-      { icon: "△", title: "Undertrays", desc: "The quiet half of the downforce budget — all the grip, none of the drag.", tag: "04" },
+      { icon: "△", title: "Undertrays", desc: "The quiet half of the downforce budget  -  all the grip, none of the drag.", tag: "04" },
       { icon: "❊", title: "Composite layups", desc: "Pre-preg carbon, vacuum bags, autoclave cycles. Long nights, good playlists.", tag: "05" },
       { icon: "↯", title: "Track data", desc: "Pressure taps + tuft tests + driver feedback. Iteration, then repeat.", tag: "06" },
     ],
@@ -76,22 +71,8 @@ const teamsData: Record<string, TeamData> = {
       { name: "Autoclave", category: "fabrication" },
     ],
     members: [
-      { name: "Alex Rivera", handle: "@alex.rivera", role: "Aerodynamics Lead", isLead: true, img: "/aerodynamics.jpg",
-        quote: "\"The day the tufts lined up on the undertray exactly like the sim said — that's when I knew I picked the right major.\"",
-        bio: "Four years deep into USC Racing. Started bolting wings on as a freshman, now runs the subteam and teaches the next generation how to read a pressure plot.",
-        meta: [["Major","Aerospace Eng."], ["Year","Senior"], ["Joined","Fall 2022"], ["Focus","Diffusers"]] },
-      { name: "Jordan Chen", handle: "@jchen", role: "Wings Lead", img: "/competition-2025-1.jpg",
-        quote: "\"A well-designed wing is the difference between a good lap and a great one. We obsess over every millimeter.\"",
-        bio: "Owns the front and rear wing packages from airfoil selection to cured assembly. Pretends not to love SolidWorks.",
-        meta: [["Major","Mechanical Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Rear Wing"]] },
-      { name: "Maya Patel", handle: "@maya", role: "CFD Engineer", img: "/competition-2025-2.jpg",
-        quote: "\"Running CFD at 2am with the cluster all to yourself — nothing beats it.\"",
-        bio: "STAR-CCM+ power user. The person you call when your residuals won't converge. Runs the overnight simulation cluster.",
-        meta: [["Major","Aerospace Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Simulation"]] },
-      { name: "Sam Torres", handle: "@sam", role: "Composites Lead", img: "/collab-on-car.jpg",
-        quote: "\"Composites is 80% patience and 20% panic. Both are good.\"",
-        bio: "Pre-preg specialist. Will explain bleeder ply to anyone who will listen. Runs layup nights and keeps the autoclave schedule.",
-        meta: [["Major","Mechanical Eng."], ["Year","Sophomore"], ["Joined","Fall 2024"], ["Focus","Carbon Layup"]] },
+      { name: "Juan Morales-Lopez", role: "Aerodynamics Co-Lead (Fall)", isLead: true },
+      { name: "Zane Zacharia", role: "Aerodynamics Co-Lead (Spring)", isLead: true },
     ],
     ctaHeading: "Come build something fast.",
     ctaBody: "No experience? Great. We'll teach you. Come to a shop night, grab a vacuum bag, stay for the snacks.",
@@ -101,12 +82,12 @@ const teamsData: Record<string, TeamData> = {
     index: 2,
     tagline: "We build the bones of speed.",
     heroHighlight: "bones",
-    lead: "The chassis is everything. We design and fabricate the structural foundation of the car — lightweight, rigid, safe.",
+    lead: "The chassis is everything. We design and fabricate the structural foundation of the car  -  lightweight, rigid, safe.",
     sub: "FEA on the screen, TIG welder in hand. We make the frame that every other system bolts onto.",
     collageImgs: ["/frame.jpg", "/collab-on-car.jpg", "/competition-2025-2.jpg"],
     collageCaptions: ["chassis v4 tacked", "jig day", "competition '25"],
     wwdCards: [
-      { icon: "⬡", title: "Chassis design", desc: "Geometry, triangulation, torsional stiffness — every tube placed with intent.", tag: "01" },
+      { icon: "⬡", title: "Chassis design", desc: "Geometry, triangulation, torsional stiffness  -  every tube placed with intent.", tag: "01" },
       { icon: "◈", title: "FEA analysis", desc: "ANSYS simulations to validate the structure before a single weld is struck.", tag: "02" },
       { icon: "✕", title: "Tube fabrication", desc: "Notching, bending, tacking, welding. Steel to race car.", tag: "03" },
       { icon: "△", title: "Jig design", desc: "The fixture that holds it all true while we weld. Precision before process.", tag: "04" },
@@ -123,25 +104,10 @@ const teamsData: Record<string, TeamData> = {
       { name: "Band Saw", category: "cutting" },
     ],
     members: [
-      { name: "Casey Morgan", handle: "@casey", role: "Frame Lead", isLead: true, img: "/frame.jpg",
-        quote: "\"A good chassis disappears — you stop thinking about it and just drive.\"",
-        bio: "Three years on Frame, two as lead. Responsible for the current chassis architecture and the new jig system.",
-        meta: [["Major","Mechanical Eng."], ["Year","Senior"], ["Joined","Fall 2022"], ["Focus","Chassis"]] },
-      { name: "Jamie Park", handle: "@jamie", role: "Welding Lead", img: "/competition-2025-3.jpg",
-        quote: "\"Welding is just drawing with fire.\"",
-        bio: "Certified TIG welder. Runs the welding rotations and teaches new members technique from day one.",
-        meta: [["Major","Mechanical Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Welding"]] },
-      { name: "Blake Nguyen", handle: "@blake", role: "FEA Engineer", img: "/competition-2025-4.jpg",
-        quote: "\"The stress plot never lies. Listen to the stress plot.\"",
-        bio: "Runs all structural simulations. Keeps the team from over-building and under-designing.",
-        meta: [["Major","Civil Eng."], ["Year","Junior"], ["Joined","Spring 2023"], ["Focus","FEA"]] },
-      { name: "Reese Kim", handle: "@reese", role: "Fabrication", img: "/competition-2025-5.jpg",
-        quote: "\"There's no substitute for a well-notched tube.\"",
-        bio: "Master of the notcher and band saw. First-year who moved up fast because they actually show up to every shop day.",
-        meta: [["Major","Mechanical Eng."], ["Year","Sophomore"], ["Joined","Fall 2024"], ["Focus","Fab"]] },
+      { name: "Samantha Barrera", role: "Frame Lead", isLead: true },
     ],
     ctaHeading: "Come weld something cool.",
-    ctaBody: "No welding experience required — we'll teach you everything from tube notching to TIG. Show up curious.",
+    ctaBody: "No welding experience required  -  we'll teach you everything from tube notching to TIG. Show up curious.",
   },
   drivetrain: {
     name: "Drivetrain",
@@ -154,7 +120,7 @@ const teamsData: Record<string, TeamData> = {
     collageCaptions: ["sprocket day", "assembly time", "competition '25"],
     wwdCards: [
       { icon: "⚙", title: "Gear ratios", desc: "Optimizing the ratio stack for acceleration, top speed, and competition events.", tag: "01" },
-      { icon: "⛓", title: "Chain drive", desc: "Chain selection, tension, sprocket design — keeping power delivery smooth.", tag: "02" },
+      { icon: "⛓", title: "Chain drive", desc: "Chain selection, tension, sprocket design  -  keeping power delivery smooth.", tag: "02" },
       { icon: "◎", title: "Differential", desc: "Selecting and tuning the diff for cornering balance and traction.", tag: "03" },
       { icon: "↔", title: "CV joints & axles", desc: "Constant-velocity joints designed to handle the torque without binding.", tag: "04" },
       { icon: "✦", title: "Sprocket design", desc: "Custom sprocket geometry machined to spec for our specific ratio needs.", tag: "05" },
@@ -170,25 +136,10 @@ const teamsData: Record<string, TeamData> = {
       { name: "Torque wrench", category: "assembly" },
     ],
     members: [
-      { name: "Logan Hayes", handle: "@logan", role: "Drivetrain Lead", isLead: true, img: "/drivetrain.jpg",
-        quote: "\"Every watt lost in drivetrain friction is a watt the powertrain team worked hard for. We don't waste watts.\"",
-        bio: "Owns the full drivetrain architecture. Designed the current sprocket set and differential selection methodology.",
-        meta: [["Major","Mechanical Eng."], ["Year","Senior"], ["Joined","Fall 2022"], ["Focus","Gear systems"]] },
-      { name: "Avery Wu", handle: "@avery", role: "Machining Lead", img: "/competition-2025-1.jpg",
-        quote: "\"The CNC doesn't care about your feelings. Tolerances do.\"",
-        bio: "Runs all machining operations for the drivetrain. Custom sprockets, hubs, bearing carriers.",
-        meta: [["Major","Mechanical Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","CNC"]] },
-      { name: "Skyler Ross", handle: "@skyler", role: "Testing Engineer", img: "/competition-2025-2.jpg",
-        quote: "\"Data from the dyno is worth more than any simulation.\"",
-        bio: "Designs and runs all drivetrain test protocols. Keeps the efficiency log and coordinates with powertrain.",
-        meta: [["Major","Mechanical Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Testing"]] },
-      { name: "Finley Cross", handle: "@finley", role: "Assembly Tech", img: "/competition-2025-3.jpg",
-        quote: "\"I like things that spin. Correctly.\"",
-        bio: "First-year with a gift for assembly and an obsessive attention to torque specs. Keeps the service manual.",
-        meta: [["Major","Mechanical Eng."], ["Year","Freshman"], ["Joined","Fall 2025"], ["Focus","Assembly"]] },
+      { name: "Warren Dao", role: "Drivetrain Lead", isLead: true },
     ],
     ctaHeading: "Come spin something.",
-    ctaBody: "No machining background needed. If you like gears, tolerances, and things that rotate efficiently — you'll fit right in.",
+    ctaBody: "No machining background needed. If you like gears, tolerances, and things that rotate efficiently  -  you'll fit right in.",
   },
   powertrain: {
     name: "Powertrain",
@@ -201,9 +152,9 @@ const teamsData: Record<string, TeamData> = {
     collageCaptions: ["motor install", "inverter tuning", "competition '25"],
     wwdCards: [
       { icon: "⚡", title: "Motor calibration", desc: "Tuning inverter parameters for peak torque, efficiency, and driveability.", tag: "01" },
-      { icon: "◑", title: "Field-oriented control", desc: "The control loop under the hood — current commands, flux, and the math that makes a PMSM a race motor.", tag: "02" },
-      { icon: "◐", title: "Cooling systems", desc: "Motor and inverter cooling loops — radiators, pumps, temp sensors. No thermal derate on our watch.", tag: "03" },
-      { icon: "▲", title: "Traction strategy", desc: "Torque vectoring, slip targets, launch control — turning grip into seconds.", tag: "04" },
+      { icon: "◑", title: "Field-oriented control", desc: "The control loop under the hood  -  current commands, flux, and the math that makes a PMSM a race motor.", tag: "02" },
+      { icon: "◐", title: "Cooling systems", desc: "Motor and inverter cooling loops  -  radiators, pumps, temp sensors. No thermal derate on our watch.", tag: "03" },
+      { icon: "▲", title: "Traction strategy", desc: "Torque vectoring, slip targets, launch control  -  turning grip into seconds.", tag: "04" },
       { icon: "↯", title: "HV integration", desc: "Pack-to-inverter DC bus, precharge, and the handshake that starts every drive cycle.", tag: "05" },
       { icon: "✦", title: "Dyno testing", desc: "Full powertrain validation on the dyno before the car ever sees a track.", tag: "06" },
     ],
@@ -217,25 +168,12 @@ const teamsData: Record<string, TeamData> = {
       { name: "Oscilloscope", category: "debug" },
     ],
     members: [
-      { name: "Morgan Ellis", handle: "@morgan", role: "Powertrain Lead", isLead: true, img: "/frame.jpg",
-        quote: "\"You can feel a well-tuned inverter in the first corner. You can also feel a bad one — and you never forget it.\"",
-        bio: "Leads motor calibration and drive-control strategy. Three years on the team, two on the dyno.",
-        meta: [["Major","Electrical Eng."], ["Year","Senior"], ["Joined","Fall 2022"], ["Focus","Motor Control"]] },
-      { name: "River Stone", handle: "@river", role: "Controls Engineer", img: "/competition-2025-1.jpg",
-        quote: "\"Control theory without hardware is a daydream. We build the hardware.\"",
-        bio: "Writes the FOC tuning and traction strategy. Owns the inverter firmware calibration for every driver.",
-        meta: [["Major","Electrical Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Controls"]] },
-      { name: "Dakota Bell", handle: "@dakota", role: "Thermal Engineer", img: "/competition-2025-2.jpg",
-        quote: "\"Heat is the enemy of performance. I fight heat for a living.\"",
-        bio: "Responsible for motor and inverter cooling loops. Simulates and validates thermal performance on the dyno and on track.",
-        meta: [["Major","Mechanical Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Cooling"]] },
-      { name: "Emery Lane", handle: "@emery", role: "Dyno & Test", img: "/competition-2025-3.jpg",
-        quote: "\"If it didn't happen on the dyno, it's not going to happen on track.\"",
-        bio: "Runs the dyno cell. Owns the powertrain test plan and the data pipeline that comes out of it.",
-        meta: [["Major","Mechanical Eng."], ["Year","Sophomore"], ["Joined","Fall 2024"], ["Focus","Validation"]] },
+      { name: "Shreya Nair", role: "Powertrain Co-Lead", isLead: true },
+      { name: "Brenton Hong", role: "Powertrain Co-Lead", isLead: true },
+      { name: "Brady Stark", role: "Powertrain Co-Lead", isLead: true },
     ],
     ctaHeading: "Come electrify the track.",
-    ctaBody: "Electrical, mechanical, or just endlessly curious about how batteries work. Applications open — no HV experience required.",
+    ctaBody: "Electrical, mechanical, or just endlessly curious about how batteries work. Applications open  -  no HV experience required.",
   },
   "vehicle-dynamics": {
     name: "Vehicle Dynamics",
@@ -247,12 +185,12 @@ const teamsData: Record<string, TeamData> = {
     collageImgs: ["/vehicle-dynamics.jpg", "/collab-on-car.jpg", "/competition-2025-5.jpg"],
     collageCaptions: ["corner weighting", "damper build day", "competition '25"],
     wwdCards: [
-      { icon: "◎", title: "Suspension geometry", desc: "Roll centers, camber curves, anti-dive — the invisible geometry that defines handling.", tag: "01" },
+      { icon: "◎", title: "Suspension geometry", desc: "Roll centers, camber curves, anti-dive  -  the invisible geometry that defines handling.", tag: "01" },
       { icon: "≈", title: "Damper tuning", desc: "Compression and rebound maps. The shock absorber as a performance tool.", tag: "02" },
       { icon: "◐", title: "Tire analysis", desc: "Tire models, MF-Tire coefficients, lateral and longitudinal data from testing.", tag: "03" },
       { icon: "✦", title: "Steering design", desc: "Rack packaging, steering ratio, Ackermann geometry, and bump steer minimization.", tag: "04" },
       { icon: "△", title: "Data acquisition", desc: "Channel setup, lap analysis, driver coaching from logged data.", tag: "05" },
-      { icon: "↯", title: "Setup optimization", desc: "Corner weights, ride heights, toe, camber — dialing in for each event.", tag: "06" },
+      { icon: "↯", title: "Setup optimization", desc: "Corner weights, ride heights, toe, camber  -  dialing in for each event.", tag: "06" },
     ],
     skills: ["Kinematics", "Data analysis", "Damper tuning", "Vehicle simulation", "MATLAB", "Tire modeling"],
     tools: [
@@ -264,22 +202,7 @@ const teamsData: Record<string, TeamData> = {
       { name: "Corner scales", category: "setup" },
     ],
     members: [
-      { name: "Quinn Okafor", handle: "@quinn", role: "VD Lead", isLead: true, img: "/vehicle-dynamics.jpg",
-        quote: "\"The car should disappear and let the driver focus. That's a good suspension.\"",
-        bio: "Owns the full suspension geometry and setup philosophy. Doubles as the team's data engineer on event days.",
-        meta: [["Major","Mechanical Eng."], ["Year","Senior"], ["Joined","Fall 2022"], ["Focus","Geometry"]] },
-      { name: "Sage Brennan", handle: "@sage", role: "Data Engineer", img: "/competition-2025-1.jpg",
-        quote: "\"If you're not logging it, you can't improve it.\"",
-        bio: "Manages data acquisition and post-processing. The person combing lap data at midnight to find a tenth.",
-        meta: [["Major","Mechanical Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Data"]] },
-      { name: "Remy Hart", handle: "@remy", role: "Damper Tech", img: "/competition-2025-2.jpg",
-        quote: "\"Tuning a damper is half physics, half feel. The good engineers have both.\"",
-        bio: "Rebuilds and tunes all four dampers. Runs shock dyno sessions and maps out the force-velocity curves.",
-        meta: [["Major","Mechanical Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Dampers"]] },
-      { name: "Arlo James", handle: "@arlo", role: "Setup Engineer", img: "/competition-2025-3.jpg",
-        quote: "\"Corner weighting is where math and feel finally agree.\"",
-        bio: "Handles all pre-event setup work — corner weights, alignment, ride heights. First-year making a fast impression.",
-        meta: [["Major","Mechanical Eng."], ["Year","Freshman"], ["Joined","Fall 2025"], ["Focus","Setup"]] },
+      { name: "Javier de la Torre", role: "Vehicle Dynamics Lead", isLead: true },
     ],
     ctaHeading: "Come tune something precise.",
     ctaBody: "If you think in forces and like making things handle better, we have a corner scale with your name on it.",
@@ -294,7 +217,7 @@ const teamsData: Record<string, TeamData> = {
     collageImgs: ["/ergonomics.jpg", "/collab-on-car.jpg", "/competition-2025-1.jpg"],
     collageCaptions: ["mock-up day", "seat fitting", "competition '25"],
     wwdCards: [
-      { icon: "⊕", title: "Cockpit design", desc: "Dashboard, switch panel, visibility — the complete driver environment.", tag: "01" },
+      { icon: "⊕", title: "Cockpit design", desc: "Dashboard, switch panel, visibility  -  the complete driver environment.", tag: "01" },
       { icon: "◈", title: "Pedal box", desc: "Adjustable pedal geometry for different driver dimensions. Feel and feedback.", tag: "02" },
       { icon: "◎", title: "Steering system", desc: "Column, wheel design, quick-release, and overall steering feel.", tag: "03" },
       { icon: "▣", title: "Seat & harness", desc: "Custom seat shells, Schroth harness routing, driver restraint.", tag: "04" },
@@ -311,22 +234,7 @@ const teamsData: Record<string, TeamData> = {
       { name: "Camera rig", category: "visibility test" },
     ],
     members: [
-      { name: "Jules Mercer", handle: "@jules", role: "Ergonomics Lead", isLead: true, img: "/ergonomics.jpg",
-        quote: "\"If the driver is fighting the car, the ergonomics team hasn't done their job.\"",
-        bio: "Leads cockpit design and driver accommodation studies. Personal goal: zero driver complaints about reach or visibility.",
-        meta: [["Major","Industrial Design"], ["Year","Senior"], ["Joined","Fall 2022"], ["Focus","Cockpit"]] },
-      { name: "Wren Castillo", handle: "@wren", role: "Pedal Systems", img: "/competition-2025-2.jpg",
-        quote: "\"The pedal feel is the first thing the driver notices. We make it right.\"",
-        bio: "Owns pedal box design and steering column integration. Obsesses over pedal ratio and brake bias.",
-        meta: [["Major","Mechanical Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Pedals"]] },
-      { name: "Ash Deluca", handle: "@ash", role: "Seat & Harness", img: "/competition-2025-3.jpg",
-        quote: "\"The seat is the driver's interface with the suspension. It has to be perfect.\"",
-        bio: "Custom seat fabrication and harness routing. Knows every Schroth mounting point spec by heart.",
-        meta: [["Major","Mechanical Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Seat"]] },
-      { name: "Piper Walsh", handle: "@piper", role: "Prototype Tech", img: "/competition-2025-4.jpg",
-        quote: "\"The foam mockup is when the sketch becomes real.\"",
-        bio: "Builds physical mockups for driver fit testing. First to arrive on mockup day, last to leave.",
-        meta: [["Major","Industrial Design"], ["Year","Sophomore"], ["Joined","Fall 2024"], ["Focus","Mockup"]] },
+      { name: "Katarina Aryawan", role: "Ergonomics Lead", isLead: true },
     ],
     ctaHeading: "Come design for real people.",
     ctaBody: "Industrial design, mechanical, or just someone who cares about how things feel to use. We'd love to have you.",
@@ -343,9 +251,9 @@ const teamsData: Record<string, TeamData> = {
     wwdCards: [
       { icon: "▣", title: "Cell selection", desc: "Testing and choosing the right chemistry, capacity, and discharge curve for FSAE endurance.", tag: "01" },
       { icon: "⚙", title: "Pack architecture", desc: "Series/parallel topology, segment design, busbar layout, and serviceable mechanical packaging.", tag: "02" },
-      { icon: "≈", title: "BMS development", desc: "The brain of the pack — monitoring, balancing, and protecting every cell in real time.", tag: "03" },
+      { icon: "≈", title: "BMS development", desc: "The brain of the pack  -  monitoring, balancing, and protecting every cell in real time.", tag: "03" },
       { icon: "◐", title: "Thermal management", desc: "Cooling plates, temperature sensors, and airflow design to keep cells in their sweet spot.", tag: "04" },
-      { icon: "▲", title: "Safety systems", desc: "IMD, AMS, precharge, HV interlock — the layers that keep the pack contained under any failure.", tag: "05" },
+      { icon: "▲", title: "Safety systems", desc: "IMD, AMS, precharge, HV interlock  -  the layers that keep the pack contained under any failure.", tag: "05" },
       { icon: "✦", title: "HV testing", desc: "Isolation tests, discharge curves, fault injection. We verify before we ever close the main contactor.", tag: "06" },
     ],
     skills: ["Battery design", "BMS firmware", "HV safety", "Thermal analysis", "Soldering/spot welding", "Altium"],
@@ -358,22 +266,6 @@ const teamsData: Record<string, TeamData> = {
       { name: "Python", category: "scripting" },
     ],
     members: [
-      { name: "Drew Hsiao", handle: "@drew", role: "Accumulator Lead", isLead: true, img: "/powertrain.jpg",
-        quote: "\"The pack is the most dangerous thing on the car. That's why we design it like everything depends on it — because it does.\"",
-        bio: "Two-year veteran of the HV system. Led the current pack architecture and the BMS rewrite. Certified in high-voltage safety protocols.",
-        meta: [["Major","Electrical Eng."], ["Year","Senior"], ["Joined","Fall 2022"], ["Focus","Architecture"]] },
-      { name: "Priya Desai", handle: "@priya", role: "BMS Engineer", img: "/competition-2025-1.jpg",
-        quote: "\"Every cell has a story. The BMS is how we listen.\"",
-        bio: "Writes the firmware that monitors cell voltage, temperature, and state-of-charge. Owns the balancing algorithm.",
-        meta: [["Major","Computer Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","BMS"]] },
-      { name: "Nico Ruiz", handle: "@nico", role: "Pack Mechanical", img: "/competition-2025-2.jpg",
-        quote: "\"Good packaging is invisible. Bad packaging fails on the dyno.\"",
-        bio: "Owns the mechanical side of the pack — enclosure, busbars, cooling plates, and serviceability. Makes sure it survives a racetrack.",
-        meta: [["Major","Mechanical Eng."], ["Year","Junior"], ["Joined","Spring 2023"], ["Focus","Packaging"]] },
-      { name: "Remy Okafor", handle: "@remy", role: "HV Safety", img: "/competition-2025-3.jpg",
-        quote: "\"Tribal knowledge is how people get hurt. Write the procedure, follow the procedure.\"",
-        bio: "Owns HV safety procedures, shutdown circuit, and the rules compliance binder. First person to touch any HV work at shop nights.",
-        meta: [["Major","Electrical Eng."], ["Year","Sophomore"], ["Joined","Fall 2024"], ["Focus","Safety"]] },
     ],
     ctaHeading: "Come build the single most important part of the car.",
     ctaBody: "Electrical, mechanical, or anyone who treats safety-critical work with the seriousness it deserves. We'll teach you the rest.",
@@ -388,11 +280,11 @@ const teamsData: Record<string, TeamData> = {
     collageImgs: ["/systems.jpg", "/collab-on-car.jpg", "/competition-2025-5.jpg"],
     collageCaptions: ["harness build", "pcb milestone", "competition '25"],
     wwdCards: [
-      { icon: "↯", title: "Wiring harness", desc: "Full vehicle harness design — routing, shielding, connectors, and the eternal fight against weight.", tag: "01" },
+      { icon: "↯", title: "Wiring harness", desc: "Full vehicle harness design  -  routing, shielding, connectors, and the eternal fight against weight.", tag: "01" },
       { icon: "▣", title: "PCB design", desc: "Custom boards for power distribution, sensor interfacing, and driver displays.", tag: "02" },
-      { icon: "⚙", title: "Power distribution", desc: "The PDM — every fuse, every relay, every protected load on the vehicle.", tag: "03" },
+      { icon: "⚙", title: "Power distribution", desc: "The PDM  -  every fuse, every relay, every protected load on the vehicle.", tag: "03" },
       { icon: "≈", title: "Low-voltage systems", desc: "12V architecture, DC-DC converters, and the logic that stays up even when HV is off.", tag: "04" },
-      { icon: "◐", title: "Connector strategy", desc: "Deutsch, AMPseal, MilSpec — picking the right connector for each subsystem and keeping them serviceable.", tag: "05" },
+      { icon: "◐", title: "Connector strategy", desc: "Deutsch, AMPseal, MilSpec  -  picking the right connector for each subsystem and keeping them serviceable.", tag: "05" },
       { icon: "✦", title: "EMI & grounding", desc: "The invisible work that keeps high-current buses from talking over low-level sensors.", tag: "06" },
     ],
     skills: ["Circuit design", "PCB layout", "Wiring/crimping", "Altium", "Schematic capture", "Soldering"],
@@ -405,22 +297,9 @@ const teamsData: Record<string, TeamData> = {
       { name: "Oscilloscope", category: "debug" },
     ],
     members: [
-      { name: "Hayden Park", handle: "@hayden", role: "Electrical Lead", isLead: true, img: "/systems.jpg",
-        quote: "\"If it's intermittent, it's a ground. If it's constant, it's probably also a ground.\"",
-        bio: "Full-vehicle electrical architect. Designed the current harness topology and PDM from scratch.",
-        meta: [["Major","Electrical Eng."], ["Year","Senior"], ["Joined","Fall 2022"], ["Focus","Architecture"]] },
-      { name: "Sloane Yu", handle: "@sloane", role: "PCB Engineer", img: "/competition-2025-1.jpg",
-        quote: "\"A clean schematic is a beautiful thing. A clean layout is art.\"",
-        bio: "Designs all custom PCBs in Altium. Current project: a new PDM board with built-in current monitoring.",
-        meta: [["Major","Electrical Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","PCB"]] },
-      { name: "Avery Quinn", handle: "@avery_q", role: "Wiring Tech", img: "/competition-2025-3.jpg",
-        quote: "\"Good harness routing is invisible. Bad harness routing is a fire.\"",
-        bio: "Builds and maintains the wiring harness. Expert at Deutsch connectors and heatshrink at scale.",
-        meta: [["Major","Electrical Eng."], ["Year","Sophomore"], ["Joined","Fall 2024"], ["Focus","Harness"]] },
-      { name: "Kai Moreno", handle: "@kai", role: "LV Systems", img: "/competition-2025-4.jpg",
-        quote: "\"The 12V bus isn't glamorous. Until it dies. Then it's very glamorous.\"",
-        bio: "Owns the low-voltage side — DC-DC, fusing, and the shutdown circuit that keeps everyone safe.",
-        meta: [["Major","Electrical Eng."], ["Year","Sophomore"], ["Joined","Fall 2024"], ["Focus","LV"]] },
+      { name: "Nick Costanzo", role: "Systems-Electrical Co-Lead", isLead: true },
+      { name: "Armando Solis Jr.", role: "Systems-Electrical Co-Lead", isLead: true },
+      { name: "Tianze Li", role: "Systems-Electrical Co-Lead", isLead: true },
     ],
     ctaHeading: "Come wire the whole car.",
     ctaBody: "EE, ME with an electrical itch, or anyone who finds schematics satisfying. We'll teach you the rest.",
@@ -432,15 +311,15 @@ const teamsData: Record<string, TeamData> = {
     heroHighlight: "talk",
     lead: "Telemetry, CAN bus, data acquisition, driver display. If a sensor sees something, we make sure somebody hears about it.",
     sub: "Embedded firmware, data pipelines, and a dashboard that's readable at 70 mph. We live at the intersection of hardware and software.",
-    // TODO(asset): needs a dedicated Communications photo — currently reuses /systems.jpg
+    // TODO(asset): needs a dedicated Communications photo  -  currently reuses /systems.jpg
     collageImgs: ["/systems.jpg", "/collab-on-car.jpg", "/competition-2025-2.jpg"],
     collageCaptions: ["telemetry bench", "logger install", "competition '25"],
     wwdCards: [
-      { icon: "≈", title: "CAN bus", desc: "Vehicle-wide CAN network design — node IDs, message maps, and the DBC file nobody wants to own but everyone needs.", tag: "01" },
+      { icon: "≈", title: "CAN bus", desc: "Vehicle-wide CAN network design  -  node IDs, message maps, and the DBC file nobody wants to own but everyone needs.", tag: "01" },
       { icon: "◐", title: "Data acquisition", desc: "Logger configuration, channel setup, and the 1kHz data stream that reveals what really happened on track.", tag: "02" },
       { icon: "↯", title: "Telemetry", desc: "Live radio link from car to pit. Real-time signals during test days and races.", tag: "03" },
-      { icon: "✦", title: "Driver display", desc: "Dash layout — what the driver sees at 70 mph needs to be glanceable and readable.", tag: "04" },
-      { icon: "⚙", title: "Firmware", desc: "Embedded code on every node — sensor interface, CAN dispatch, and the state machines that keep it all coherent.", tag: "05" },
+      { icon: "✦", title: "Driver display", desc: "Dash layout  -  what the driver sees at 70 mph needs to be glanceable and readable.", tag: "04" },
+      { icon: "⚙", title: "Firmware", desc: "Embedded code on every node  -  sensor interface, CAN dispatch, and the state machines that keep it all coherent.", tag: "05" },
       { icon: "▣", title: "Data analysis", desc: "Post-session log review. Driver feedback + data = next session's setup change.", tag: "06" },
     ],
     skills: ["C/C++ embedded", "CAN protocol", "Python", "Data analysis", "Radio/RF basics", "State machines"],
@@ -453,22 +332,8 @@ const teamsData: Record<string, TeamData> = {
       { name: "Logic analyzer", category: "debug" },
     ],
     members: [
-      { name: "Rowan Vale", handle: "@rowan", role: "Communications Lead", isLead: true, img: "/competition-2025-2.jpg",
-        quote: "\"The ECU does what you tell it. Be very specific.\"",
-        bio: "Owns the CAN topology and every firmware node that talks on it. Writes the Python tools the whole team uses for log review.",
-        meta: [["Major","Computer Science"], ["Year","Senior"], ["Joined","Fall 2022"], ["Focus","Firmware"]] },
-      { name: "Juno Ahmed", handle: "@juno", role: "Data Lead", img: "/competition-2025-3.jpg",
-        quote: "\"Every lap is a dataset. Every dataset is a question waiting to be asked.\"",
-        bio: "Runs post-session analysis. Builds dashboards for drivers and engineers. Bridges the gap between raw logs and decisions.",
-        meta: [["Major","Data Science"], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Analysis"]] },
-      { name: "Ellis Tran", handle: "@ellis", role: "Telemetry", img: "/competition-2025-4.jpg",
-        quote: "\"Real-time data from a moving car is 90% radio problem, 10% code problem.\"",
-        bio: "Maintains the telemetry radio link and the pit-side receiver. Troubleshoots dropouts at 200m range.",
-        meta: [["Major","Electrical Eng."], ["Year","Sophomore"], ["Joined","Fall 2024"], ["Focus","Telemetry"]] },
-      { name: "Mira Knox", handle: "@mira", role: "Firmware", img: "/competition-2025-5.jpg",
-        quote: "\"If you can't reproduce it, it's not a bug yet.\"",
-        bio: "Embedded dev on the sensor-interface nodes. Keeps the state machines honest and the flash images small.",
-        meta: [["Major","Computer Eng."], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Embedded"]] },
+      { name: "Tim Hutapea", role: "Systems-Comms Co-Lead", isLead: true },
+      { name: "Andy Zhang", role: "Systems-Comms Co-Lead", isLead: true },
     ],
     ctaHeading: "Come make the car talk.",
     ctaBody: "CS, CompE, or EE with a love for signals. We'll teach you CAN, logging, and the art of a good state machine.",
@@ -484,11 +349,11 @@ const teamsData: Record<string, TeamData> = {
     collageCaptions: ["sponsor week", "presentation day", "competition '25"],
     wwdCards: [
       { icon: "◈", title: "Sponsorship", desc: "Identifying partners, building relationships, and closing deals that fund the car.", tag: "01" },
-      { icon: "≈", title: "Marketing", desc: "Social media, brand identity, photography, content — making the team look as good as it is.", tag: "02" },
+      { icon: "≈", title: "Marketing", desc: "Social media, brand identity, photography, content  -  making the team look as good as it is.", tag: "02" },
       { icon: "▣", title: "Budget & finance", desc: "Tracking expenditure, writing purchase orders, managing the team's annual budget.", tag: "03" },
       { icon: "✦", title: "Logistics", desc: "Competition travel, shipping, hotel blocks, schedule coordination across 8 subteams.", tag: "04" },
-      { icon: "⊕", title: "Recruitment", desc: "Tabling, info sessions, outreach — filling the team with great people every fall.", tag: "05" },
-      { icon: "△", title: "Business presentation", desc: "The FSAE Business Presentation event — where strategy and execution meet a panel of judges.", tag: "06" },
+      { icon: "⊕", title: "Recruitment", desc: "Tabling, info sessions, outreach  -  filling the team with great people every fall.", tag: "05" },
+      { icon: "△", title: "Business presentation", desc: "The FSAE Business Presentation event  -  where strategy and execution meet a panel of judges.", tag: "06" },
     ],
     skills: ["Communication", "Marketing", "Financial planning", "Project management", "Presentation design"],
     tools: [
@@ -500,25 +365,11 @@ const teamsData: Record<string, TeamData> = {
       { name: "Salesforce", category: "crm" },
     ],
     members: [
-      { name: "Cleo Martin", handle: "@cleo", role: "Business Lead", isLead: true, img: "/business-group.jpg",
-        quote: "\"Every part on the car was funded by a relationship someone on this team built.\"",
-        bio: "Runs the sponsorship pipeline and coordinates all external partnerships. Has closed more deals than any previous lead.",
-        meta: [["Major","Business Admin."], ["Year","Senior"], ["Joined","Fall 2022"], ["Focus","Sponsorship"]] },
-      { name: "Theo Garcia", handle: "@theo", role: "Marketing Lead", img: "/competition-2025-2.jpg",
-        quote: "\"Good content makes sponsors want to be part of the story.\"",
-        bio: "Owns all social media, photography, and visual identity. Responsible for the current brand refresh.",
-        meta: [["Major","Marketing"], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Brand"]] },
-      { name: "Nia Foster", handle: "@nia", role: "Finance Manager", img: "/competition-2025-3.jpg",
-        quote: "\"The budget is the plan. Stick to the plan.\"",
-        bio: "Tracks all purchases and manages the annual budget. Writes the financial section of the business presentation.",
-        meta: [["Major","Accounting"], ["Year","Junior"], ["Joined","Fall 2023"], ["Focus","Finance"]] },
-      { name: "Leo Shaw", handle: "@leo", role: "Recruitment", img: "/competition-2025-4.jpg",
-        quote: "\"The team is only as good as the people we bring in next.\"",
-        bio: "Coordinates fall recruitment events and the new member onboarding experience. Makes the info sessions worth attending.",
-        meta: [["Major","Communications"], ["Year","Sophomore"], ["Joined","Fall 2024"], ["Focus","Recruitment"]] },
+      { name: "Manuela Londono", role: "Project Manager", isLead: true },
+      { name: "Marissa Jing", role: "Business Lead", isLead: true },
     ],
     ctaHeading: "Come build something beyond the car.",
-    ctaBody: "Business, marketing, finance, communications — if you're driven and want to be part of something real, apply.",
+    ctaBody: "Business, marketing, finance, communications  -  if you're driven and want to be part of something real, apply.",
   },
 };
 
@@ -532,183 +383,38 @@ function getAdjacent(slug: string) {
   };
 }
 
-/* ─── Bubble member component ─────────────────────────── */
-function BubbleRoster({ members }: { members: BubbleMember[] }) {
-  const [activeIdx, setActiveIdx] = useState<number | null>(null);
-
-  function toggle(i: number) {
-    setActiveIdx(prev => (prev === i ? null : i));
-  }
-
-  const active = activeIdx !== null ? members[activeIdx] : null;
+/* ─── Team roster component ───────────────────────────── */
+function TeamRoster({ members }: { members: TeamMember[] }) {
+  if (members.length === 0) return null;
 
   return (
-    <div>
-      {/* Bubbles row */}
-      <div className="flex justify-center gap-6 sm:gap-10 flex-wrap pb-8 relative">
-        <div className="absolute inset-0 rounded-2xl"
-          style={{ background: "radial-gradient(ellipse at center, rgba(200,55,45,0.08), transparent 65%)", pointerEvents: "none" }} />
-        {members.map((m, i) => {
-          const isActive = activeIdx === i;
-          return (
-            <button
-              key={m.name}
-              onClick={() => toggle(i)}
-              aria-label={m.name}
-              style={{
-                position: "relative",
-                zIndex: 1,
-                width: 180,
-                height: 180,
-                borderRadius: "50%",
-                border: isActive
-                  ? "3px solid #c8372d"
-                  : "3px solid rgba(255,255,255,0.1)",
-                overflow: "hidden",
-                background: "#1a1a1f",
-                cursor: "pointer",
-                flexShrink: 0,
-                boxShadow: isActive
-                  ? "0 0 0 5px #c8372d, 0 0 0 9px rgba(200,55,45,0.2), 0 30px 60px rgba(0,0,0,0.6)"
-                  : "0 20px 50px rgba(0,0,0,0.5)",
-                transition: "transform 0.4s cubic-bezier(.2,.9,.3,1.2), border-color 0.3s, box-shadow 0.3s",
-                transform: isActive ? "translateY(-8px) scale(1.08)" : undefined,
-              }}
-              onMouseEnter={e => {
-                if (!isActive) {
-                  (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-10px) scale(1.06)";
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = "#c8372d";
-                  (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 0 0 4px rgba(200,55,45,0.2), 0 40px 80px rgba(0,0,0,0.6)";
-                }
-              }}
-              onMouseLeave={e => {
-                if (!isActive) {
-                  (e.currentTarget as HTMLButtonElement).style.transform = "";
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255,255,255,0.1)";
-                  (e.currentTarget as HTMLButtonElement).style.boxShadow = "0 20px 50px rgba(0,0,0,0.5)";
-                }
-              }}
-            >
-              {/* Photo */}
-              <img
-                src={m.img}
-                alt=""
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block",
-                  filter: "saturate(0.85)", transition: "transform 0.5s ease, filter 0.3s ease" }}
-              />
-              {/* Gradient overlay on hover handled via group */}
-              <div style={{
-                position: "absolute", inset: 0, borderRadius: "50%",
-                background: "linear-gradient(180deg, transparent 45%, rgba(0,0,0,0.75))",
-                opacity: isActive ? 0 : undefined,
-                transition: "opacity 0.3s",
-              }} className="hover-overlay" />
-              {/* Name label */}
-              <div style={{
-                position: "absolute", bottom: 16, left: 0, right: 0,
-                textAlign: "center", pointerEvents: "none",
-                opacity: isActive ? 0 : undefined,
-                transition: "opacity 0.3s",
-              }} className="b-label">
-                <span style={{ display: "block", fontFamily: "var(--font-inter-tight), sans-serif",
-                  fontWeight: 700, fontSize: 15, color: "#fff", lineHeight: 1.1 }}>{m.name}</span>
-                <span style={{ display: "block", fontFamily: "var(--font-jetbrains), monospace",
-                  fontSize: 9, letterSpacing: "0.2em", textTransform: "uppercase", color: "#ff8a7a", marginTop: 3 }}>{m.role}</span>
-              </div>
-              {/* Lead badge */}
-              {m.isLead && (
-                <div style={{
-                  position: "absolute", top: 10, right: 12,
-                  fontFamily: "var(--font-jetbrains), monospace", fontSize: 9, letterSpacing: "0.2em", fontWeight: 700,
-                  padding: "3px 8px", background: "#e3b53d", color: "#000", borderRadius: 3,
-                }}>LEAD</div>
-              )}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Expanded detail panel */}
-      <AnimatePresence>
-        {active && (
-          <motion.div
-            key={activeIdx}
-            initial={{ opacity: 0, height: 0, marginTop: 0 }}
-            animate={{ opacity: 1, height: "auto", marginTop: 24 }}
-            exit={{ opacity: 0, height: 0, marginTop: 0 }}
-            transition={{ duration: 0.4, ease: [0.2, 0.8, 0.2, 1] }}
-            style={{ overflow: "hidden", maxWidth: 860, margin: "24px auto 0" }}
-          >
-            <div style={{
-              border: "1px solid rgba(255,255,255,0.1)", borderRadius: 20,
-              background: "#0e0e10", padding: "36px 40px",
-              display: "grid", gridTemplateColumns: "auto 1fr", gap: "20px 36px",
-              position: "relative",
-            }}>
-              {/* Arrow up */}
-              <div style={{
-                position: "absolute", top: -8, left: "50%", transform: "translateX(-50%) rotate(45deg)",
-                width: 16, height: 16, background: "#0e0e10",
-                borderLeft: "1px solid rgba(255,255,255,0.1)", borderTop: "1px solid rgba(255,255,255,0.1)",
-              }} />
-              {/* Close */}
-              <button
-                onClick={() => setActiveIdx(null)}
-                style={{
-                  position: "absolute", top: 16, right: 16,
-                  width: 32, height: 32, borderRadius: "50%",
-                  border: "1px solid rgba(255,255,255,0.1)", background: "transparent",
-                  color: "#9a9a9a", cursor: "pointer", fontSize: 18, lineHeight: 1,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  transition: "all 0.2s",
-                }}
-              >
-                <X size={14} />
-              </button>
-              {/* Role eyebrow */}
-              <div style={{ gridColumn: "1 / -1", display: "flex", alignItems: "center", gap: 10,
-                fontFamily: "var(--font-jetbrains), monospace", fontSize: 11, letterSpacing: "0.22em",
-                color: "#ff8a7a", textTransform: "uppercase", marginBottom: -8 }}>
-                <span style={{ flexShrink: 0, width: 20, height: 1, background: "#c8372d", display: "inline-block" }} />
-                {active.role}
-              </div>
-              {/* Name col */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 8, minWidth: 200 }}>
-                <h3 style={{ fontFamily: "var(--font-inter-tight), sans-serif", fontWeight: 800,
-                  fontSize: 32, lineHeight: 1, margin: 0, letterSpacing: "-0.015em", color: "#ededed" }}>{active.name}</h3>
-                <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 13, color: "#9a9a9a" }}>{active.handle}</span>
-              </div>
-              {/* Body */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-                <p style={{ fontSize: 16, lineHeight: 1.55, color: "#ededed", margin: 0,
-                  paddingLeft: 16, borderLeft: "2px solid #c8372d", fontStyle: "italic" }}>{active.quote}</p>
-                <p style={{ fontSize: 14.5, lineHeight: 1.65, color: "#9a9a9a", margin: 0 }}>{active.bio}</p>
-              </div>
-              {/* Meta */}
-              <div style={{ gridColumn: "1 / -1",
-                display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "14px 20px",
-                paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-                {active.meta.map(([k, v]) => (
-                  <span key={k} style={{ fontFamily: "var(--font-jetbrains), monospace",
-                    fontSize: 10, letterSpacing: "0.18em", color: "#5f5f5f", textTransform: "uppercase" }}>
-                    {k}<b style={{ display: "block", fontFamily: "var(--font-inter-tight), sans-serif",
-                      fontWeight: 600, fontSize: 14, letterSpacing: 0, textTransform: "none",
-                      color: "#ededed", marginTop: 4 }}>{v}</b>
-                  </span>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <p style={{ textAlign: "center", marginTop: 36,
-        fontFamily: "var(--font-rajdhani), sans-serif", fontSize: 17, color: "#5f5f5f" }}>
-        & more on the team —{" "}
-        <span style={{ color: "#ff8a7a", textDecoration: "underline", textUnderlineOffset: 3, cursor: "pointer" }}>
-          see the full roster ↗
-        </span>
-      </p>
+    <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+      {members.map((m) => (
+        <div
+          key={m.name}
+          style={{
+            display: "flex", justifyContent: "space-between", alignItems: "center",
+            padding: "22px 0",
+            borderBottom: "1px solid rgba(255,255,255,0.06)",
+          }}
+        >
+          <span style={{
+            fontFamily: "var(--font-inter-tight), sans-serif",
+            fontWeight: 700, fontSize: "clamp(18px, 2vw, 26px)",
+            color: "#ededed", letterSpacing: "-0.01em",
+          }}>
+            {m.name}
+          </span>
+          <span style={{
+            fontFamily: "var(--font-jetbrains), monospace",
+            fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase",
+            color: m.isLead ? "#e3b53d" : "#9a9a9a",
+            flexShrink: 0, marginLeft: 24,
+          }}>
+            {m.role}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }
@@ -725,7 +431,7 @@ function PolaroidCollage({ imgs, captions }: { imgs: [string, string, string]; c
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Polaroid 1 — fans up-left */}
+      {/* Polaroid 1  -  fans up-left */}
       <div style={{
         position: "absolute", top: "4%", left: "8%", width: "58%", aspectRatio: "4/5",
         background: "#f4f1e8", padding: "12px 12px 44px",
@@ -742,7 +448,7 @@ function PolaroidCollage({ imgs, captions }: { imgs: [string, string, string]; c
           {captions[0]}
         </span>
       </div>
-      {/* Polaroid 2 — fans right */}
+      {/* Polaroid 2  -  fans right */}
       <div style={{
         position: "absolute", top: "30%", right: "0%", width: "48%", aspectRatio: "4/5",
         background: "#f4f1e8", padding: "12px 12px 44px",
@@ -759,7 +465,7 @@ function PolaroidCollage({ imgs, captions }: { imgs: [string, string, string]; c
           {captions[1]}
         </span>
       </div>
-      {/* Polaroid 3 — fans down-center */}
+      {/* Polaroid 3  -  fans down-center */}
       <div style={{
         position: "absolute", bottom: "2%", left: "18%", width: "42%", aspectRatio: "4/5",
         background: "#f4f1e8", padding: "12px 12px 44px",
@@ -811,7 +517,7 @@ export default function TeamPage() {
     <div style={{ background: "#0b0b0d", color: "#ededed", minHeight: "100vh" }}>
 
       {/* ══════════════════════════════════════
-          HERO — Scrapbook / Zine
+          HERO  -  Scrapbook / Zine
          ══════════════════════════════════════ */}
       <section style={{ padding: "120px 0 60px", position: "relative" }}>
         <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 32px" }}>
@@ -893,7 +599,7 @@ export default function TeamPage() {
       </section>
 
       {/* ══════════════════════════════════════
-          WHAT WE DO — Card grid
+          WHAT WE DO  -  Card grid
          ══════════════════════════════════════ */}
       <section style={{ padding: "100px 0", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 32px" }}>
@@ -914,7 +620,7 @@ export default function TeamPage() {
             <motion.p
               initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
               style={{ fontFamily: "var(--font-caveat), cursive", fontSize: 22, color: "#9a9a9a", maxWidth: 280 }}>
-              p.s. — it&apos;s 60% computer, 40% in the shop. we love both.
+              p.s.  -  it&apos;s 60% computer, 40% in the shop. we love both.
             </motion.p>
           </div>
 
@@ -959,7 +665,7 @@ export default function TeamPage() {
       </section>
 
       {/* ══════════════════════════════════════
-          SKILLS & TOOLS — Two-col split
+          SKILLS & TOOLS  -  Two-col split
          ══════════════════════════════════════ */}
       <section style={{ padding: "100px 0", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 32px" }}>
@@ -1026,25 +732,21 @@ export default function TeamPage() {
       </section>
 
       {/* ══════════════════════════════════════
-          MEET THE TEAM — Bubble portraits
+          MEET THE TEAM  -  Bubble portraits
          ══════════════════════════════════════ */}
-      <section style={{ padding: "100px 0 120px", borderTop: "1px solid rgba(255,255,255,0.06)", overflow: "hidden" }}>
+      <section style={{ padding: "72px 0 80px", borderTop: "1px solid rgba(255,255,255,0.06)", overflow: "hidden" }}>
         <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 32px" }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end",
-              marginBottom: 48, flexWrap: "wrap", gap: 16 }}>
+              marginBottom: 32, flexWrap: "wrap", gap: 12 }}>
             <h2 style={{ fontFamily: "'Ethnocentric', sans-serif",
-              fontSize: "clamp(40px, 5vw, 64px)", margin: 0 }}>
+              fontSize: "clamp(28px, 3.5vw, 48px)", margin: 0 }}>
               Meet the team.
             </h2>
-            <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 11,
-              letterSpacing: "0.22em", textTransform: "uppercase", color: "#9a9a9a", maxWidth: 260, textAlign: "right" }}>
-              {team.members.length} featured members
-            </span>
           </motion.div>
 
-          <BubbleRoster members={team.members} />
+          <TeamRoster members={team.members} />
         </div>
       </section>
 
@@ -1107,7 +809,7 @@ export default function TeamPage() {
       </section>
 
       {/* ══════════════════════════════════════
-          TEAM NAV — Previous / Next
+          TEAM NAV  -  Previous / Next
          ══════════════════════════════════════ */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
         <Link
