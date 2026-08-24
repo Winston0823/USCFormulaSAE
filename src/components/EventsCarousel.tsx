@@ -225,8 +225,7 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
               )}
             </div>
             <div className="mt-4">
-              <span className="text-[#e3b53d] text-[10px] font-bold tracking-[0.2em] uppercase">{activeEvent.tag}</span>
-              <h3 className="text-xl font-bold text-white mt-1 mb-2">{activeEvent.title}</h3>
+              <h3 className="text-xl font-bold text-white mb-2">{activeEvent.title}</h3>
               <div className="flex flex-wrap gap-3 mb-2 text-xs">
                 <span className="inline-flex items-center gap-1.5 text-[#e3b53d] font-secondary">
                   <Clock className="w-3 h-3" />
@@ -243,12 +242,12 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
         </AnimatePresence>
       </div>
 
-      {/* ── Desktop three-panel carousel ── */}
+      {/* ── Desktop carousel ── */}
       <LayoutGroup>
         <div className="hidden lg:flex items-stretch gap-4" style={{ height: "clamp(500px, 65vh, 720px)" }}>
-          {[prevIndex, activeIndex, nextIndex].map((eventIdx, pos) => {
-            const isActive = pos === 1;
-            const isPrev = pos === 0;
+          {(events.length <= 2 ? [activeIndex, nextIndex] : [prevIndex, activeIndex, nextIndex]).map((eventIdx, pos) => {
+            const isActive = events.length <= 2 ? pos === 0 : pos === 1;
+            const isPrev = events.length <= 2 ? false : pos === 0;
             const evt = events[eventIdx];
             return (
               <motion.div
@@ -297,13 +296,11 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
                       className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-3"
                     >
                       <div className="mb-5">
-                        {isPrev ? (
-                          <ChevronLeft className="w-6 h-6 text-[#e3b53d]/40 group-hover:text-[#e3b53d]/80 transition-colors mx-auto" />
-                        ) : (
-                          <ChevronRight className="w-6 h-6 text-[#e3b53d]/40 group-hover:text-[#e3b53d]/80 transition-colors mx-auto" />
-                        )}
+                        {isPrev
+                          ? <ChevronLeft className="w-6 h-6 text-[#e3b53d]/40 group-hover:text-[#e3b53d]/80 transition-colors mx-auto" />
+                          : <ChevronRight className="w-6 h-6 text-[#e3b53d]/40 group-hover:text-[#e3b53d]/80 transition-colors mx-auto" />
+                        }
                       </div>
-                      <span className="text-[#e3b53d]/60 text-[9px] font-bold tracking-[0.2em] uppercase mb-2">{evt.tag}</span>
                       <p className="text-white/60 group-hover:text-white/90 text-xs font-bold transition-colors leading-snug max-w-[120px]">
                         {evt.title}
                       </p>
@@ -400,11 +397,6 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
                           </div>
                         )}
 
-                        {/* Tag chip */}
-                        <div className="absolute top-5 left-5 px-3 py-1 rounded-full bg-[#e3b53d]/10 border border-[#e3b53d]/20 text-[#e3b53d] text-[10px] font-bold tracking-[0.15em] z-20">
-                          {activeEvent.tag}
-                        </div>
-
                         {/* Title overlaid at bottom of gallery */}
                         <h3
                           className="absolute bottom-4 left-6 right-6 z-20 text-[clamp(1.25rem,2.5vw,2rem)] font-black text-white leading-tight tracking-tight"
@@ -452,7 +444,7 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
                 : "bg-white/[0.04] text-gray-600 hover:text-gray-300 hover:bg-white/[0.08]"
             }`}
           >
-            {evt.tag}
+            {evt.title}
           </button>
         ))}
       </div>

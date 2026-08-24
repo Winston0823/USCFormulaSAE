@@ -10,15 +10,6 @@ export interface EventData {
 
 export const events: EventData[] = [
   {
-    title: "Fall Kickoff & Recruitment",
-    date: "September 2024",
-    location: "USC Campus, Los Angeles",
-    tag: "RECRUITMENT",
-    description:
-      "We welcome new members of all majors and experience levels. Kickoff includes team introductions, subteam overviews, and hands-on demos to get everyone excited for the build season ahead.",
-    images: [],
-  },
-  {
     title: "Spring Build Season",
     date: "January to May 2025",
     location: "USC Workshop",
@@ -41,14 +32,5 @@ export const events: EventData[] = [
       "/competition-2025-4.jpg",
       "/competition-2025-5.jpg",
     ],
-  },
-  {
-    title: "AME Awards Car Unveiling",
-    date: "Spring 2024",
-    location: "USC Campus, Los Angeles",
-    tag: "MILESTONE",
-    description:
-      "A historic milestone. The first time in team history we unveiled our car at the AME Awards ceremony, showcasing months of engineering work to faculty, sponsors, and fellow students.",
-    images: [],
   },
 ];
