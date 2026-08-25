@@ -361,3 +361,9 @@ body {
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent);
   animation: laser-travel 3s ease-in-out infinite;
 }
+
+/* Events carousel - auto-advance progress fill on the active index pill */
+@keyframes event-pill-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}

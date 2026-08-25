@@ -1,10 +1,14 @@
+export type EventMedia =
+  | { type: "image"; src: string; alt: string }
+  | { type: "video"; src: string; poster?: string; alt: string };
+
 export interface EventData {
   title: string;
   date: string;
   location: string;
   description: string;
-  /** Empty array = no photos yet; the carousel renders a designed placeholder card. */
-  images: string[];
+  /** Every event ships with one image or video - we don't list events without media. */
+  media: EventMedia;
   tag: string;
 }
 
@@ -16,7 +20,11 @@ export const events: EventData[] = [
     tag: "BUILD",
     description:
       "Our most intensive period. All eight subteams converge in the workshop to fabricate, assemble, and test every component of the car before competition season.",
-    images: ["/collab-on-car.jpg", "/frame.jpg", "/powertrain.jpg", "/drivetrain.jpg"],
+    media: {
+      type: "image",
+      src: "/collab-on-car.jpg",
+      alt: "Team members collaborating on the car in the USC workshop",
+    },
   },
   {
     title: "FSAE Electric Michigan 2025",
@@ -25,12 +33,10 @@ export const events: EventData[] = [
     tag: "COMPETITION",
     description:
       "Our team competes in the Formula SAE Electric competition, designing, manufacturing, and testing a fully functioning electric race car against top university teams from around the world.",
-    images: [
-      "/competition-2025-1.jpg",
-      "/competition-2025-2.jpg",
-      "/competition-2025-3.jpg",
-      "/competition-2025-4.jpg",
-      "/competition-2025-5.jpg",
-    ],
+    media: {
+      type: "image",
+      src: "/competition-2025-1.jpg",
+      alt: "USC Formula Electric at the FSAE Electric Michigan 2025 competition",
+    },
   },
 ];

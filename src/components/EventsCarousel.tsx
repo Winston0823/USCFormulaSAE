@@ -1,10 +1,21 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef, useImperativeHandle, type Ref } from "react";
+import {
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+  useImperativeHandle,
+  useSyncExternalStore,
+  type Ref,
+} from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, LayoutGroup, useReducedMotion, type PanInfo } from "framer-motion";
-import { CalendarDays, MapPin, ChevronLeft, ChevronRight, Clock } from "lucide-react";
-import { events } from "@/lib/events";
+import { motion, useReducedMotion, type PanInfo } from "framer-motion";
+import { MapPin, ChevronLeft, ChevronRight, Clock } from "lucide-react";
+import { events, type EventData } from "@/lib/events";
+
+/** How long each event holds the stage before auto-advancing. */
+const AUTO_ADVANCE_MS = 3000;
 
 export interface EventsCarouselHandle {
   goTo: (index: number) => void;
@@ -15,109 +26,182 @@ interface EventsCarouselProps {
   ref?: Ref<EventsCarouselHandle>;
 }
 
-/** Branded stand-in for events that don't have photos yet. */
-function PlaceholderCard({ compact = false, showLabel = true }: { compact?: boolean; showLabel?: boolean }) {
+/**
+ * One event's frame. Every slide stays mounted and stacked so all media is
+ * fetched and decoded up front - the crossfade never waits on the network.
+ */
+function Slide({
+  event,
+  isActive,
+  priority,
+  reducedMotion,
+}: {
+  event: EventData;
+  isActive: boolean;
+  priority: boolean;
+  reducedMotion: boolean;
+}) {
+  const [loaded, setLoaded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const { media } = event;
+
+  // Only the on-stage video decodes frames; the rest hold on their poster.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (isActive) {
+      void video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [isActive]);
+
   return (
-    <div className="absolute inset-0 bg-gradient-to-br from-[#26221a] via-[#1c1c1f] to-[#141416]">
-      <div className="absolute inset-0 circuit-pattern opacity-10" />
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-        <CalendarDays className={compact ? "w-10 h-10 text-[#e3b53d]/25" : "w-16 h-16 text-[#e3b53d]/25"} />
-        {showLabel && (
-          <span className="text-[#e3b53d]/50 text-[10px] font-secondary font-semibold uppercase tracking-[0.3em]">
-            Photos coming soon
-          </span>
+    <motion.div
+      className="absolute inset-0"
+      initial={false}
+      animate={{ opacity: isActive ? 1 : 0 }}
+      transition={{ duration: reducedMotion ? 0 : 0.5, ease: [0.4, 0, 0.2, 1] }}
+      aria-hidden={!isActive}
+      style={{ pointerEvents: isActive ? undefined : "none" }}
+      inert={!isActive}
+    >
+      {/* Media */}
+      <motion.div
+        className="absolute inset-0"
+        initial={false}
+        animate={{ scale: isActive || reducedMotion ? 1 : 1.04 }}
+        transition={{ duration: reducedMotion ? 0 : 0.7, ease: [0.4, 0, 0.2, 1] }}
+      >
+        {/* Sits under the media so an undecoded frame fades up from the shell, never pops */}
+        <div className="absolute inset-0 bg-[#141416]" />
+
+        {media.type === "image" && (
+          <Image
+            src={media.src}
+            alt={media.alt}
+            fill
+            priority={priority}
+            loading={priority ? undefined : "eager"}
+            sizes="(min-width: 1024px) 1536px, 100vw"
+            onLoad={() => setLoaded(true)}
+            draggable={false}
+            className={`object-cover pointer-events-none transition-opacity duration-500 ${
+              loaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
         )}
-      </div>
-    </div>
+
+        {media.type === "video" && (
+          <video
+            ref={videoRef}
+            src={media.src}
+            poster={media.poster}
+            aria-label={media.alt}
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            onLoadedData={() => setLoaded(true)}
+            className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-500 ${
+              loaded ? "opacity-100" : "opacity-0"
+            }`}
+          />
+        )}
+      </motion.div>
+
+      {/* Bottom-weighted scrim carrying the type */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/80 to-transparent" />
+
+      {/* Overlay copy */}
+      <motion.div
+        className="absolute inset-x-0 bottom-0 px-6 pb-8 sm:px-10 sm:pb-10 lg:px-14 lg:pb-14"
+        initial={false}
+        animate={{ y: isActive || reducedMotion ? 0 : 14 }}
+        transition={{ duration: reducedMotion ? 0 : 0.5, ease: [0.4, 0, 0.2, 1] }}
+      >
+        <h3
+          className="font-black text-white leading-[0.95] tracking-tight max-w-3xl"
+          style={{
+            fontSize: "clamp(1.75rem, 4.5vw, 4rem)",
+            textShadow: "0 2px 24px rgba(0,0,0,0.65)",
+          }}
+        >
+          {event.title}
+        </h3>
+        <div className="mt-3 flex flex-wrap items-center gap-x-6 gap-y-2 text-xs sm:text-sm">
+          <span className="inline-flex items-center gap-2 text-[#e3b53d] font-secondary font-semibold">
+            <Clock className="w-3.5 h-3.5 shrink-0" />
+            {event.date}
+          </span>
+          <span className="inline-flex items-center gap-2 text-gray-400 font-secondary">
+            <MapPin className="w-3.5 h-3.5 shrink-0" />
+            {event.location}
+          </span>
+        </div>
+        <p className="hidden sm:block mt-3 max-w-2xl text-gray-400 text-sm leading-relaxed line-clamp-2">
+          {event.description}
+        </p>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/** Arrows stay visible on touch devices, where hover-reveal is unusable. */
+const coarsePointerQuery = () => window.matchMedia("(pointer: coarse)");
+
+function subscribeCoarsePointer(onChange: () => void) {
+  const mq = coarsePointerQuery();
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+function useCoarsePointer() {
+  return useSyncExternalStore(
+    subscribeCoarsePointer,
+    () => coarsePointerQuery().matches,
+    () => false
   );
 }
 
 export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [imageIndex, setImageIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
-  const [phase, setPhase] = useState<"idle" | "fading" | "moving">("idle");
-  const [galleryPaused, setGalleryPaused] = useState(false);
-  const [coarsePointer, setCoarsePointer] = useState(false);
-  const pendingIndex = useRef<number | null>(null);
-  const pendingDirection = useRef(0);
-  const reducedMotion = useReducedMotion();
+  // Bumped whenever a cycle restarts, so the timer and the progress fill stay in step.
+  const [cycle, setCycle] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const coarsePointer = useCoarsePointer();
+  const reducedMotion = useReducedMotion() ?? false;
 
-  const activeEvent = events[activeIndex];
   const prevIndex = (activeIndex - 1 + events.length) % events.length;
   const nextIndex = (activeIndex + 1) % events.length;
-  const hasImages = activeEvent.images.length > 0;
-
-  // Arrows/dots stay visible on touch devices where hover-reveal is unusable
-  useEffect(() => {
-    const mq = window.matchMedia("(pointer: coarse)");
-    setCoarsePointer(mq.matches);
-    const onChange = (e: MediaQueryListEvent) => setCoarsePointer(e.matches);
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
-  }, []);
-
-  useEffect(() => {
-    if (phase === "fading") {
-      const timer = setTimeout(() => {
-        if (pendingIndex.current !== null) {
-          setDirection(pendingDirection.current);
-          setActiveIndex(pendingIndex.current);
-          onIndexChange?.(pendingIndex.current);
-          setImageIndex(0);
-          pendingIndex.current = null;
-        }
-        setPhase("moving");
-      }, 280);
-      return () => clearTimeout(timer);
-    }
-  }, [phase, onIndexChange]);
-
-  const triggerTransition = useCallback(
-    (newIndex: number, dir: number) => {
-      if (phase !== "idle" || newIndex === activeIndex) return;
-      pendingIndex.current = newIndex;
-      pendingDirection.current = dir;
-      setPhase("fading");
-    },
-    [activeIndex, phase]
-  );
 
   const goToEvent = useCallback(
     (newIndex: number) => {
-      triggerTransition(newIndex, newIndex > activeIndex ? 1 : -1);
+      if (newIndex === activeIndex) return;
+      setActiveIndex(newIndex);
+      setCycle((c) => c + 1);
+      onIndexChange?.(newIndex);
     },
-    [activeIndex, triggerTransition]
+    [activeIndex, onIndexChange]
   );
 
   useImperativeHandle(ref, () => ({ goTo: goToEvent }), [goToEvent]);
 
   const goNext = useCallback(() => {
-    triggerTransition((activeIndex + 1) % events.length, 1);
-  }, [activeIndex, triggerTransition]);
+    goToEvent((activeIndex + 1) % events.length);
+  }, [activeIndex, goToEvent]);
 
   const goPrev = useCallback(() => {
-    triggerTransition((activeIndex - 1 + events.length) % events.length, -1);
-  }, [activeIndex, triggerTransition]);
+    goToEvent((activeIndex - 1 + events.length) % events.length);
+  }, [activeIndex, goToEvent]);
 
-  const contentVisible = phase === "idle";
-
-  const nextImage = useCallback(() => {
-    setImageIndex((prev) => (prev + 1) % activeEvent.images.length);
-  }, [activeEvent.images.length]);
-
-  const prevImage = useCallback(() => {
-    setImageIndex((prev) => (prev - 1 + activeEvent.images.length) % activeEvent.images.length);
-  }, [activeEvent.images.length]);
-
-  // Auto-scroll images every 3 seconds  -  paused while interacting, off under reduced motion
+  // Auto-advance - paused while the viewer is engaged, off under reduced motion
   useEffect(() => {
-    if (activeEvent.images.length <= 1 || galleryPaused || reducedMotion) return;
-    const timer = setInterval(() => {
-      setImageIndex((prev) => (prev + 1) % activeEvent.images.length);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [activeIndex, activeEvent.images.length, galleryPaused, reducedMotion]);
+    if (paused || reducedMotion || events.length <= 1) return;
+    const timer = setTimeout(goNext, AUTO_ADVANCE_MS);
+    return () => clearTimeout(timer);
+  }, [activeIndex, cycle, paused, reducedMotion, goNext]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -128,325 +212,104 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [goNext, goPrev]);
 
-  const handleSwipeEnd = useCallback(
+  // Resuming always restarts a full interval, so the fill can never desync from the timer
+  const resume = useCallback(() => {
+    setPaused(false);
+    setCycle((c) => c + 1);
+  }, []);
+
+  const handleDragEnd = useCallback(
     (_: unknown, info: PanInfo) => {
-      setGalleryPaused(false);
+      resume();
       if (info.offset.x < -60) goNext();
       else if (info.offset.x > 60) goPrev();
     },
-    [goNext, goPrev]
+    [goNext, goPrev, resume]
   );
+
+  const edgeButton =
+    "absolute top-0 bottom-0 w-12 sm:w-16 z-30 flex items-center justify-center text-white/70 hover:text-white transition-opacity duration-300 cursor-pointer focus-visible:opacity-100 focus-visible:outline-none";
 
   return (
     <div>
-      {/* Mobile layout */}
-      <div className="lg:hidden">
-        {/* Mobile prev/next */}
-        <div className="flex gap-3 mb-5">
-          <button
-            onClick={goPrev}
-            aria-label={`Previous: ${events[prevIndex].title}`}
-            className="flex-1 flex items-center gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] transition-all cursor-pointer active:scale-[0.98]"
-          >
-            <ChevronLeft className="w-5 h-5 text-[#e3b53d] shrink-0" />
-            <div className="text-left min-w-0">
-              <p className="text-white text-xs font-bold truncate">{events[prevIndex].title}</p>
-              <p className="text-gray-600 text-xs">{events[prevIndex].date}</p>
-            </div>
-          </button>
-          <button
-            onClick={goNext}
-            aria-label={`Next: ${events[nextIndex].title}`}
-            className="flex-1 flex items-center justify-end gap-3 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] transition-all cursor-pointer active:scale-[0.98]"
-          >
-            <div className="text-right min-w-0">
-              <p className="text-white text-xs font-bold truncate">{events[nextIndex].title}</p>
-              <p className="text-gray-600 text-xs">{events[nextIndex].date}</p>
-            </div>
-            <ChevronRight className="w-5 h-5 text-[#e3b53d] shrink-0" />
-          </button>
-        </div>
-
-        {/* Mobile active card  -  swipeable */}
-        <AnimatePresence mode="wait" custom={direction}>
-          <motion.div
-            key={activeIndex}
-            custom={direction}
-            initial={{ x: direction > 0 ? 120 : -120, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: direction > 0 ? -120 : 120, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.2}
-            onDragStart={() => setGalleryPaused(true)}
-            onDragEnd={handleSwipeEnd}
-          >
-            <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-[#2a2a2e] border border-white/[0.08]">
-              {hasImages ? (
-                <>
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={imageIndex}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="absolute inset-0"
-                    >
-                      <Image
-                        src={activeEvent.images[imageIndex]}
-                        alt={`${activeEvent.title} photo ${imageIndex + 1}`}
-                        fill
-                        sizes="100vw"
-                        className="object-cover pointer-events-none"
-                        draggable={false}
-                      />
-                    </motion.div>
-                  </AnimatePresence>
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                  {activeEvent.images.length > 1 && (
-                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
-                      {activeEvent.images.map((_, i) => (
-                        <button
-                          key={i}
-                          onClick={() => setImageIndex(i)}
-                          aria-label={`Photo ${i + 1}`}
-                          className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                            i === imageIndex ? "bg-[#e3b53d] w-6" : "bg-white/40 w-1.5"
-                          }`}
-                        />
-                      ))}
-                    </div>
-                  )}
-                </>
-              ) : (
-                <PlaceholderCard compact />
-              )}
-            </div>
-            <div className="mt-4">
-              <h3 className="text-xl font-bold text-white mb-2">{activeEvent.title}</h3>
-              <div className="flex flex-wrap gap-3 mb-2 text-xs">
-                <span className="inline-flex items-center gap-1.5 text-[#e3b53d] font-secondary">
-                  <Clock className="w-3 h-3" />
-                  {activeEvent.date}
-                </span>
-                <span className="inline-flex items-center gap-1.5 text-gray-500 font-secondary">
-                  <MapPin className="w-3 h-3" />
-                  {activeEvent.location}
-                </span>
-              </div>
-              <p className="text-gray-500 leading-relaxed text-xs line-clamp-3">{activeEvent.description}</p>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* ── Desktop carousel ── */}
-      <LayoutGroup>
-        <div className="hidden lg:flex items-stretch gap-4" style={{ height: "clamp(500px, 65vh, 720px)" }}>
-          {(events.length <= 2 ? [activeIndex, nextIndex] : [prevIndex, activeIndex, nextIndex]).map((eventIdx, pos) => {
-            const isActive = events.length <= 2 ? pos === 0 : pos === 1;
-            const isPrev = events.length <= 2 ? false : pos === 0;
-            const evt = events[eventIdx];
-            return (
-              <motion.div
-                key={eventIdx}
-                layoutId={`event-card-${eventIdx}`}
-                layout="position"
-                style={{ flex: isActive ? 5 : 1 }}
-                initial={false}
-                animate={{ opacity: isActive ? 1 : 0.4 }}
-                whileHover={!isActive ? { opacity: 0.7 } : undefined}
-                transition={{
-                  layout: { duration: 0.5, ease: [0.4, 0, 0.2, 1] },
-                  opacity: { duration: 0.3 },
-                }}
-                onLayoutAnimationComplete={() => {
-                  if (phase === "moving") setPhase("idle");
-                }}
-                onClick={!isActive ? (isPrev ? goPrev : goNext) : undefined}
-                className={`relative rounded-2xl overflow-hidden bg-[#2a2a2e] border border-white/[0.06] ${
-                  !isActive ? "cursor-pointer group" : ""
-                }`}
-              >
-                {/* Always-visible gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-
-                {/* Subtle ambient glow for active */}
-                {isActive && (
-                  <div
-                    className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-[80%] h-40 rounded-full pointer-events-none"
-                    style={{ background: "radial-gradient(ellipse, rgba(227,181,61,0.06) 0%, transparent 70%)" }}
-                  />
-                )}
-
-                {/* Placeholder  -  shown when the event has no photos yet; label hidden behind side-panel content */}
-                {evt.images.length === 0 && <PlaceholderCard compact={!isActive} showLabel={isActive} />}
-
-                {/* ── Side panel content ── */}
-                <AnimatePresence mode="wait">
-                  {!isActive && contentVisible && (
-                    <motion.div
-                      key={`side-${eventIdx}`}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-3"
-                    >
-                      <div className="mb-5">
-                        {isPrev
-                          ? <ChevronLeft className="w-6 h-6 text-[#e3b53d]/40 group-hover:text-[#e3b53d]/80 transition-colors mx-auto" />
-                          : <ChevronRight className="w-6 h-6 text-[#e3b53d]/40 group-hover:text-[#e3b53d]/80 transition-colors mx-auto" />
-                        }
-                      </div>
-                      <p className="text-white/60 group-hover:text-white/90 text-xs font-bold transition-colors leading-snug max-w-[120px]">
-                        {evt.title}
-                      </p>
-                      <p className="text-gray-600 text-[10px] mt-2 font-secondary">{evt.date}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-
-                {/* ── Active panel content ── */}
-                <AnimatePresence mode="wait">
-                  {isActive && contentVisible && (
-                    <motion.div
-                      key={`active-${eventIdx}`}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="absolute inset-0 z-10 flex flex-col"
-                    >
-                      {/* Gallery */}
-                      <div
-                        className="relative flex-1 min-h-0 group"
-                        onPointerEnter={() => setGalleryPaused(true)}
-                        onPointerLeave={() => setGalleryPaused(false)}
-                      >
-                        {hasImages && (
-                          <>
-                            <AnimatePresence mode="wait">
-                              <motion.div
-                                key={imageIndex}
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.3 }}
-                                className="absolute inset-0"
-                              >
-                                <Image
-                                  src={activeEvent.images[imageIndex]}
-                                  alt={`${activeEvent.title} photo ${imageIndex + 1}`}
-                                  fill
-                                  sizes="(min-width: 1024px) 70vw, 100vw"
-                                  className="object-cover"
-                                />
-                              </motion.div>
-                            </AnimatePresence>
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                          </>
-                        )}
-
-                        {/* Gallery arrows  -  hover-revealed on fine pointers, always visible on touch */}
-                        {activeEvent.images.length > 1 && (
-                          <>
-                            <button
-                              onClick={prevImage}
-                              aria-label="Previous photo"
-                              className={`absolute left-5 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white/25 transition-all cursor-pointer z-20 focus-visible:opacity-100 ${
-                                coarsePointer ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-                              }`}
-                            >
-                              <ChevronLeft className="w-4 h-4" />
-                            </button>
-                            <button
-                              onClick={nextImage}
-                              aria-label="Next photo"
-                              className={`absolute right-5 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white/25 transition-all cursor-pointer z-20 focus-visible:opacity-100 ${
-                                coarsePointer ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-                              }`}
-                            >
-                              <ChevronRight className="w-4 h-4" />
-                            </button>
-                          </>
-                        )}
-
-                        {/* Dots  -  positioned above title */}
-                        {activeEvent.images.length > 1 && (
-                          <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
-                            {activeEvent.images.map((_, i) => (
-                              <button
-                                key={i}
-                                onClick={() => setImageIndex(i)}
-                                aria-label={`Photo ${i + 1}`}
-                                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                                  i === imageIndex ? "bg-[#e3b53d] w-6" : "bg-white/30 hover:bg-white/60 w-1.5"
-                                }`}
-                              />
-                            ))}
-                          </div>
-                        )}
-
-                        {/* Counter chip */}
-                        {hasImages && (
-                          <div className="absolute top-5 right-5 px-3 py-1 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 text-white/50 text-[10px] font-data z-20">
-                            {imageIndex + 1} / {activeEvent.images.length}
-                          </div>
-                        )}
-
-                        {/* Title overlaid at bottom of gallery */}
-                        <h3
-                          className="absolute bottom-4 left-6 right-6 z-20 text-[clamp(1.25rem,2.5vw,2rem)] font-black text-white leading-tight tracking-tight"
-                          style={{ textShadow: "0 2px 12px rgba(0,0,0,0.7), 0 1px 3px rgba(0,0,0,0.5)" }}
-                        >
-                          {activeEvent.title}
-                        </h3>
-                      </div>
-
-                      {/* Compact details bar below gallery */}
-                      <div className="shrink-0 px-6 py-4">
-                        <div className="flex flex-wrap items-center gap-5 mb-2">
-                          <span className="inline-flex items-center gap-2 text-[#e3b53d] text-sm font-secondary font-semibold">
-                            <Clock className="w-4 h-4" />
-                            {activeEvent.date}
-                          </span>
-                          <span className="inline-flex items-center gap-2 text-gray-500 text-sm font-secondary">
-                            <MapPin className="w-4 h-4" />
-                            {activeEvent.location}
-                          </span>
-                        </div>
-                        <p className="text-gray-400 leading-relaxed max-w-2xl text-[0.9rem] line-clamp-3">
-                          {activeEvent.description}
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            );
-          })}
-        </div>
-      </LayoutGroup>
-
-      {/* Event index  -  horizontal pills */}
-      <div className="flex justify-center gap-2 mt-10">
+      <motion.div
+        className="group relative w-full overflow-hidden rounded-2xl sm:rounded-3xl bg-[#141416] border border-white/[0.07] aspect-[4/5] sm:aspect-[16/10] lg:aspect-[21/9] touch-pan-y"
+        onPointerEnter={() => setPaused(true)}
+        onPointerLeave={resume}
+        onFocusCapture={() => setPaused(true)}
+        onBlurCapture={resume}
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.18}
+        onDragStart={() => setPaused(true)}
+        onDragEnd={handleDragEnd}
+      >
         {events.map((evt, i) => (
-          <button
-            key={i}
-            onClick={() => goToEvent(i)}
-            aria-label={`Go to ${evt.title}`}
-            className={`relative px-4 py-2 rounded-full text-[11px] font-secondary font-semibold tracking-wide transition-all duration-300 cursor-pointer ${
-              i === activeIndex
-                ? "bg-[#e3b53d] text-black"
-                : "bg-white/[0.04] text-gray-600 hover:text-gray-300 hover:bg-white/[0.08]"
-            }`}
-          >
-            {evt.title}
-          </button>
+          <Slide
+            key={evt.title}
+            event={evt}
+            isActive={i === activeIndex}
+            priority={i === 0}
+            reducedMotion={reducedMotion}
+          />
         ))}
+
+        {/* Edge affordances - hover-revealed on fine pointers, always visible on touch */}
+        <button
+          onClick={goPrev}
+          aria-label={`Previous event: ${events[prevIndex].title}`}
+          className={`${edgeButton} left-0 bg-gradient-to-r from-black/50 to-transparent ${
+            coarsePointer ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+          }`}
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </button>
+        <button
+          onClick={goNext}
+          aria-label={`Next event: ${events[nextIndex].title}`}
+          className={`${edgeButton} right-0 bg-gradient-to-l from-black/50 to-transparent ${
+            coarsePointer ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+          }`}
+        >
+          <ChevronRight className="w-6 h-6" />
+        </button>
+      </motion.div>
+
+      {/* Event index - each pill doubles as the auto-advance progress bar */}
+      <div className="flex flex-wrap justify-center gap-2 mt-6 sm:mt-8">
+        {events.map((evt, i) => {
+          const isActive = i === activeIndex;
+          return (
+            <button
+              key={evt.title}
+              onClick={() => goToEvent(i)}
+              aria-label={`Go to ${evt.title}`}
+              aria-current={isActive}
+              className={`relative overflow-hidden px-4 py-2 rounded-full text-[11px] font-secondary font-semibold tracking-wide transition-colors duration-300 cursor-pointer ${
+                isActive
+                  ? "bg-[#e3b53d]/15 text-[#e3b53d]"
+                  : "bg-white/[0.04] text-gray-600 hover:text-gray-300 hover:bg-white/[0.08]"
+              }`}
+            >
+              {isActive && (
+                <span
+                  key={cycle}
+                  aria-hidden
+                  className="absolute inset-0 origin-left bg-[#e3b53d]/30"
+                  style={
+                    reducedMotion
+                      ? { transform: "scaleX(1)" }
+                      : {
+                          animation: `event-pill-progress ${AUTO_ADVANCE_MS}ms linear forwards`,
+                          animationPlayState: paused ? "paused" : "running",
+                        }
+                  }
+                />
+              )}
+              <span className="relative">{evt.title}</span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
