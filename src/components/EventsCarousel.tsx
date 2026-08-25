@@ -167,11 +167,16 @@ function useCoarsePointer() {
 
 export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  // Bumped whenever a cycle restarts, so the timer and the progress fill stay in step.
-  const [cycle, setCycle] = useState(0);
   const [paused, setPaused] = useState(false);
   const coarsePointer = useCoarsePointer();
   const reducedMotion = useReducedMotion() ?? false;
+
+  // Hovering pauses the interval in place rather than restarting it: `elapsed`
+  // banks how much of the current event's turn has already run. The CSS fill is
+  // frozen the same way (animationPlayState) and keyed to the event rather than
+  // to each run, so the two stay in step across any number of pauses.
+  const elapsedRef = useRef(0);
+  const lastIndexRef = useRef(0);
 
   const prevIndex = (activeIndex - 1 + events.length) % events.length;
   const nextIndex = (activeIndex + 1) % events.length;
@@ -179,8 +184,9 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
   const goToEvent = useCallback(
     (newIndex: number) => {
       if (newIndex === activeIndex) return;
+      // A new event gets a full turn, however far the last one had got.
+      elapsedRef.current = 0;
       setActiveIndex(newIndex);
-      setCycle((c) => c + 1);
       onIndexChange?.(newIndex);
     },
     [activeIndex, onIndexChange]
@@ -196,12 +202,24 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
     goToEvent((activeIndex - 1 + events.length) % events.length);
   }, [activeIndex, goToEvent]);
 
-  // Auto-advance - paused while the viewer is engaged, off under reduced motion
+  // Auto-advance - paused while the viewer is engaged, off under reduced motion.
+  // Banking elapsed time in the cleanup (rather than only when pausing) means any
+  // re-run of this effect resumes the countdown instead of restarting it.
   useEffect(() => {
+    if (lastIndexRef.current !== activeIndex) {
+      lastIndexRef.current = activeIndex;
+      elapsedRef.current = 0;
+    }
     if (paused || reducedMotion || events.length <= 1) return;
-    const timer = setTimeout(goNext, AUTO_ADVANCE_MS);
-    return () => clearTimeout(timer);
-  }, [activeIndex, cycle, paused, reducedMotion, goNext]);
+
+    const banked = elapsedRef.current;
+    const start = performance.now();
+    const timer = setTimeout(goNext, Math.max(0, AUTO_ADVANCE_MS - banked));
+    return () => {
+      clearTimeout(timer);
+      elapsedRef.current = banked + (performance.now() - start);
+    };
+  }, [activeIndex, paused, reducedMotion, goNext]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -212,11 +230,8 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [goNext, goPrev]);
 
-  // Resuming always restarts a full interval, so the fill can never desync from the timer
-  const resume = useCallback(() => {
-    setPaused(false);
-    setCycle((c) => c + 1);
-  }, []);
+  const pause = useCallback(() => setPaused(true), []);
+  const resume = useCallback(() => setPaused(false), []);
 
   const handleDragEnd = useCallback(
     (_: unknown, info: PanInfo) => {
@@ -234,14 +249,14 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
     <div>
       <motion.div
         className="group relative w-full overflow-hidden rounded-2xl sm:rounded-3xl bg-[#141416] border border-white/[0.07] aspect-[4/5] sm:aspect-[16/10] lg:aspect-[21/9] touch-pan-y"
-        onPointerEnter={() => setPaused(true)}
+        onPointerEnter={pause}
         onPointerLeave={resume}
-        onFocusCapture={() => setPaused(true)}
+        onFocusCapture={pause}
         onBlurCapture={resume}
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0.18}
-        onDragStart={() => setPaused(true)}
+        onDragStart={pause}
         onDragEnd={handleDragEnd}
       >
         {events.map((evt, i) => (
@@ -293,7 +308,7 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
             >
               {isActive && (
                 <span
-                  key={cycle}
+                  key={activeIndex}
                   aria-hidden
                   className="absolute inset-0 origin-left bg-[#e3b53d]/30"
                   style={
