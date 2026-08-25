@@ -15,7 +15,7 @@ import { MapPin, ChevronLeft, ChevronRight, Clock } from "lucide-react";
 import { events, type EventData } from "@/lib/events";
 
 /** How long each event holds the stage before auto-advancing. */
-const AUTO_ADVANCE_MS = 3000;
+const AUTO_ADVANCE_MS = 13000;
 
 export interface EventsCarouselHandle {
   goTo: (index: number) => void;

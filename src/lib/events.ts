@@ -15,7 +15,7 @@ export interface EventData {
 export const events: EventData[] = [
   {
     title: "Spring Build Season",
-    date: "January to May 2025",
+    date: "January to May 2026",
     location: "USC Workshop",
     tag: "BUILD",
     description:
@@ -27,16 +27,17 @@ export const events: EventData[] = [
     },
   },
   {
-    title: "FSAE Electric Michigan 2025",
-    date: "June 2025",
+    title: "FSAE Electric Michigan 2026",
+    date: "June 2026",
     location: "Brooklyn, Michigan",
     tag: "COMPETITION",
     description:
       "Our team competes in the Formula SAE Electric competition, designing, manufacturing, and testing a fully functioning electric race car against top university teams from around the world.",
     media: {
-      type: "image",
-      src: "/competition-2025-1.jpg",
-      alt: "USC Formula Electric at the FSAE Electric Michigan 2025 competition",
+      type: "video",
+      src: "/michigan-2026.mp4",
+      poster: "/michigan-2026-poster.jpg",
+      alt: "USC Formula Electric's car on track at FSAE Electric Michigan 2026",
     },
   },
 ];
