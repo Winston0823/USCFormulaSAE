@@ -6,6 +6,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import LoadingWrapper from "@/components/LoadingWrapper";
 import StickyDonateButton from "@/components/StickyDonateButton";
+import RecruitingFlagDrawer from "@/components/RecruitingFlagDrawer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -74,6 +75,8 @@ export default function RootLayout({
           </LoadingWrapper>
           {/* Sticky donate CTA  -  also outside LoadingWrapper so position:fixed isn't broken by the parent transform */}
           <StickyDonateButton />
+          {/* Homepage recruiting drawer  -  stacks above the donate pill, same reason it lives out here */}
+          <RecruitingFlagDrawer />
         </ClientOnly>
       </body>
     </html>
