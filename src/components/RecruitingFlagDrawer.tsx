@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { ChevronLeft, Instagram, X } from "lucide-react";
+import { Instagram, X } from "lucide-react";
 import CTAButton from "@/components/CTAButton";
 
 const INSTAGRAM_URL = "https://www.instagram.com/uscformulaelectric/";
@@ -290,10 +290,9 @@ export default function RecruitingFlagDrawer() {
           transition={tabFaceTransition}
           inert={expanded}
           style={{ width: TAB_W }}
-          className="absolute inset-y-0 right-0 flex flex-col items-center justify-center gap-1.5 text-[#e3b53d] transition-colors duration-300 hover:bg-[#e3b53d]/10 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#e3b53d]"
+          className="absolute inset-y-0 right-0 flex items-center justify-center text-[#e3b53d] transition-colors duration-300 hover:bg-[#e3b53d]/10 focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-[#e3b53d]"
         >
-          <CheckeredFlag size={24} idPrefix="fe-flag-tab" />
-          <ChevronLeft className="h-3.5 w-3.5 text-[#e3b53d]/55" />
+          <CheckeredFlag size={30} idPrefix="fe-flag-tab" />
         </motion.button>
 
         {/* Panel content  -  anchored to the bottom-right corner so the box
