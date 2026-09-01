@@ -14,19 +14,6 @@ export interface EventData {
 
 export const events: EventData[] = [
   {
-    title: "Spring Build Season",
-    date: "January to May 2026",
-    location: "USC Workshop",
-    tag: "BUILD",
-    description:
-      "Our most intensive period. All eight subteams converge in the workshop to fabricate, assemble, and test every component of the car before competition season.",
-    media: {
-      type: "image",
-      src: "/collab-on-car.jpg",
-      alt: "Team members collaborating on the car in the USC workshop",
-    },
-  },
-  {
     title: "FSAE Electric Michigan 2026",
     date: "June 2026",
     location: "Brooklyn, Michigan",

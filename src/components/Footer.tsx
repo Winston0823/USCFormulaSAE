@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Instagram, Linkedin, Mail, MapPin, ExternalLink } from "lucide-react";
+import { Instagram, Linkedin, Mail, ExternalLink } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -13,7 +13,7 @@ export default function Footer() {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#e3b53d] to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
@@ -50,26 +50,10 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Teams */}
-          <div>
-            <h3 className="text-white font-semibold mb-4 text-sm tracking-wider uppercase">Teams</h3>
-            <ul className="space-y-3">
-              <FooterLink href="/teams/aerodynamics">Aerodynamics</FooterLink>
-              <FooterLink href="/teams/frame">Frame</FooterLink>
-              <FooterLink href="/teams/drivetrain">Drivetrain</FooterLink>
-              <FooterLink href="/teams/powertrain">Powertrain</FooterLink>
-              <FooterLink href="/teams/business">Business</FooterLink>
-            </ul>
-          </div>
-
           {/* Contact */}
           <div>
             <h3 className="text-white font-semibold mb-4 text-sm tracking-wider uppercase">Contact</h3>
             <ul className="space-y-4">
-              <li className="flex items-start space-x-3 text-gray-400 text-sm">
-                <MapPin className="w-5 h-5 text-[#e3b53d] shrink-0 mt-0.5" />
-                <span>University of Southern California<br />620 USC McCarthy Way<br />Los Angeles, CA 90089</span>
-              </li>
               <li className="flex items-center space-x-3 text-gray-400 text-sm">
                 <Mail className="w-5 h-5 text-[#e3b53d]" />
                 <a href="mailto:formulae@usc.edu" className="hover:text-white transition-colors">formulae@usc.edu</a>

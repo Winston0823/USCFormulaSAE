@@ -172,13 +172,13 @@ const teams = [
 ];
 
 const navItems = [
-  { name: "Home", href: "/" },
   { name: "Events", href: "/events" },
   { name: "About", href: "/about" },
   { name: "Teams", href: "/#teams" },
   { name: "Sponsors", href: "/sponsorship" },
   { name: "Fundraiser", href: "/fundraiser" },
   { name: "Contact", href: "/contact" },
+  { name: "Home", href: "/" },
 ];
 
 const REVEAL_RADIUS = 180; // Match PixelRevealOverlay radius
@@ -242,7 +242,7 @@ export default function Navigation() {
       }`}
     >
       <div className="w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center h-20">
+        <div className="relative flex items-center h-20">
           {/* Logo - left */}
           <div className="flex-1">
             <Link href="/" className="flex items-center space-x-3 group">
@@ -261,9 +261,33 @@ export default function Navigation() {
             </Link>
           </div>
 
-          {/* Fire icon, Join Us button and Menu - right */}
+          {/* Center nav links - desktop (absolutely centered in bar) */}
+          <div className="hidden lg:flex absolute left-[58%] -translate-x-1/2 items-center gap-10">
+            {navItems.filter(item => item.name !== "Home").map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={(e) => {
+                  if (item.href.startsWith("/#")) {
+                    const id = item.href.slice(2);
+                    const el = document.getElementById(id);
+                    if (el) {
+                      e.preventDefault();
+                      el.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }
+                }}
+                className="relative group text-gray-300 hover:text-white text-base font-semibold tracking-wide transition-colors whitespace-nowrap uppercase"
+                style={{ fontFamily: "var(--font-rajdhani), sans-serif", letterSpacing: "0.1em", fontSize: "1rem" }}
+              >
+                {item.name}
+                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-[#e3b53d] transition-all duration-300 group-hover:w-full" />
+              </Link>
+            ))}
+          </div>
+
+          {/* Join Us button and Menu - right */}
           <div className="flex-1 flex justify-end items-center gap-4">
-            <FireIcon className="hidden lg:flex" size={40} />
             {featureFlags.showJoinUsButton && (
               <CTAButton
                 href="https://docs.google.com/forms/d/e/1FAIpQLScz1sdeI-fGvj-IhghyPXXLrBP1jk_dhaq9NP0hriJ1DS57uw/viewform"
@@ -274,10 +298,10 @@ export default function Navigation() {
               </CTAButton>
             )}
 
-            {/* Menu icon button - desktop */}
+            {/* Menu icon button - desktop (hidden, links shown directly) */}
             <div
               ref={menuButtonRef}
-              className="relative hidden lg:block"
+              className="relative hidden"
               onMouseEnter={() => {
                 setIsNavDropdownOpen(true);
                 liquid.handleMouseEnter();

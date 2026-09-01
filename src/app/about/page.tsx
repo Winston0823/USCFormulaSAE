@@ -144,6 +144,7 @@ export default function AboutPage() {
                   src="/team-photo.jpg"
                   alt="USC Formula SAE team"
                   className="w-full h-full object-cover"
+                  style={{ transform: "rotate(90deg) scale(1.34)", transformOrigin: "center" }}
                 />
                 {/* Decorative overlay */}
                 <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black to-transparent" />

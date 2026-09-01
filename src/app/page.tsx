@@ -5,11 +5,9 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import {
-  Gauge,
   Users,
   ArrowRight,
   ChevronDown,
-  Timer,
 } from "lucide-react";
 import Image from "next/image";
 import CountUp from "@/components/CountUp";
@@ -21,11 +19,6 @@ import { useLoadingSignal } from "@/components/LoadingContext";
 const PixelRevealOverlay = dynamic(() => import("@/components/PixelRevealOverlay"), {
   ssr: false,
 });
-
-const engineeringStats = [
-  { label: "TOP SPEED TARGET", value: "40", unit: "MPH", icon: <Gauge className="w-6 h-6" /> },
-  { label: "0-40 ACCELERATION", value: "2.8", unit: "SEC", icon: <Timer className="w-6 h-6" /> },
-];
 
 const teamStat = { label: "Team Members", value: "50+", unit: "MEMBERS", icon: <Users className="w-6 h-6" /> };
 
@@ -105,7 +98,6 @@ export default function Home() {
   };
 
   // Count-up triggers  -  fire when each stat scrolls into view
-  const [statRevealed, setStatRevealed] = useState([false, false]);
   const [engineersRevealed, setEngineersRevealed] = useState(false);
 
   return (
@@ -186,24 +178,6 @@ export default function Home() {
             {/* Telemetry stat boxes */}
             <div
               className="absolute glass rounded-lg px-3 py-2 sm:px-4 sm:py-3"
-              style={{ right: "8%", top: "30%" }}
-            >
-              <span
-                className="block uppercase tracking-widest text-white/40 mb-1"
-                style={{ fontFamily: "var(--font-inter-tight), sans-serif", fontSize: "clamp(8px, 0.65vw, 12px)" }}
-              >
-                0 to 40 mph
-              </span>
-              <span
-                className="block text-lg sm:text-xl md:text-2xl font-bold text-[#e3b53d]"
-                style={{ fontFamily: "var(--font-jetbrains), monospace" }}
-              >
-                3.2s
-              </span>
-            </div>
-
-            <div
-              className="absolute glass rounded-lg px-3 py-2 sm:px-4 sm:py-3"
               style={{ right: "4%", top: "35%" }}
             >
               <span
@@ -216,7 +190,7 @@ export default function Home() {
                 className="block text-lg sm:text-xl md:text-2xl font-bold text-[#e3b53d]"
                 style={{ fontFamily: "var(--font-jetbrains), monospace" }}
               >
-                80 kW
+                48 kW
               </span>
             </div>
 
@@ -234,7 +208,7 @@ export default function Home() {
                 className="block text-lg sm:text-xl md:text-2xl font-bold text-[#e3b53d]"
                 style={{ fontFamily: "var(--font-jetbrains), monospace" }}
               >
-                600V
+                400V
               </span>
             </div>
 
@@ -404,163 +378,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Stats Section */}
-        <section className="relative bg-black min-h-screen flex items-center justify-center overflow-hidden">
-          {/* Background effects */}
-          <div className="absolute inset-0 circuit-pattern opacity-20" />
-          <div className="absolute top-0 left-0 w-[30vw] h-[30vw] max-w-[500px] max-h-[500px] bg-[#8b0000]/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 right-1/4 w-[25vw] h-[25vw] bg-[#e3b53d]/8 rounded-full blur-[100px]" />
-
-          {/* Fluid container - scales with viewport, constrained by min/max */}
-          <div
-            className="relative w-full flex flex-col items-center justify-center"
-            style={{
-              height: "clamp(400px, 75vh, 800px)",
-              maxWidth: "min(90vw, 1200px)",
-              padding: "clamp(1rem, 3vw, 2.5rem)",
-            }}
-          >
-
-            {/* Heading  -  centered, fluid typography */}
-            <motion.div
-              className="text-center"
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.5 }}
-              transition={{ duration: 0.7, ease: sectionEase }}
-              style={{ marginBottom: "clamp(1rem, 3vh, 2.5rem)" }}
-            >
-              <h2
-                className="font-bold text-white leading-[0.95]"
-                style={{
-                  fontSize: "clamp(1.25rem, 3.8vw, 3rem)",
-                  marginBottom: "clamp(0.5rem, 1.5vh, 1rem)",
-                }}
-              >
-                Engineering the future,{" "}
-                <span className="text-[#e3b53d] italic">one lap at a time.</span>
-              </h2>
-              <p
-                className="text-gray-400 font-secondary mx-auto"
-                style={{
-                  fontSize: "clamp(0.875rem, 1.4vw, 1.125rem)",
-                  maxWidth: "clamp(280px, 40vw, 520px)",
-                }}
-              >
-                Our engineering targets push the boundaries of what&apos;s possible in Formula SAE competition
-              </p>
-            </motion.div>
-
-            {/* Horizontal accent line  -  laser pulse effect */}
-            <motion.div
-              className="laser-line"
-              initial={{ width: "0%", opacity: 0 }}
-              whileInView={{ width: "100%", opacity: 1 }}
-              viewport={{ once: true, amount: "some" }}
-              transition={{ duration: 0.8, delay: 0.2, ease: sectionEase }}
-              style={{
-                height: "2px",
-                marginBottom: "clamp(1.5rem, 4vh, 3.5rem)",
-                background: "linear-gradient(90deg, transparent, #e3b53d, #e3b53d, transparent)",
-                borderRadius: "1px",
-              }}
-            />
-
-            {/* Stats row  -  2 columns for engineering targets */}
-            <div
-              className="grid grid-cols-1 sm:grid-cols-2 w-full gap-6 sm:gap-0"
-              style={{ maxWidth: "min(95%, 900px)" }}
-            >
-              {engineeringStats.map((stat, i) => (
-                <motion.div
-                  key={stat.label}
-                  className="group relative flex flex-col items-center text-center"
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.5 }}
-                  transition={{ duration: 0.6, delay: 0.25 + i * 0.15, ease: sectionEase }}
-                  onViewportEnter={() =>
-                    setStatRevealed((prev) => (i === 0 ? [true, prev[1]] : [prev[0], true]))
-                  }
-                  style={{ padding: "clamp(1.5rem, 4vh, 4rem) clamp(1.5rem, 4vw, 3rem)" }}
-                >
-                  {/* Vertical gold divider between columns  -  hidden on mobile */}
-                  {i > 0 && (
-                    <div
-                      className="absolute left-0 top-[10%] h-[80%] w-px hidden sm:block"
-                      style={{
-                        background: "linear-gradient(180deg, transparent, rgba(227,181,61,0.3) 30%, rgba(227,181,61,0.3) 70%, transparent)",
-                      }}
-                    />
-                  )}
-
-                  {/* Header label with line accents */}
-                  <div
-                    className="relative z-10 flex items-center"
-                    style={{
-                      gap: "clamp(0.75rem, 2vw, 1.5rem)",
-                      marginBottom: "clamp(1rem, 3vh, 2rem)",
-                    }}
-                  >
-                    <span
-                      className="h-px"
-                      style={{
-                        width: "clamp(2rem, 5vw, 4rem)",
-                        background: "linear-gradient(90deg, transparent, rgba(227,181,61,0.6))",
-                      }}
-                    />
-                    <span
-                      className="font-secondary text-gray-300 uppercase tracking-[0.2em]"
-                      style={{
-                        fontSize: "clamp(0.85rem, 1.6vw, 1.25rem)",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {stat.label}
-                    </span>
-                    <span
-                      className="h-px"
-                      style={{
-                        width: "clamp(2rem, 5vw, 4rem)",
-                        background: "linear-gradient(90deg, rgba(227,181,61,0.6), transparent)",
-                      }}
-                    />
-                  </div>
-
-                  {/* Number  -  MASSIVE, fluid scaling */}
-                  <span
-                    className="relative z-10 font-black text-white tracking-tighter leading-none transition-colors duration-700 group-hover:text-[#e3b53d]"
-                    style={{ fontSize: "clamp(3.5rem, 12vw, 9rem)" }}
-                  >
-                    <CountUp value={stat.value} active={statRevealed[i]} />
-                  </span>
-
-                  {/* Unit  -  fluid, more prominent */}
-                  <span
-                    className="relative z-10 font-bold text-[#e3b53d] uppercase"
-                    style={{
-                      fontSize: "clamp(1rem, 2vw, 1.75rem)",
-                      letterSpacing: "0.2em",
-                      marginTop: "clamp(0.25rem, 1vh, 0.75rem)",
-                    }}
-                  >
-                    {stat.unit}
-                  </span>
-
-                  {/* Hover glow  -  radial gold aura behind the number */}
-                  <div
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-2xl"
-                    style={{
-                      background: "radial-gradient(ellipse at center 50%, rgba(227,181,61,0.1) 0%, transparent 60%)",
-                    }}
-                  />
-                </motion.div>
-              ))}
-            </div>
-
-          </div>
-        </section>
-
         {/* Engineers Section */}
         <section
           className="relative bg-black min-h-screen overflow-hidden"
@@ -671,7 +488,7 @@ export default function Home() {
                     marginTop: "clamp(0.75rem, 2vh, 1.5rem)",
                   }}
                 >
-                  across all divisions
+                  across all subteams
                 </span>
               </motion.div>
             </div>
@@ -690,7 +507,7 @@ export default function Home() {
               transition={{ duration: 0.7, ease: sectionEase }}
             >
               <h2 className="font-bold text-white mb-3" style={{ fontSize: "clamp(1.25rem, 3.8vw, 3rem)" }}>
-                Specialized <span className="text-[#e3b53d]">Divisions</span>
+                Specialized <span className="text-[#e3b53d]">Subteams</span>
               </h2>
               <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
                 No matter your major, there&apos;s a team that sharpens your skills and puts them on the track

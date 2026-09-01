@@ -401,7 +401,7 @@ export default function LoadingScreen({ onReady, heroReady = false }: LoadingScr
           </div>
           <div className="absolute top-4 right-4 text-[10px] font-mono text-right" style={{ color: `${USC_GOLD}60` }}>
             <div>TROJAN.ELECTRIC</div>
-            <div>2024_SEASON</div>
+            <div>2026_SEASON</div>
           </div>
           <div className="absolute bottom-4 left-4 text-[10px] font-mono" style={{ color: `${USC_GOLD}40` }}>
             <motion.span
