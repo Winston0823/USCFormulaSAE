@@ -290,8 +290,8 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
         </button>
       </motion.div>
 
-      {/* Event index - each pill doubles as the auto-advance progress bar */}
-      <div className="flex flex-wrap justify-center gap-2 mt-6 sm:mt-8">
+      {/* Event index - only shown when there are multiple events */}
+      {events.length > 1 && <div className="flex flex-wrap justify-center gap-2 mt-6 sm:mt-8">
         {events.map((evt, i) => {
           const isActive = i === activeIndex;
           return (
@@ -325,7 +325,7 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
             </button>
           );
         })}
-      </div>
+      </div>}
     </div>
   );
 }

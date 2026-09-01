@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const DONATE_URL = "https://giveto.usc.edu/Donation";
+const DONATE_URL = "https://viterbi.usc.edu/formulaelectricfund";
 
 export default function StickyDonateButton() {
   const pathname = usePathname();

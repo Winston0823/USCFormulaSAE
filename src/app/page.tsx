@@ -551,7 +551,7 @@ export default function Home() {
                   <ArrowRight className="w-5 h-5" />
                 </CTAButton>
                 <CTAButton
-                  href="https://giveto.usc.edu/Donation"
+                  href="https://viterbi.usc.edu/formulaelectricfund"
                   variant="secondary"
                   size="lg"
                 >

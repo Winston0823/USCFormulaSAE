@@ -80,7 +80,7 @@ export default function AboutPage() {
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
               Founded in 2022, USC Formula Electric designs, manufactures, and races
-              miniature electric F1 vehicles, training rising engineers in innovative thinking,
+              electric formula-style vehicles, training rising engineers in innovative thinking,
               leadership, and electric vehicle design.
             </p>
           </motion.div>

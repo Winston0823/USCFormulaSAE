@@ -488,7 +488,7 @@ export default function FundraiserPage() {
             className="mt-16 group relative"
           >
             <a
-              href="https://giveto.usc.edu/Donation"
+              href="https://viterbi.usc.edu/formulaelectricfund"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Ignite Us  -  donate to USC Formula SAE"

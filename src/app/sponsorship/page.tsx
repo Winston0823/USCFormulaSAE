@@ -25,7 +25,7 @@ const tiers = [
     gradient: "from-[#8b0000] to-[#5c0000]",
     benefits: [
       "Logo on website",
-      "Logo on car, shirts & banner",
+      "Logo on car & shirts",
       "Large (L) logo size",
       "3 logos on car",
       "Appreciation letter",
@@ -43,7 +43,7 @@ const tiers = [
     gradient: "from-[#e3b53d] to-[#b8952a]",
     benefits: [
       "Logo on website",
-      "Logo on car, shirts & banner",
+      "Logo on car & shirts",
       "Medium (M) logo size",
       "2 logos on car",
       "Appreciation letter",
@@ -60,7 +60,7 @@ const tiers = [
     gradient: "from-[#a01010] to-[#7a0c0c]",
     benefits: [
       "Logo on website",
-      "Logo on car, shirts & banner",
+      "Logo on car & shirts",
       "Small (S) logo size",
       "1 logo on car",
       "Appreciation letter",
@@ -270,6 +270,7 @@ export default function SponsorshipPage() {
                   src="/team-photo.jpg"
                   alt="USC Formula SAE team"
                   className="w-full h-full object-cover"
+                  style={{ transform: "rotate(90deg) scale(1.34)", transformOrigin: "center" }}
                 />
                 <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent" />
               </div>
