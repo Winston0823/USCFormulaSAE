@@ -12,6 +12,7 @@ import {
   CheckCircle,
   Zap,
 } from "lucide-react";
+import { INTEREST_FORM_URL } from "@/lib/links";
 
 const milestones = [
   { year: "2022", event: "Team Founded at USC" },
@@ -339,7 +340,7 @@ export default function AboutPage() {
               We&apos;re always looking for passionate students to join our mission.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <CTAButton href="https://docs.google.com/forms/d/e/1FAIpQLScz1sdeI-fGvj-IhghyPXXLrBP1jk_dhaq9NP0hriJ1DS57uw/viewform">
+              <CTAButton href={INTEREST_FORM_URL}>
                 Join Us
                 <ArrowRight className="w-5 h-5" />
               </CTAButton>

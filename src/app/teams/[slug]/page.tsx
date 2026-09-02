@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { INTEREST_FORM_URL } from "@/lib/links";
 
 /* ─── Types ─────────────────────────────────────────── */
 interface TeamMember {
@@ -538,7 +539,7 @@ export default function TeamPage() {
               {/* CTAs */}
               <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
                 <Link
-                  href="https://docs.google.com/forms/d/e/1FAIpQLScz1sdeI-fGvj-IhghyPXXLrBP1jk_dhaq9NP0hriJ1DS57uw/viewform"
+                  href={INTEREST_FORM_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{
@@ -740,7 +741,7 @@ export default function TeamPage() {
             </p>
             <div style={{ display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap" }}>
               <Link
-                href="https://docs.google.com/forms/d/e/1FAIpQLScz1sdeI-fGvj-IhghyPXXLrBP1jk_dhaq9NP0hriJ1DS57uw/viewform"
+                href={INTEREST_FORM_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{

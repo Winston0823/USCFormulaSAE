@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import FireIcon from "./FireIcon";
 import CTAButton from "./CTAButton";
 import { featureFlags } from "@/lib/featureFlags";
+import { INTEREST_FORM_URL } from "@/lib/links";
 
 // Liquid hover effect hook - inspired by landonorris.com
 // Uses snappy easing (quick response, smooth settle) + morphing blob shape
@@ -290,7 +291,7 @@ export default function Navigation() {
           <div className="flex-1 flex justify-end items-center gap-4">
             {featureFlags.showJoinUsButton && (
               <CTAButton
-                href="https://docs.google.com/forms/d/e/1FAIpQLScz1sdeI-fGvj-IhghyPXXLrBP1jk_dhaq9NP0hriJ1DS57uw/viewform"
+                href={INTEREST_FORM_URL}
                 size="sm"
                 className="hidden lg:inline-flex"
               >
@@ -464,7 +465,7 @@ export default function Navigation() {
                 <FireIcon size={36} />
                 {featureFlags.showJoinUsButton && (
                   <CTAButton
-                    href="https://docs.google.com/forms/d/e/1FAIpQLScz1sdeI-fGvj-IhghyPXXLrBP1jk_dhaq9NP0hriJ1DS57uw/viewform"
+                    href={INTEREST_FORM_URL}
                     size="sm"
                     className="flex-1"
                   >

@@ -3,10 +3,9 @@
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { Instagram, X } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
 import CTAButton from "@/components/CTAButton";
-
-const INSTAGRAM_URL = "https://www.instagram.com/uscformulaelectric/";
+import { INTEREST_FORM_URL } from "@/lib/links";
 
 // Auto-peek: extend once on arrival so the message lands without a click,
 // then retract to the flag tab. Once per tab session, never on repeat navs.
@@ -345,14 +344,14 @@ export default function RecruitingFlagDrawer() {
           </p>
 
           <CTAButton
-            href={INSTAGRAM_URL}
+            href={INTEREST_FORM_URL}
             size="sm"
             className="w-full"
             onClick={close}
-            aria-label="USC Formula Electric on Instagram"
+            aria-label="Open the USC Formula Electric interest form"
           >
-            <Instagram className="h-4 w-4" />
-            @uscformulaelectric
+            Join the team
+            <ArrowRight className="h-4 w-4" />
           </CTAButton>
 
           <p
@@ -362,7 +361,7 @@ export default function RecruitingFlagDrawer() {
               letterSpacing: "0.15em",
             }}
           >
-            Details in our bio
+            Applications open now
           </p>
         </motion.div>
       </motion.div>

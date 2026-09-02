@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Instagram, Linkedin, Mail, ExternalLink } from "lucide-react";
+import { INTEREST_FORM_URL } from "@/lib/links";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -68,7 +69,7 @@ export default function Footer() {
             &copy; {currentYear} USC Formula Electric. All rights reserved.
           </p>
           <Link
-            href="https://docs.google.com/forms/d/e/1FAIpQLScz1sdeI-fGvj-IhghyPXXLrBP1jk_dhaq9NP0hriJ1DS57uw/viewform"
+            href={INTEREST_FORM_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center space-x-2 text-[#e3b53d] hover:text-[#c4ae5a] transition-colors text-sm font-medium"
