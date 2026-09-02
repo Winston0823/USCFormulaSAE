@@ -141,6 +141,7 @@ export default function FundraiserPage() {
               fill
               sizes="(max-width: 768px) 100vw, 768px"
               className="object-cover"
+              style={{ transform: "rotate(90deg) scale(1.8)", transformOrigin: "center" }}
             />
             <figcaption
               className="absolute bottom-0 left-0 right-0 px-4 py-3 bg-gradient-to-t from-black/80 to-transparent text-white/80 text-sm tracking-widest uppercase"
