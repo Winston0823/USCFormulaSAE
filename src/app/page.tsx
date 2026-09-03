@@ -510,7 +510,14 @@ export default function Home() {
                 Specialized <span className="text-[#e3b53d]">Subteams</span>
               </h2>
               <p className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base">
-                No matter your major, there&apos;s a team that sharpens your skills and puts them on the track
+                No matter your major, there&apos;s a team that sharpens your skills and puts them on the track.{" "}
+                <Link
+                  href="/leads"
+                  className="group inline-flex items-center gap-1 font-semibold text-[#e3b53d] underline-offset-4 transition-colors hover:text-[#ffe566] hover:underline"
+                >
+                  Meet the leads
+                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                </Link>
               </p>
             </motion.div>
 
