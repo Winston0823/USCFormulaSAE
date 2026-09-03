@@ -89,7 +89,7 @@ export const subteamLeads: LeadGroup[] = [
     slug: "communications",
     people: [
       { name: "Tim Hutapea", email: "thutapea@usc.edu", photo: "/leads/tim-hutapea.webp" },
-      { name: "Andy Zhang", email: "andyz@usc.edu" },
+      { name: "Andy Zhang", email: "andyz@usc.edu", photo: "/leads/andy-zhang.webp" },
     ],
   },
   {
