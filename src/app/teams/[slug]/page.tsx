@@ -319,7 +319,7 @@ const teamsData: Record<string, TeamData> = {
       { icon: "◈", title: "Sponsorship", desc: "Identifying partners, building relationships, and closing deals that fund the car.", tag: "01" },
       { icon: "≈", title: "Marketing", desc: "Social media, brand identity, photography, content  -  making the team look as good as it is.", tag: "02" },
       { icon: "▣", title: "Budget & finance", desc: "Tracking expenditure, writing purchase orders, managing the team's annual budget.", tag: "03" },
-      { icon: "✦", title: "Logistics", desc: "Competition travel, shipping, hotel blocks, schedule coordination across 8 subteams.", tag: "04" },
+      { icon: "✦", title: "Logistics", desc: "Competition travel, shipping, hotel blocks, schedule coordination across 9 subteams.", tag: "04" },
       { icon: "⊕", title: "Recruitment", desc: "Tabling, info sessions, outreach  -  filling the team with great people every fall.", tag: "05" },
       { icon: "△", title: "Business presentation", desc: "The FSAE Business Presentation event  -  where strategy and execution meet a panel of judges.", tag: "06" },
     ],

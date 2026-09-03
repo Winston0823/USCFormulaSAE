@@ -47,22 +47,13 @@ const teams: Team[] = [
     idx: "04",
     name: "POWERTRAIN",
     slug: "powertrain",
-    desc: "Motors, inverters, and drive control  -  turning stored energy into track performance.",
+    desc: "Motors, inverters, drive control, and the high-voltage battery pack  -  everything from the cell to the wheel.",
     gradient: "linear-gradient(135deg, #2e1a2e, #3a1a3a, #4d0d4d, #2e1a2e, #3a1a3a)",
     image: "/frame.jpg",
   },
   {
-    id: "accumulator",
-    idx: "05",
-    name: "ACCUMULATOR",
-    slug: "accumulator",
-    desc: "High-voltage battery pack design, cell management, and thermal safety for peak performance.",
-    gradient: "linear-gradient(135deg, #1e0a2e, #2a0d3a, #3a0d4d, #1e0a2e, #2a0d3a)",
-    image: "/powertrain.jpg",
-  },
-  {
     id: "dynamics",
-    idx: "06",
+    idx: "05",
     name: "VEHICLE DYNAMICS",
     slug: "vehicle-dynamics",
     desc: "Suspension geometry and damper tuning optimized for autocross cornering performance.",
@@ -71,7 +62,7 @@ const teams: Team[] = [
   },
   {
     id: "ergonomics",
-    idx: "07",
+    idx: "06",
     name: "ERGONOMICS",
     slug: "ergonomics",
     desc: "Creating the perfect driver-machine interface with optimized cockpit design and controls.",
@@ -80,7 +71,7 @@ const teams: Team[] = [
   },
   {
     id: "electrical",
-    idx: "08",
+    idx: "07",
     name: "ELECTRICAL",
     slug: "electrical",
     desc: "Wiring harness, PCBs, power distribution, and low-voltage architecture that keeps every system alive.",
@@ -89,7 +80,7 @@ const teams: Team[] = [
   },
   {
     id: "communications",
-    idx: "09",
+    idx: "08",
     name: "COMMUNICATIONS",
     slug: "communications",
     // TODO(asset): no dedicated comms image yet  -  temporarily shares /systems.jpg with Electrical.
@@ -99,7 +90,7 @@ const teams: Team[] = [
   },
   {
     id: "business",
-    idx: "10",
+    idx: "09",
     name: "BUSINESS",
     slug: "business",
     desc: "Sponsorship, project management, and operations. The backbone keeping the team running.",

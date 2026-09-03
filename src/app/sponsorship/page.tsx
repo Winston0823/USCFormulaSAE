@@ -84,7 +84,7 @@ const tiers = [
 
 const stats = [
   { value: "50+", label: "Team Members", icon: <Users className="w-6 h-6" /> },
-  { value: "8", label: "Specialized Teams", icon: <Zap className="w-6 h-6" /> },
+  { value: "9", label: "Specialized Teams", icon: <Zap className="w-6 h-6" /> },
   { value: "2022", label: "Founded", icon: <Award className="w-6 h-6" /> },
   { value: "2026", label: "Competition Year", icon: <Eye className="w-6 h-6" /> },
 ];
