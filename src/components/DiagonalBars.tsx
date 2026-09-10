@@ -100,7 +100,15 @@ const teams: Team[] = [
 ];
 
 const OFFSET = 60;
+// Mobile cards are square-cornered rectangles  -  no slant.
+const OFFSET_MOBILE = 0;
+const MOBILE_QUERY = "(max-width: 768px)";
 const ANIM_DURATION = 600;
+
+const getOffset = () =>
+  typeof window !== "undefined" && window.matchMedia(MOBILE_QUERY).matches
+    ? OFFSET_MOBILE
+    : OFFSET;
 
 export default function DiagonalBars() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -111,15 +119,16 @@ export default function DiagonalBars() {
   const updateGeometry = useCallback(() => {
     if (!containerRef.current) return;
 
+    const offset = getOffset();
     const items = containerRef.current.querySelectorAll<HTMLAnchorElement>(`.${styles.barItem}`);
     items.forEach((item) => {
       const w = item.offsetWidth;
       const h = item.offsetHeight;
       if (w === 0 || h === 0) return;
 
-      const tl = [OFFSET, 0];
+      const tl = [offset, 0];
       const tr = [w, 0];
-      const br = [w - OFFSET, h];
+      const br = [w - offset, h];
       const bl = [0, h];
 
       // Clip-path for the shape
@@ -145,20 +154,20 @@ export default function DiagonalBars() {
       const cTL = item.querySelector<HTMLDivElement>(`.${styles.topLeft}`);
       if (cTL) {
         cTL.style.top = "4px";
-        cTL.style.left = `${OFFSET + 4}px`;
+        cTL.style.left = `${offset + 4}px`;
       }
 
       const cBR = item.querySelector<HTMLDivElement>(`.${styles.bottomRight}`);
       if (cBR) {
         cBR.style.bottom = "4px";
-        cBR.style.right = `${OFFSET + 4}px`;
+        cBR.style.right = `${offset + 4}px`;
       }
 
       // Index position
       const idx = item.querySelector<HTMLSpanElement>(`.${styles.barIndex}`);
       if (idx) {
         idx.style.top = "14px";
-        idx.style.left = `${OFFSET + 14}px`;
+        idx.style.left = `${offset + 14}px`;
       }
     });
   }, []);
