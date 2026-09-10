@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import { Geist, Geist_Mono, Rajdhani, Inter_Tight, JetBrains_Mono, Caveat } from "next/font/google";
 import "./globals.css";
 import ClientOnly from "@/components/ClientOnly";
@@ -78,6 +79,9 @@ export default function RootLayout({
           {/* Homepage recruiting drawer  -  stacks above the donate pill, same reason it lives out here */}
           <RecruitingFlagDrawer />
         </ClientOnly>
+        {/* Outside ClientOnly so page views are still counted if the
+            client-only shell is showing its fallback. */}
+        <Analytics />
       </body>
     </html>
   );
