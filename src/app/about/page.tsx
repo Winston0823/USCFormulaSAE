@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import CTAButton from "@/components/CTAButton";
+import MilestoneTrack from "@/components/MilestoneTrack";
 import {
   Target,
   Lightbulb,
@@ -253,37 +254,7 @@ export default function AboutPage() {
             </h2>
           </motion.div>
 
-          <div className="relative">
-            {/* Timeline line */}
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#e3b53d] via-[#e3b53d]/50 to-[#e3b53d] hidden md:block" />
-
-            <div className="space-y-12">
-              {milestones.map((milestone, index) => (
-                <motion.div
-                  key={`${milestone.year}-${milestone.event}`}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className={`flex items-center gap-8 ${
-                    index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                  }`}
-                >
-                  <div className={`flex-1 ${index % 2 === 0 ? "md:text-right" : "md:text-left"}`}>
-                    <div className="p-6 rounded-xl bg-white/5 border border-[#e3b53d]/20 inline-block hover:border-[#e3b53d]/50 transition-colors">
-                      <div className="text-3xl font-bold text-[#e3b53d] mb-2">{milestone.year}</div>
-                      <div className="text-gray-300">{milestone.event}</div>
-                    </div>
-                  </div>
-
-                  {/* Center dot */}
-                  <div className="hidden md:flex w-4 h-4 rounded-full bg-[#e3b53d] border-4 border-black shrink-0 relative z-10" />
-
-                  <div className="flex-1 hidden md:block" />
-                </motion.div>
-              ))}
-            </div>
-          </div>
+          <MilestoneTrack milestones={milestones} />
         </div>
       </section>
 

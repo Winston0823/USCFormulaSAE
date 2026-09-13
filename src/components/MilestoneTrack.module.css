@@ -1,0 +1,55 @@
+/* Track geometry. Desktop: the car runs down the centre and cards alternate.
+   Mobile: the car hugs the left edge and every card sits to its right. */
+.wrap {
+  position: relative;
+  width: 100%;
+  --track-x: var(--track-x-mobile, 58px);
+  --card-gap: 26px;
+}
+
+@media (min-width: 768px) {
+  .wrap {
+    --track-x: 50%;
+    --card-gap: 56px;
+  }
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+.centre {
+  position: absolute;
+  top: 0;
+  left: var(--track-x);
+}
+
+.card {
+  position: absolute;
+  width: calc(100% - var(--track-x) - 24px);
+  max-width: 360px;
+  left: calc(var(--track-x) + var(--card-gap));
+}
+
+.card.left {
+  left: auto;
+  right: calc(100% - var(--track-x) + var(--card-gap));
+  text-align: left;
+}
+
+@media (max-width: 767px) {
+  /* every card to the right of the track, however it was tagged */
+  .card.left {
+    left: calc(var(--track-x) + var(--card-gap));
+    right: auto;
+    text-align: left;
+  }
+}
+
+@media (min-width: 768px) {
+  .card.left {
+    text-align: right;
+  }
+}
