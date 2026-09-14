@@ -13,7 +13,7 @@ export default function StickyDonateButton() {
     setMounted(true);
   }, []);
 
-  // The fundraiser page already has a giant "Ignite Us" CTA  -  the pill would be redundant there.
+  // The fundraiser page already has a giant "Ignite Us" CTA  -  the button would be redundant there.
   if (!mounted || pathname === "/fundraiser") return null;
 
   return (
@@ -28,7 +28,7 @@ export default function StickyDonateButton() {
       }}
     >
       <span
-        className="flex items-center gap-2 px-6 py-3.5 sm:px-7 sm:py-4 rounded-full text-[#e3b53d] font-bold uppercase text-sm sm:text-base border border-[#e3b53d] bg-black/40 backdrop-blur-md shadow-[0_10px_40px_-10px_rgba(227,181,61,0.4)] transition-all duration-300 group-hover:scale-[1.03] group-hover:bg-[#e3b53d]/10 group-hover:shadow-[0_0_24px_rgba(227,181,61,0.35)]"
+        className="flex items-center gap-2 px-6 py-3.5 sm:px-7 sm:py-4 rounded-lg text-[#e3b53d] font-bold uppercase text-sm sm:text-base border border-[#e3b53d] bg-black/40 backdrop-blur-md shadow-[0_10px_40px_-10px_rgba(227,181,61,0.4)] transition-all duration-300 group-hover:scale-[1.03] group-hover:bg-[#e3b53d]/10 group-hover:shadow-[0_0_24px_rgba(227,181,61,0.35)]"
         style={{
           letterSpacing: "0.2em",
         }}

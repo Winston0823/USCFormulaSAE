@@ -3,7 +3,7 @@ import type { ReactNode, MouseEventHandler } from "react";
 
 // Single source of truth for CTA styling sitewide.
 // Language: accent border + dark tinted glass interior + accent text,
-// uppercase Rajdhani, one tracking (0.2em), one radius (full).
+// uppercase Rajdhani, one tracking (0.2em), one radius (8px).
 type CTAButtonProps = {
   children: ReactNode;
   href?: string;
@@ -38,7 +38,7 @@ export default function CTAButton({
   onClick,
   "aria-label": ariaLabel,
 }: CTAButtonProps) {
-  const classes = `inline-flex items-center justify-center gap-2 rounded-full uppercase font-bold leading-none transition-all duration-300 hover:scale-[1.03] ${VARIANTS[variant]} ${SIZES[size]} ${className}`;
+  const classes = `inline-flex items-center justify-center gap-2 rounded-lg uppercase font-bold leading-none transition-all duration-300 hover:scale-[1.03] ${VARIANTS[variant]} ${SIZES[size]} ${className}`;
   const style = {
     fontFamily: "var(--font-rajdhani), sans-serif",
     letterSpacing: "0.2em",

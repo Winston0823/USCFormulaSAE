@@ -7,8 +7,6 @@ import {
   Target,
   Lightbulb,
   Users,
-  Trophy,
-  Calendar,
   ArrowRight,
   CheckCircle,
   Zap,
@@ -73,10 +71,6 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-6">
-              <Users className="w-4 h-4 mr-2" />
-              ABOUT US
-            </span>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-6">
               Engineering <span className="text-[#e3b53d]">Excellence</span>
             </h1>
@@ -98,9 +92,6 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
-              <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
-                OUR MISSION
-              </span>
               <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6">
                 Building the Future of <span className="text-[#e3b53d]">Motorsport</span>
               </h2>
@@ -178,10 +169,6 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
-              <Trophy className="w-4 h-4 mr-2" />
-              2026 COMPETITION RESULTS
-            </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-white">
               Michigan International <span className="text-[#e3b53d]">Speedway</span>
             </h2>
@@ -245,10 +232,6 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
-              <Calendar className="w-4 h-4 mr-2" />
-              OUR JOURNEY
-            </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-white">
               Milestones in <span className="text-[#e3b53d]">Racing</span>
             </h2>
@@ -267,9 +250,6 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
-              OUR VALUES
-            </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-white">
               What Drives <span className="text-[#e3b53d]">Us</span>
             </h2>

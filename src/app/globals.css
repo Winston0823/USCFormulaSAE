@@ -298,7 +298,7 @@ body {
   100% { transform: translateX(130%); }
 }
 
-/* Liquid glass button sheen — must clear the full pill width */
+/* Liquid glass button sheen — must clear the full button width */
 @keyframes ignite-button-sweep {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(400%); }
@@ -362,7 +362,7 @@ body {
   animation: laser-travel 3s ease-in-out infinite;
 }
 
-/* Events carousel - auto-advance progress fill on the active index pill */
+/* Events carousel - auto-advance progress fill on the active index chip */
 @keyframes event-pill-progress {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }

@@ -252,7 +252,7 @@ export default function RecruitingFlagDrawer() {
     <div
       ref={rootRef}
       // Flush to the right edge of the viewport so the tab reads as part of the
-      // screen border. Vertically it clears the sticky Donate pill.
+      // screen border. Vertically it clears the sticky Donate button.
       className="fixed z-40 bottom-[5.5rem] right-0 sm:bottom-[6.5rem]"
       onMouseEnter={() => {
         hoveredRef.current = true;

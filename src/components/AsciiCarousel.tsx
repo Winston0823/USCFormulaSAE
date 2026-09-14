@@ -119,7 +119,7 @@ export default function AsciiCarousel({ images, label, className }: Props) {
             }}
             aria-label={`Show image ${i + 1} of ${images.length}`}
             style={{
-              width: i === index ? 26 : 9, height: 9, borderRadius: 99, border: 0,
+              width: i === index ? 26 : 9, height: 9, borderRadius: 2, border: 0,
               padding: 0, cursor: "pointer",
               background: i === index ? "#e3b53d" : "rgba(255,255,255,0.32)",
               transition: "width 0.4s cubic-bezier(.2,.8,.2,1), background 0.4s ease",

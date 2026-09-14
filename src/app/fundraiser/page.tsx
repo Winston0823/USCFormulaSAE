@@ -628,7 +628,7 @@ export default function FundraiserPage() {
 
                 {/* Liquid Glass button */}
                 <span
-                  className="liquid-glass relative inline-flex items-center gap-3 px-10 sm:px-12 py-4 sm:py-5 rounded-full text-white font-semibold text-lg sm:text-xl uppercase overflow-hidden transition-all duration-500 group-hover:scale-[1.04] group-hover:-translate-y-0.5"
+                  className="liquid-glass relative inline-flex items-center gap-3 px-10 sm:px-12 py-4 sm:py-5 rounded-lg text-white font-semibold text-lg sm:text-xl uppercase overflow-hidden transition-all duration-500 group-hover:scale-[1.04] group-hover:-translate-y-0.5"
                   style={{
                     fontFamily: "var(--font-rajdhani), sans-serif",
                     letterSpacing: "0.24em",
@@ -636,7 +636,7 @@ export default function FundraiserPage() {
                 >
                   {/* Glass body */}
                   <span
-                    className="absolute inset-0 rounded-full"
+                    className="absolute inset-0 rounded-lg"
                     aria-hidden="true"
                     style={{
                       background:
@@ -649,7 +649,7 @@ export default function FundraiserPage() {
                   />
                   {/* Outer ring */}
                   <span
-                    className="absolute inset-0 rounded-full ring-1 ring-inset ring-white/25 transition-colors duration-500 group-hover:ring-[#e3b53d]/50"
+                    className="absolute inset-0 rounded-lg ring-1 ring-inset ring-white/25 transition-colors duration-500 group-hover:ring-[#e3b53d]/50"
                     aria-hidden="true"
                   />
                   {/* Top specular highlight */}
@@ -674,7 +674,7 @@ export default function FundraiserPage() {
                   />
                   {/* Sheen sweep on hover */}
                   <span
-                    className="absolute inset-0 rounded-full overflow-hidden pointer-events-none opacity-0 group-hover:opacity-100"
+                    className="absolute inset-0 rounded-lg overflow-hidden pointer-events-none opacity-0 group-hover:opacity-100"
                     aria-hidden="true"
                   >
                     <span

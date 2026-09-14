@@ -263,7 +263,7 @@ export default function MilestoneTrack({ milestones }: { milestones: Milestone[]
             pointerEvents: finished ? "auto" : "none",
             fontFamily: "var(--font-jetbrains), monospace",
           }}
-          className="cursor-pointer rounded-full border border-[#e3b53d]/30 px-5 py-2 text-[11px] uppercase tracking-[0.3em] text-[#e3b53d]/80 transition-colors hover:border-[#e3b53d]/70 hover:text-[#ffe566]"
+          className="cursor-pointer rounded-lg border border-[#e3b53d]/30 px-5 py-2 text-[11px] uppercase tracking-[0.3em] text-[#e3b53d]/80 transition-colors hover:border-[#e3b53d]/70 hover:text-[#ffe566]"
         >
           Reset lap
         </motion.button>

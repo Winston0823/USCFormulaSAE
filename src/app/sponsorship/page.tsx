@@ -391,10 +391,6 @@ export default function SponsorshipPage() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <span className="inline-flex items-center px-3 py-1 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-4">
-              <Star className="w-4 h-4 mr-2" />
-              OUR PARTNERS
-            </span>
             <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">
               Current <span className="text-[#e3b53d]">Sponsors</span>
             </h2>

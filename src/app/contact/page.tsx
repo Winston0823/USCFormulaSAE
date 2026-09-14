@@ -10,7 +10,6 @@ import {
   Send,
   Instagram,
   Linkedin,
-  MessageSquare,
   CheckCircle,
 } from "lucide-react";
 
@@ -54,10 +53,6 @@ export default function ContactPage() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <span className="inline-flex items-center px-4 py-2 rounded-full bg-[#e3b53d]/10 text-[#e3b53d] text-sm font-medium mb-6">
-              <MessageSquare className="w-4 h-4 mr-2" />
-              GET IN TOUCH
-            </span>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white mb-6">
               Contact <span className="text-[#e3b53d]">Us</span>
             </h1>

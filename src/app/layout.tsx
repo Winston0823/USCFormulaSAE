@@ -76,7 +76,7 @@ export default function RootLayout({
           </LoadingWrapper>
           {/* Sticky donate CTA  -  also outside LoadingWrapper so position:fixed isn't broken by the parent transform */}
           <StickyDonateButton />
-          {/* Homepage recruiting drawer  -  stacks above the donate pill, same reason it lives out here */}
+          {/* Homepage recruiting drawer  -  stacks above the donate button, same reason it lives out here */}
           <RecruitingFlagDrawer />
         </ClientOnly>
         {/* Outside ClientOnly so page views are still counted if the

@@ -300,7 +300,7 @@ export default function EventsCarousel({ onIndexChange, ref }: EventsCarouselPro
               onClick={() => goToEvent(i)}
               aria-label={`Go to ${evt.title}`}
               aria-current={isActive}
-              className={`relative overflow-hidden px-4 py-2 rounded-full text-[11px] font-secondary font-semibold tracking-wide transition-colors duration-300 cursor-pointer ${
+              className={`relative overflow-hidden px-4 py-2 rounded-lg text-[11px] font-secondary font-semibold tracking-wide transition-colors duration-300 cursor-pointer ${
                 isActive
                   ? "bg-[#e3b53d]/15 text-[#e3b53d]"
                   : "bg-white/[0.04] text-gray-600 hover:text-gray-300 hover:bg-white/[0.08]"

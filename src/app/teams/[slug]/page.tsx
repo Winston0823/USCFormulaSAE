@@ -490,7 +490,7 @@ export default function TeamPage() {
                 style={{
                   display: "inline-flex", alignItems: "center", gap: 10,
                   padding: "14px 28px", background: "#e3b53d", color: "#000",
-                  borderRadius: 999, fontWeight: 700, fontSize: 16, letterSpacing: "0.02em",
+                  borderRadius: 8, fontWeight: 700, fontSize: 16, letterSpacing: "0.02em",
                   transition: "transform 0.2s, box-shadow 0.2s", border: 0,
                   fontFamily: "var(--font-inter-tight), sans-serif",
                 }}
@@ -688,7 +688,7 @@ export default function TeamPage() {
                 style={{
                   display: "inline-flex", alignItems: "center", gap: 10,
                   padding: "14px 28px", background: "#e3b53d", color: "#000",
-                  borderRadius: 999, fontWeight: 700, fontSize: 16,
+                  borderRadius: 8, fontWeight: 700, fontSize: 16,
                   fontFamily: "var(--font-inter-tight), sans-serif",
                   transition: "transform 0.2s, box-shadow 0.2s",
                 }}
@@ -700,7 +700,7 @@ export default function TeamPage() {
                 href="/#teams"
                 style={{
                   display: "inline-flex", alignItems: "center", gap: 10,
-                  padding: "13px 24px", border: "1px solid rgba(255,255,255,0.14)", borderRadius: 999,
+                  padding: "13px 24px", border: "1px solid rgba(255,255,255,0.14)", borderRadius: 8,
                   color: "#ededed", fontWeight: 500, fontSize: 14, letterSpacing: "0.08em",
                   textTransform: "uppercase", fontFamily: "var(--font-inter-tight), sans-serif",
                   transition: "all 0.2s",
