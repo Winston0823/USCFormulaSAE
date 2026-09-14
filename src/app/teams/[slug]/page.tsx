@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { INTEREST_FORM_URL } from "@/lib/links";
+import AsciiCarousel from "@/components/AsciiCarousel";
 
 /* ─── Types ─────────────────────────────────────────── */
 interface TeamMember {
@@ -33,8 +34,7 @@ interface TeamData {
   heroHighlight: string; // the word to highlight in h1
   lead: string;
   sub: string;
-  collageImgs: [string, string, string];
-  collageCaptions: [string, string, string];
+  carouselImgs: string[];
   wwdCards: WwdCard[];
   skills: string[];
   tools: ToolRow[];
@@ -52,8 +52,7 @@ const teamsData: Record<string, TeamData> = {
     heroHighlight: "air",
     lead: "Wings, undertrays, diffusers, a lot of carbon dust. We're the team that turns invisible airflow into measurable lap time.",
     sub: "Half our time is behind a computer running CFD, the other half is in the shop with a vacuum bag and a lot of patience. Both halves are great.",
-    collageImgs: ["/aerodynamics.jpg", "/collab-on-car.jpg", "/competition-2025-1.jpg"],
-    collageCaptions: ["wing v3  -  finally", "layup night, 2am", "competition '25"],
+    carouselImgs: ["/aerodynamics.jpg", "/collab-on-car.jpg", "/competition-2025-1.jpg"],
     wwdCards: [
       { icon: "≈", title: "CFD simulations", desc: "We run pressure fields and streamline plots until the car makes sense on-screen.", tag: "01" },
       { icon: "↯", title: "On-track validation", desc: "Tuft strings, pressure taps, and driver feedback. The sim gets confirmed at speed.", tag: "02" },
@@ -85,8 +84,7 @@ const teamsData: Record<string, TeamData> = {
     heroHighlight: "bones",
     lead: "The chassis is the backbone that everything else bolts into. Every subteam's components come together here  -  we make sure they all fit, function, and hold together at speed.",
     sub: "FEA on the screen, TIG welder in hand. We design, jig, and weld the frame that holds the whole car together.",
-    collageImgs: ["/frame.jpg", "/collab-on-car.jpg", "/competition-2025-2.jpg"],
-    collageCaptions: ["chassis v4 tacked", "jig day", "competition '25"],
+    carouselImgs: ["/frame.jpg", "/collab-on-car.jpg", "/competition-2025-2.jpg"],
     wwdCards: [
       { icon: "⬡", title: "Chassis design", desc: "Geometry, triangulation, torsional stiffness  -  every tube placed with intent.", tag: "01" },
       { icon: "◈", title: "FEA analysis", desc: "ANSYS simulations to validate the structure before a single weld is struck.", tag: "02" },
@@ -117,8 +115,7 @@ const teamsData: Record<string, TeamData> = {
     heroHighlight: "power",
     lead: "Gear ratios, chain drives, differentials, axles. We're the mechanical link between the motor and the wheels.",
     sub: "Efficiency here means more speed there. We optimize every rotating assembly to waste as little energy as possible.",
-    collageImgs: ["/drivetrain.jpg", "/collab-on-car.jpg", "/competition-2025-3.jpg"],
-    collageCaptions: ["sprocket day", "assembly time", "competition '25"],
+    carouselImgs: ["/drivetrain.jpg", "/collab-on-car.jpg", "/competition-2025-3.jpg"],
     wwdCards: [
       { icon: "⚙", title: "Driveline design", desc: "A custom driveline engineered for our motor output, ratio targets, and packaging constraints.", tag: "01" },
       { icon: "⛓", title: "Chain drive", desc: "Chain selection, tension, sprocket design  -  keeping power delivery smooth.", tag: "02" },
@@ -149,8 +146,7 @@ const teamsData: Record<string, TeamData> = {
     heroHighlight: "pace",
     lead: "Motors, inverters, drive control, cooling, and the high-voltage battery pack. We own everything from the cell level to the wheel.",
     sub: "Motor control theory, pack architecture, thermal management, and HV safety all live here. Our job starts at the cell and doesn't stop until the wheel turns.",
-    collageImgs: ["/frame.jpg", "/collab-on-car.jpg", "/competition-2025-4.jpg"],
-    collageCaptions: ["motor install", "inverter tuning", "competition '25"],
+    carouselImgs: ["/frame.jpg", "/collab-on-car.jpg", "/competition-2025-4.jpg"],
     wwdCards: [
       { icon: "⚡", title: "Motor calibration", desc: "Tuning inverter parameters for peak torque, efficiency, and driveability.", tag: "01" },
       { icon: "▣", title: "Battery pack design", desc: "Cell selection, series/parallel topology, segment design, and serviceable mechanical packaging.", tag: "02" },
@@ -183,8 +179,7 @@ const teamsData: Record<string, TeamData> = {
     heroHighlight: "track",
     lead: "Suspension geometry, damper tuning, tire selection, steering. We're the team that makes the driver feel in control.",
     sub: "Half kinematics, half data archaeology. We tune the setup until the driver says 'yeah, that's it.'",
-    collageImgs: ["/vehicle-dynamics.jpg", "/collab-on-car.jpg", "/competition-2025-5.jpg"],
-    collageCaptions: ["corner weighting", "damper build day", "competition '25"],
+    carouselImgs: ["/vehicle-dynamics.jpg", "/collab-on-car.jpg", "/competition-2025-5.jpg"],
     wwdCards: [
       { icon: "◎", title: "Suspension geometry", desc: "Roll centers, camber curves, anti-dive  -  the invisible geometry that defines handling.", tag: "01" },
       { icon: "≈", title: "Damper tuning", desc: "Compression and rebound maps. The shock absorber as a performance tool.", tag: "02" },
@@ -215,8 +210,7 @@ const teamsData: Record<string, TeamData> = {
     heroHighlight: "human",
     lead: "Pedal box, steering, seat, harness, dash. We make sure the driver can extract everything the car has to offer.",
     sub: "Every millimeter matters when the cockpit is your office at 70 mph.",
-    collageImgs: ["/ergonomics.jpg", "/collab-on-car.jpg", "/competition-2025-1.jpg"],
-    collageCaptions: ["mock-up day", "seat fitting", "competition '25"],
+    carouselImgs: ["/ergonomics.jpg", "/collab-on-car.jpg", "/competition-2025-1.jpg"],
     wwdCards: [
       { icon: "⊕", title: "Cockpit design", desc: "Dashboard, switch panel, visibility  -  the complete driver environment.", tag: "01" },
       { icon: "◈", title: "Pedal box", desc: "Adjustable pedal geometry for different driver dimensions. Feel and feedback.", tag: "02" },
@@ -245,8 +239,7 @@ const teamsData: Record<string, TeamData> = {
     heroHighlight: "alive",
     lead: "Wiring harness, PCBs, power distribution, low-voltage architecture. If it has a wire on it, we own it.",
     sub: "Soldering iron in one hand, Altium in the other. We design the electrical skeleton that every subsystem bolts into.",
-    collageImgs: ["/systems.jpg", "/collab-on-car.jpg", "/competition-2025-5.jpg"],
-    collageCaptions: ["harness build", "pcb milestone", "competition '25"],
+    carouselImgs: ["/systems.jpg", "/collab-on-car.jpg", "/competition-2025-5.jpg"],
     wwdCards: [
       { icon: "↯", title: "Wiring harness", desc: "Full vehicle harness design  -  routing, shielding, connectors, and the eternal fight against weight.", tag: "01" },
       { icon: "▣", title: "PCB design", desc: "Custom boards for power distribution, sensor interfacing, and driver displays.", tag: "02" },
@@ -280,8 +273,7 @@ const teamsData: Record<string, TeamData> = {
     lead: "Telemetry, CAN bus, data acquisition, driver display. If a sensor sees something, we make sure somebody hears about it.",
     sub: "Embedded firmware, data pipelines, and a dashboard that's readable at 70 mph. We live at the intersection of hardware and software.",
     // TODO(asset): needs a dedicated Communications photo  -  currently reuses /systems.jpg
-    collageImgs: ["/systems.jpg", "/collab-on-car.jpg", "/competition-2025-2.jpg"],
-    collageCaptions: ["telemetry bench", "logger install", "competition '25"],
+    carouselImgs: ["/systems.jpg", "/collab-on-car.jpg", "/competition-2025-2.jpg"],
     wwdCards: [
       { icon: "≈", title: "CAN bus", desc: "Vehicle-wide CAN network design  -  node IDs, message maps, and the DBC file nobody wants to own but everyone needs.", tag: "01" },
       { icon: "◐", title: "Data acquisition", desc: "Logger configuration, channel setup, and the 1kHz data stream that reveals what really happened on track.", tag: "02" },
@@ -313,8 +305,7 @@ const teamsData: Record<string, TeamData> = {
     heroHighlight: "lights",
     lead: "Sponsorship, marketing, finances, logistics, recruitment. Without us, the engineers don't have parts to build with.",
     sub: "The team that turns relationships into resources. Equally at home in a pitch meeting or a sponsor dinner.",
-    collageImgs: ["/business-group.jpg", "/collab-on-car.jpg", "/competition-2025-1.jpg"],
-    collageCaptions: ["sponsor week", "presentation day", "competition '25"],
+    carouselImgs: ["/business-group.jpg", "/collab-on-car.jpg", "/competition-2025-1.jpg"],
     wwdCards: [
       { icon: "◈", title: "Sponsorship", desc: "Identifying partners, building relationships, and closing deals that fund the car.", tag: "01" },
       { icon: "≈", title: "Marketing", desc: "Social media, brand identity, photography, content  -  making the team look as good as it is.", tag: "02" },
@@ -387,73 +378,6 @@ function TeamRoster({ members }: { members: TeamMember[] }) {
   );
 }
 
-/* ─── Polaroid Collage ───────────────────────────────── */
-function PolaroidCollage({ imgs, captions }: { imgs: [string, string, string]; captions: [string, string, string] }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <motion.div
-      initial={{ opacity: 0, x: 24 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.7, delay: 0.15 }}
-      style={{ position: "relative", aspectRatio: "1/1", minWidth: 0, cursor: "default" }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {/* Polaroid 1  -  fans up-left */}
-      <div style={{
-        position: "absolute", top: "4%", left: "8%", width: "58%", aspectRatio: "4/5",
-        background: "#f4f1e8", padding: "12px 12px 44px",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.5)", borderRadius: 2,
-        transform: hovered ? "translate(-22%, -12%) rotate(-14deg) scale(1.03)" : "rotate(-5deg)",
-        transition: "transform 0.45s cubic-bezier(.2,.8,.2,1)",
-        zIndex: 1,
-      }}>
-        <div style={{ position: "absolute", top: -8, left: "40%", width: 80, height: 22,
-          background: "rgba(227,181,61,0.65)", mixBlendMode: "multiply" }} />
-        <img src={imgs[0]} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-        <span style={{ position: "absolute", bottom: 14, left: 12, right: 12,
-          fontFamily: "var(--font-caveat), cursive", fontSize: 20, color: "#2a2a2a", textAlign: "center" }}>
-          {captions[0]}
-        </span>
-      </div>
-      {/* Polaroid 2  -  fans right */}
-      <div style={{
-        position: "absolute", top: "30%", right: "0%", width: "48%", aspectRatio: "4/5",
-        background: "#f4f1e8", padding: "12px 12px 44px",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.5)", borderRadius: 2,
-        transform: hovered ? "translate(18%, -6%) rotate(16deg) scale(1.03)" : "rotate(6deg)",
-        transition: "transform 0.45s cubic-bezier(.2,.8,.2,1) 0.04s",
-        zIndex: 2,
-      }}>
-        <div style={{ position: "absolute", top: -8, left: "30%", width: 80, height: 22,
-          background: "rgba(227,181,61,0.65)", mixBlendMode: "multiply" }} />
-        <img src={imgs[1]} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-        <span style={{ position: "absolute", bottom: 14, left: 12, right: 12,
-          fontFamily: "var(--font-caveat), cursive", fontSize: 20, color: "#2a2a2a", textAlign: "center" }}>
-          {captions[1]}
-        </span>
-      </div>
-      {/* Polaroid 3  -  fans down-center */}
-      <div style={{
-        position: "absolute", bottom: "2%", left: "18%", width: "42%", aspectRatio: "4/5",
-        background: "#f4f1e8", padding: "12px 12px 44px",
-        boxShadow: "0 20px 60px rgba(0,0,0,0.5)", borderRadius: 2,
-        transform: hovered ? "translate(-4%, 14%) rotate(-10deg) scale(1.03)" : "rotate(-3deg)",
-        transition: "transform 0.45s cubic-bezier(.2,.8,.2,1) 0.08s",
-        zIndex: 3,
-      }}>
-        <div style={{ position: "absolute", top: -8, left: "50%", width: 80, height: 22,
-          background: "rgba(227,181,61,0.65)", mixBlendMode: "multiply" }} />
-        <img src={imgs[2]} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-        <span style={{ position: "absolute", bottom: 14, left: 12, right: 12,
-          fontFamily: "var(--font-caveat), cursive", fontSize: 20, color: "#2a2a2a", textAlign: "center" }}>
-          {captions[2]}
-        </span>
-      </div>
-    </motion.div>
-  );
-}
-
 /* ─── Page ───────────────────────────────────────────── */
 export default function TeamPage() {
   const params = useParams();
@@ -485,84 +409,101 @@ export default function TeamPage() {
     <div style={{ background: "#0b0b0d", color: "#ededed", minHeight: "100vh" }}>
 
       {/* ══════════════════════════════════════
-          HERO  -  Scrapbook / Zine
+          HERO  -  Full-bleed ASCII carousel
          ══════════════════════════════════════ */}
-      <section style={{ padding: "120px 0 60px", position: "relative" }}>
-        <div style={{ maxWidth: 1240, margin: "0 auto", padding: "0 32px" }}>
-          <div style={{
-            display: "grid", gridTemplateColumns: "1.1fr 1fr", gap: 40,
-            alignItems: "center",
-          }} className="hero-grid-responsive">
+      <section style={{
+        position: "relative", minHeight: "88vh", display: "flex", alignItems: "flex-end",
+        overflow: "hidden",
+      }}>
+        <AsciiCarousel images={team.carouselImgs} label={`${team.name} subteam`} />
 
-            {/* Copy */}
-            <motion.div
-              initial={{ opacity: 0, y: 32 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              style={{ minWidth: 0 }}
-            >
-              {/* Label */}
-              <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 28 }}>
-                <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 11,
-                  letterSpacing: "0.24em", color: "#5f5f5f", textTransform: "uppercase" }}>
-                  {String(team.index).padStart(2, "0")} / {String(teamOrder.length).padStart(2, "0")}
-                </span>
-                <span style={{ flexShrink: 0, width: 28, height: 1, background: "#c8372d" }} />
-                <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 11,
-                  letterSpacing: "0.24em", color: "#ff8a7a", textTransform: "uppercase", fontWeight: 600 }}>
-                  {team.name}
-                </span>
-              </div>
+        {/* Scrim  -  holds text contrast over any frame of the carousel */}
+        <div aria-hidden style={{
+          position: "absolute", inset: 0, zIndex: 1, pointerEvents: "none",
+          background:
+            "linear-gradient(to right, rgba(11,11,13,0.94) 0%, rgba(11,11,13,0.74) 44%, rgba(11,11,13,0.2) 100%), " +
+            "linear-gradient(to top, rgba(11,11,13,0.96) 0%, rgba(11,11,13,0.08) 48%)",
+        }} />
 
-              {/* H1 */}
-              <h1 style={{
-                fontFamily: "'Ethnocentric', sans-serif",
-                fontSize: "clamp(42px, 5.6vw, 88px)",
-                lineHeight: 0.9, margin: "0 0 24px",
-                wordBreak: "break-word",
-              }}>
-                {tagParts.map((part, i) =>
-                  part.toLowerCase() === hi.toLowerCase()
-                    ? <span key={i} style={{
-                        display: "inline-block",
-                        background: "#c8372d", color: "#fff",
-                        padding: "2px 14px 6px", borderRadius: 8,
-                        transform: "rotate(-2deg)",
-                      }}>{part}</span>
-                    : <span key={i}>{part}</span>
-                )}
-              </h1>
+        <div style={{
+          position: "relative", zIndex: 2, width: "100%",
+          maxWidth: 1240, margin: "0 auto", padding: "170px 32px 96px",
+        }} className="hero-copy-responsive">
+          <motion.div
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+          >
+            {/* Index marker */}
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
+              <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 11,
+                letterSpacing: "0.24em", color: "#8a8a8a", textTransform: "uppercase" }}>
+                {String(team.index).padStart(2, "0")} / {String(teamOrder.length).padStart(2, "0")}
+              </span>
+              <span style={{ flexShrink: 0, width: 28, height: 1, background: "#c8372d" }} />
+              <span style={{ fontFamily: "var(--font-jetbrains), monospace", fontSize: 11,
+                letterSpacing: "0.24em", color: "#ff8a7a", textTransform: "uppercase", fontWeight: 600 }}>
+                Subteam
+              </span>
+            </div>
 
-              <p style={{ fontSize: 21, lineHeight: 1.4, color: "#ededed", maxWidth: 540, margin: "0 0 32px", fontWeight: 500,
-                fontFamily: "var(--font-inter-tight), sans-serif" }}>{team.lead}</p>
+            {/* Team name  -  the hero's anchor */}
+            <h1 style={{
+              fontFamily: "'Ethnocentric', sans-serif",
+              fontSize: "clamp(40px, 8.4vw, 148px)",
+              lineHeight: 0.86, letterSpacing: "-0.01em",
+              margin: "0 0 26px", textTransform: "uppercase",
+              textShadow: "0 8px 40px rgba(0,0,0,0.6)",
+              wordBreak: "break-word",
+            }}>
+              {team.name}
+            </h1>
 
-              {/* CTAs */}
-              <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
-                <Link
-                  href={INTEREST_FORM_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    display: "inline-flex", alignItems: "center", gap: 10,
-                    padding: "14px 28px", background: "#e3b53d", color: "#000",
-                    borderRadius: 999, fontWeight: 700, fontSize: 16, letterSpacing: "0.02em",
-                    transition: "transform 0.2s, box-shadow 0.2s", border: 0,
-                    fontFamily: "var(--font-inter-tight), sans-serif",
-                  }}
-                  className="btn-join"
-                >
-                  Join us <ArrowRight size={16} />
-                </Link>
-                <span style={{
-                  fontFamily: "var(--font-caveat), cursive", fontSize: 24, color: "#ff8a7a",
-                  display: "inline-flex", gap: 6, alignItems: "center",
-                }}>← yes really, first-years welcome</span>
-              </div>
-            </motion.div>
+            {/* Accent title  -  the tagline, keyword boxed */}
+            <p style={{
+              fontFamily: "'Ethnocentric', sans-serif",
+              fontSize: "clamp(17px, 2.1vw, 30px)",
+              lineHeight: 1.45, margin: "0 0 26px", maxWidth: 680,
+            }}>
+              {tagParts.map((part, i) =>
+                part.toLowerCase() === hi.toLowerCase()
+                  ? <span key={i} style={{
+                      display: "inline-block",
+                      background: "#c8372d", color: "#fff",
+                      padding: "1px 12px 4px", borderRadius: 8,
+                      transform: "rotate(-2deg)",
+                    }}>{part}</span>
+                  : <span key={i}>{part}</span>
+              )}
+            </p>
 
-            {/* Polaroid collage */}
-            <PolaroidCollage imgs={team.collageImgs} captions={team.collageCaptions} />
-          </div>
+            <p style={{ fontSize: 19, lineHeight: 1.45, color: "#cfcfcf", maxWidth: 560,
+              margin: "0 0 34px", fontWeight: 500,
+              fontFamily: "var(--font-inter-tight), sans-serif" }}>{team.lead}</p>
+
+            {/* CTAs */}
+            <div style={{ display: "flex", gap: 14, alignItems: "center", flexWrap: "wrap" }}>
+              <Link
+                href={INTEREST_FORM_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex", alignItems: "center", gap: 10,
+                  padding: "14px 28px", background: "#e3b53d", color: "#000",
+                  borderRadius: 999, fontWeight: 700, fontSize: 16, letterSpacing: "0.02em",
+                  transition: "transform 0.2s, box-shadow 0.2s", border: 0,
+                  fontFamily: "var(--font-inter-tight), sans-serif",
+                }}
+                className="btn-join"
+              >
+                Join us <ArrowRight size={16} />
+              </Link>
+              <span style={{
+                fontFamily: "var(--font-caveat), cursive", fontSize: 24, color: "#ff8a7a",
+                display: "inline-flex", gap: 6, alignItems: "center",
+              }}>← yes really, first-years welcome</span>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -825,12 +766,13 @@ export default function TeamPage() {
         .footer-nav-link:hover { background: rgba(255,255,255,0.02); }
 
         @media (max-width: 1024px) {
-          .hero-grid-responsive { grid-template-columns: 1fr !important; }
+          .hero-copy-responsive { padding: 150px 24px 84px !important; }
           .wwd-grid-responsive { grid-template-columns: repeat(2, 1fr) !important; }
           .skills-grid-responsive { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 640px) {
           .wwd-grid-responsive { grid-template-columns: 1fr !important; }
+          .hero-copy-responsive { padding: 128px 20px 76px !important; }
         }
       `}</style>
     </div>
